@@ -159,7 +159,7 @@ footer{margin-top:26px;color:var(--mut);font-size:11.5px;text-align:center}
    </div>
   </header>
   <div id="view"></div>
-  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1 + 2 · 10 Erfindungen</footer>
+  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1–3 · 15 Erfindungen</footer>
  </main>
 </div>
 <script>
@@ -588,6 +588,153 @@ const PAKETE=[
  {id:"p2",icon:"🚀",name:"Gesundheit, Alltag & Technik",tag:"PAKET 2",ids:["toilette","roentgen","flugzeug","penicillin","z3"],c:"violet"}
 ];
 /* Reihenfolge der Lektionen = Paket-Reihenfolge */
+L.sort((a,b)=>{const ix=id=>{let n=0;for(const p of PAKETE){const k=p.ids.indexOf(id);if(k>=0)return n+k;n+=p.ids.length}return 999};return ix(a.id)-ix(b.id)});
+
+/* ---------- Paket 3 ---------- */
+(function(){const ids={3:"batterie",13:"radio",23:"diesel",27:"kuehlschrank",36:"impfung"};PLAN.forEach(p=>{if(ids[p.nr])p.id=ids[p.nr]})})();
+const YR=(s,x,yr,lab,c,x2)=>{const o=x2||{};return[C(s,x,120,7,c,1,o),T(s,x,104,yr,c,11,Object.assign({b:1,m:1},o)),T(s,x,142,lab,"mut",9.5,o)]};
+const BAR0=(s,x,y,w,h,o)=>R(s,x,y,w,h,"line",1,Object.assign({r:4},o||{}));
+const WELLE=(s,x,y,h,c,o)=>PATH(s,`M${x},${y-h} Q${x+h*.45},${y} ${x},${y+h}`,c,o);
+
+L.push(
+{id:"impfung",a:"medizin",title:"Die Impfung",sub:"14. Mai 1796 · Edward Jenner · England",
+ steps:["Früher waren die Pocken eine der gefährlichsten Krankheiten. Sie waren sehr ansteckend, viele Menschen starben daran, und wer überlebte, hatte oft Narben im Gesicht.",
+ "Der englische Landarzt Edward Jenner hört eine Beobachtung: Melkerinnen, die sich bei Kühen mit den harmlosen Kuhpocken angesteckt hatten, bekamen keine echten Pocken.",
+ "Am 14. Mai 1796 ritzt Jenner dem achtjährigen James Phipps Flüssigkeit aus einer Kuhpocken-Blase in den Arm. Später kommt der Junge mit echten Pocken in Kontakt – und wird nicht krank.",
+ "So wirkt eine Impfung: Das Immunsystem lernt den Erreger kennen, bildet Abwehrstoffe (Antikörper) und merkt ihn sich. Kommt der echte Erreger, ist die Abwehr schon bereit. Das Wort „Vakzin“ kommt vom lateinischen „vacca“ – Kuh.",
+ "1980 erklärt die Weltgesundheitsorganisation WHO die Pocken für ausgerottet – weltweit. Heute gibt es Impfungen gegen viele Krankheiten, zum Beispiel Masern, Tetanus und Kinderlähmung. In Deutschland gibt die STIKO Empfehlungen."],
+ els:[P(0,180,24,"Vorher: die Pocken","mut",{e:1}),E(0,110,102,"🤒",48,{e:1}),...Array.from({length:10},(_,i)=>{const a=i/10*6.283;return C(0,110+52*Math.cos(a),102+46*Math.sin(a),5,"red",.85,{d:.05*i,e:1})}),
+ T(0,262,86,"sehr ansteckend","red",11,{b:1,e:1}),T(0,262,106,"viele starben","mut",10,{e:1}),T(0,262,124,"Narben im Gesicht","mut",10,{e:1}),
+ P(1,180,24,"Die Beobachtung","gold",{e:2}),E(1,72,98,"🐄",44,{e:2}),T(1,72,146,"Kuhpocken","mut",10,{b:1,e:2}),A(1,104,98,148,98,"mut",{d:.4,e:2}),E(1,180,98,"👩‍🌾",40,{d:.5,e:2}),T(1,180,146,"Melkerin","mut",10,{d:.5,e:2}),
+ A(1,212,98,256,98,"mut",{d:.9,e:2}),E(1,288,98,"🛡️",40,{d:1,e:2}),T(1,288,146,"keine Pocken!","green",10.5,{b:1,d:1,e:2}),
+ P(2,180,24,"14. Mai 1796 · Edward Jenner","gold",{e:3}),E(2,74,96,"👨‍⚕️",44,{e:3}),T(2,74,146,"Edward Jenner","gold",11,{b:1,e:3}),A(2,110,96,156,96,"mut",{d:.4,e:3}),T(2,133,82,"Kuhpocken","mut",9,{d:.4,e:3}),
+ E(2,192,96,"🧒",40,{d:.6,e:3}),T(2,192,146,"James Phipps (8)","mut",10,{d:.6,e:3}),T(2,298,86,"später:","mut",10,{d:1.2,e:3}),T(2,298,108,"nicht krank","green",13,{b:1,d:1.2,e:3}),
+ P(3,180,24,"So wirkt eine Impfung","cyan",{e:4}),C(3,90,100,18,"red",.85,{e:4}),...[[52,100],[128,100],[90,62],[90,138],[63,73],[117,127]].map(([x,y],i)=>T(3,x,y+6,"Y","green",18,{b:1,d:.6+.15*i,e:4})),
+ R(3,192,62,152,78,"green",.1,{r:12,st:"green",d:1.2,e:4}),T(3,268,88,"Abwehr lernt","green",12,{b:1,d:1.2,e:4}),T(3,268,108,"Antikörper +","mut",10,{d:1.2,e:4}),T(3,268,124,"Gedächtnis","mut",10,{d:1.2,e:4}),T(3,180,184,"vacca = Kuh → Vakzin","gold",11,{b:1,m:1,d:1.6,e:4}),
+ P(4,180,24,"1980: Pocken ausgerottet","green"),E(4,90,98,"🌍",48),T(4,90,150,"weltweit besiegt","green",11,{b:1}),R(4,190,60,152,88,"blue",.1,{r:12,st:"blue",d:.4}),T(4,266,86,"heute Impfungen gegen","mut",9.5,{d:.4}),T(4,266,106,"Masern, Tetanus,","tx",10.5,{b:1,d:.4}),T(4,266,122,"Kinderlähmung …","tx",10.5,{b:1,d:.4}),P(4,180,192,"Empfehlungen: STIKO","blue",{d:.8})],
+ info:{was:"Bei einer Impfung bekommt der Körper einen abgeschwächten, toten oder harmlosen Teil eines Erregers. So lernt das Immunsystem, die echte Krankheit abzuwehren.",
+ so:"Nach der Impfung bildet der Körper Antikörper und Gedächtniszellen. Trifft er später auf den echten Erreger, reagiert er sofort.",
+ bed:"Impfungen haben die Pocken ausgerottet und schwere Krankheiten wie Kinderlähmung in vielen Ländern fast verschwinden lassen.",
+ tipp:"Jenners Versuch an einem Kind wäre heute so nicht erlaubt – neue Impfstoffe werden in streng geprüften Studien getestet. Rechne: 1796 bis 1980 = 184 Jahre bis zur Ausrottung."}},
+{id:"batterie",a:"strom",title:"Die Batterie",sub:"1800 · Alessandro Volta · Italien",
+ steps:["Um 1780 bemerkt der italienische Arzt Luigi Galvani: Froschschenkel zucken, wenn sie zwei verschiedene Metalle berühren. Er glaubt an eine „tierische Elektrizität“.",
+ "Alessandro Volta ist anderer Meinung: Der Strom entsteht zwischen den zwei Metallen. 1800 baut er die Voltasche Säule – abwechselnd Zink, Pappe mit Salzwasser und Kupfer, viele Male übereinander.",
+ "So funktioniert sie: Eine chemische Reaktion schiebt Elektronen vom Zink (Minuspol) durch einen Draht zum Kupfer (Pluspol). Zum ersten Mal gibt es einen dauerhaften elektrischen Strom.",
+ "Volta wird berühmt. Die Einheit für die elektrische Spannung heißt bis heute nach ihm: Volt. Mit seiner Batterie können andere Forscher endlich mit Strom experimentieren.",
+ "Heute stecken Batterien und Akkus überall: in Fernbedienungen, Handys und Elektroautos. Für den Lithium-Ionen-Akku gab es 2019 den Chemie-Nobelpreis. Alte Batterien gehören in die Sammelbox, nie in den Hausmüll."],
+ els:[P(0,180,24,"um 1780 · Luigi Galvani","gold",{e:1}),E(0,100,100,"🐸",48,{e:1}),R(0,196,62,12,76,"orange",.9,{r:3,e:1}),R(0,240,62,12,76,"mut",.9,{r:3,e:1}),PATH(0,"M202,62 Q224,30 246,62","tx",{w:2,e:1}),
+ T(0,202,156,"Metall 1","orange",9.5,{e:1}),T(0,246,156,"Metall 2","mut",9.5,{e:1}),T(0,100,152,"Schenkel zucken!","red",11,{b:1,d:.6,e:1}),P(0,180,194,"„tierische Elektrizität“?","mut",{d:1,e:1}),
+ P(1,180,24,"1800 · Voltasche Säule","gold",{e:2}),...Array.from({length:9},(_,k)=>R(1,60,176-k*14,100,11,["mut","gold","orange"][k%3],k%3===1?.55:.9,{r:3,d:.12*k,e:2})),
+ R(1,200,62,16,11,"mut",.9,{r:3,e:2}),T(1,224,72,"Zink","tx",10.5,{an:"start",b:1,e:2}),R(1,200,86,16,11,"gold",.55,{r:3,e:2}),T(1,224,96,"Pappe + Salzwasser","tx",10.5,{an:"start",b:1,e:2}),R(1,200,110,16,11,"orange",.9,{r:3,e:2}),T(1,224,120,"Kupfer","tx",10.5,{an:"start",b:1,e:2}),T(1,200,156,"× viele Male gestapelt","mut",10,{an:"start",e:2}),
+ P(2,180,24,"Erster dauerhafter Strom","cyan",{e:3}),BAT(2,30,90,90,40,1,"green",{e:3}),T(2,75,150,"chemische Energie","green",10,{b:1,e:3}),PATH(2,"M124,110 L320,110 L320,186 L14,186 L14,110 L30,110","mut",{w:2,e:3}),
+ C(2,230,108,22,"gold",.25,{d:.6,e:3}),E(2,230,108,"💡",28,{e:3}),FL(2,[[14,110],[14,186],[320,186],[320,110],[124,110]],"cyan",{n:8,dur:3,e:3}),T(2,180,206,"Elektronen: vom Minus- zum Pluspol","mut",10,{e:3}),
+ P(3,180,24,"Alessandro Volta","blue",{e:4}),E(3,90,98,"👨‍🔬",44,{e:4}),T(3,90,148,"Alessandro Volta","blue",11,{b:1,e:4}),T(3,262,100,"1 V","gold",36,{b:1,m:1,d:.4,e:4}),T(3,262,132,"Einheit Volt","gold",11,{b:1,d:.4,e:4}),T(3,262,150,"nach ihm benannt","mut",10,{d:.4,e:4}),
+ P(4,180,24,"Heute: Akkus überall","green"),...[["🔋","Batterie","mut"],["📱","Handy-Akku","mut"],["🚗","E-Auto","mut"],["♻️","Sammelbox","green"]].flatMap(([ic,lab,c],i)=>[E(4,60+i*80,86,ic,34,{d:.2*i}),T(4,60+i*80,124,lab,c,10,{b:c==="green"?1:0,d:.2*i})]),
+ T(4,180,160,"Lithium-Ionen-Akku: Nobelpreis 2019","mut",10),P(4,180,192,"Batterien nie in den Hausmüll","red")],
+ info:{was:"Eine Batterie wandelt chemische Energie in elektrische Energie um. Ein Akku ist eine Batterie, die man wieder aufladen kann.",
+ so:"Zwei verschiedene Stoffe (zum Beispiel Zink und Kupfer) und eine leitende Flüssigkeit dazwischen: Die chemische Reaktion schiebt Elektronen vom Minus- zum Pluspol.",
+ bed:"Mit der Batterie gab es zum ersten Mal Strom auf Abruf. Ohne sie gäbe es keine Taschenlampe, kein Handy und kein Elektroauto.",
+ tipp:"Rechne: Vier Batterien mit je 1,5 V hintereinander ergeben 4 × 1,5 V = 6 V. Mehr zu Akkus findest du in der Elektroauto-Schule."}},
+{id:"kuehlschrank",a:"haushalt",title:"Der Kühlschrank",sub:"1876 · Carl von Linde · München",
+ steps:["Früher sägte man im Winter Eis aus Seen und lagerte es in Eiskellern. Essen wurde gesalzen, geräuchert oder eingekocht. Im Sommer verdarben Lebensmittel trotzdem schnell – und Brauereien brauchten dringend Kälte für ihr Bier.",
+ "Das Prinzip ist einfach: Verdunsten kühlt. Wenn eine Flüssigkeit verdampft, nimmt sie Wärme auf – deshalb fühlt sich nasse Haut kalt an. Im Kühlschrank verdampft dafür ein Kältemittel.",
+ "Carl von Linde, Professor an der Technischen Hochschule München, baut 1876 eine zuverlässige Kältemaschine mit Ammoniak als Kältemittel. Zu den ersten Kunden gehören Brauereien.",
+ "Der Kältekreislauf: Im Verdampfer innen verdampft das Kältemittel und kühlt. Der Verdichter drückt das Gas zusammen, im Verflüssiger hinten am Gerät gibt es die Wärme ab und wird wieder flüssig. Dann geht es von vorn los.",
+ "Ab den 1950er-Jahren gibt es in Deutschland in immer mehr Küchen einen Kühlschrank. Das Gefrierfach hat −18 °C, der Kühlteil rund 7 °C. Wärmepumpen und Klimaanlagen arbeiten nach dem gleichen Prinzip."],
+ els:[P(0,180,24,"Vorher: Eis aus dem See","mut",{e:1}),E(0,70,94,"🧊",40,{e:1}),T(0,70,140,"Natureis","mut",10,{e:1}),E(0,180,94,"🧂",40,{e:1}),T(0,180,140,"Salzen","mut",10,{e:1}),E(0,290,94,"🍺",40,{e:1}),T(0,290,140,"Brauereien","mut",10,{e:1}),T(0,180,182,"im Sommer verdirbt Essen schnell","red",10.5,{b:1,e:1}),
+ P(1,180,24,"Verdunsten kühlt","cyan",{e:2}),E(1,90,98,"💦",40,{e:2}),T(1,90,146,"nasse Haut fühlt sich kalt an","mut",9.5,{e:2}),R(1,222,104,86,40,"cyan",.4,{r:6,e:2}),
+ ...[244,265,286].map((x,i)=>FL(1,[[x,102],[x,44]],"cyan",{n:3,dur:1.5,lag:.3*i,e:2})),A(1,194,124,216,124,"red",{d:.5,e:2}),A(1,336,124,314,124,"red",{d:.5,e:2}),T(1,265,170,"Kältemittel verdampft","cyan",10,{b:1,e:2}),T(1,265,186,"und nimmt Wärme auf","red",10,{e:2}),
+ P(2,180,24,"1876 · Carl von Linde","gold",{e:3}),E(2,78,96,"👨‍🏫",44,{e:3}),T(2,78,146,"Carl von Linde","gold",11,{b:1,e:3}),T(2,78,162,"Professor in München","mut",9.5,{e:3}),
+ R(2,168,60,178,92,"gold",.1,{r:12,st:"gold",e:3}),T(2,257,86,"Kältemaschine","tx",12,{b:1,e:3}),T(2,257,106,"mit Ammoniak","mut",10,{e:3}),T(2,257,126,"erste Kunden:","mut",10,{e:3}),T(2,257,142,"Brauereien","gold",10.5,{b:1,e:3}),
+ R(3,30,44,104,150,"panel2",1,{r:10,st:"tx",e:4}),PATH(3,"M44,62 L60,74 L76,62 L92,74 L108,62 L120,70","cyan",{w:3,e:4}),T(3,82,94,"Verdampfer","cyan",9.5,{b:1,e:4}),T(3,82,140,"innen kalt","cyan",11,{b:1,e:4}),
+ PATH(3,"M120,70 L150,70 L150,182 L196,182 M232,182 L290,182 L290,176 M290,52 L290,40 L150,40 L150,56 L44,56 L44,62","mut",{w:2,e:4}),C(3,214,182,16,"gold",.9,{e:4}),T(3,214,206,"Verdichter","gold",9.5,{b:1,e:4}),
+ PATH(3,"M290,176 L306,162 L274,148 L306,134 L274,120 L306,106 L274,92 L306,78 L274,64 L290,52","red",{w:2.5,e:4}),T(3,252,108,"Verflüssiger","red",9.5,{b:1,an:"end",e:4}),T(3,252,122,"hinten · warm","mut",9,{an:"end",e:4}),
+ FL(3,[[120,70],[150,70],[150,182],[290,182],[290,52],[290,40],[150,40],[150,56],[44,56]],"cyan",{n:7,dur:4,e:4}),
+ P(4,180,24,"Heute: in fast jeder Küche","green"),R(4,44,48,80,144,"panel2",1,{r:8,st:"tx"}),Ln(4,44,96,124,96,"tx",{w:2}),T(4,84,78,"−18 °C","blue",12,{b:1,m:1}),T(4,84,148,"≈ 7 °C","cyan",12,{b:1,m:1}),
+ T(4,246,82,"Gefrierfach: −18 °C","tx",10.5,{b:1,d:.3}),T(4,246,102,"Kühlteil: rund 7 °C","tx",10.5,{b:1,d:.3}),T(4,246,136,"gleiches Prinzip:","mut",10,{d:.6}),T(4,246,152,"Wärmepumpe & Klimaanlage","mut",10,{d:.6})],
+ info:{was:"Ein Kühlschrank pumpt Wärme aus seinem Inneren nach draußen. Dafür nutzt er ein Kältemittel, das in einem geschlossenen Kreislauf immer wieder verdampft und flüssig wird.",
+ so:"Fühl mal hinten am Kühlschrank: Dort ist das Gitter (Verflüssiger) warm – hier gibt das Gerät die Wärme aus dem Inneren an die Küche ab.",
+ bed:"Lebensmittel bleiben viel länger frisch, Medikamente können gekühlt werden. Kühlketten machen den weltweiten Handel mit frischen Lebensmitteln erst möglich.",
+ tipp:"Rechne: Zwischen Kühlteil (7 °C) und Gefrierfach (−18 °C) liegen 25 Grad. Die Firma Linde gibt es bis heute – sie stellt unter anderem technische Gase her."}},
+{id:"radio",a:"komm",title:"Das Radio",sub:"1886 Heinrich Hertz · 1895 Guglielmo Marconi",
+ steps:["Der Telegraf braucht Kabel. Schiffe auf dem offenen Meer haben deshalb keine Verbindung zum Land – bei Gefahr kann niemand Hilfe rufen.",
+ "Von 1886 bis 1888 weist Heinrich Hertz in Karlsruhe unsichtbare elektromagnetische Wellen nach: Ein Funke im Sender erzeugt einen kleinen Funken in einem Empfänger – ganz ohne Kabel.",
+ "1895 nutzt der Italiener Guglielmo Marconi diese Wellen mit Antennen. So kann er Morsezeichen über mehrere Kilometer drahtlos senden – der Funk ist geboren.",
+ "Am 12. Dezember 1901 gelingt Marconi die Sensation: Ein Funksignal erreicht von England aus Neufundland – rund 3.500 km über den Atlantik. Es ist der Buchstabe S: drei kurze Morsezeichen. 1909 bekommt er zusammen mit Ferdinand Braun den Nobelpreis.",
+ "Bald werden auch Sprache und Musik gesendet. Am 29. Oktober 1923 startet in Berlin das Radio in Deutschland. Heute nutzen UKW, DAB+, Handy und WLAN alle Funkwellen."],
+ els:[P(0,180,24,"Vorher: nur mit Kabel","mut",{e:1}),T(0,70,104,"· — ·","cyan",20,{b:1,m:1,e:1}),T(0,70,140,"Telegraf: Kabel","mut",10,{e:1}),Ln(0,124,100,226,100,"red",{w:2,dash:"4 4",e:1}),T(0,175,90,"✗","red",16,{b:1,e:1}),
+ E(0,278,98,"🚢",44,{e:1}),T(0,278,146,"Schiff auf dem Meer:","mut",9.5,{e:1}),T(0,278,162,"keine Verbindung","red",10,{b:1,e:1}),
+ P(1,180,24,"1886 · Heinrich Hertz · Karlsruhe","gold",{e:2}),C(1,70,100,9,"mut",1,{e:2}),C(1,106,100,9,"mut",1,{e:2}),E(1,88,100,"⚡",16,{e:2}),T(1,88,140,"Funke im Sender","gold",10,{b:1,e:2}),
+ ...[0,1,2,3].map(k=>WELLE(1,138+k*24,100,14+k*5,"cyan",{w:2,d:.3*k,e:2})),C(1,268,100,22,"mut",0,{st:"tx",d:1.2,e:2}),E(1,290,100,"⚡",13,{d:1.6,e:2}),T(1,268,140,"Funke im Empfänger","green",10,{b:1,d:1.6,e:2}),T(1,180,182,"ohne Kabel!","cyan",13,{b:1,d:1.8,e:2}),
+ P(2,180,24,"1895 · Guglielmo Marconi","gold",{e:3}),Ln(2,20,170,340,170,"mut",{w:2,e:3}),Ln(2,60,170,60,70,"tx",{w:3,e:3}),C(2,60,66,5,"red",1,{e:3}),Ln(2,300,170,300,80,"tx",{w:3,e:3}),C(2,300,76,4,"tx",1,{e:3}),
+ ...[0,1,2,3,4,5].map(k=>WELLE(2,82+k*34,100,18+k*3,"cyan",{w:2,d:.25*k,e:3})),T(2,60,190,"Sender","mut",10,{e:3}),T(2,300,190,"Empfänger","mut",10,{e:3}),T(2,180,150,"Morsezeichen per Funk","cyan",11,{b:1,d:1.4,e:3}),
+ P(3,180,24,"12. Dezember 1901","blue",{e:4}),R(3,10,70,64,100,"green",.15,{r:20,e:4}),T(3,42,188,"Neufundland","mut",9.5,{e:4}),R(3,290,70,60,100,"green",.15,{r:20,e:4}),T(3,320,188,"England","mut",9.5,{e:4}),
+ PATH(3,"M304,104 Q180,30 58,104","cyan",{w:2.5,e:4}),FL(3,[[304,104],[240,62],[180,48],[120,62],[58,104]],"gold",{n:1,dur:2,r:5,e:4}),T(3,180,120,"· · ·","gold",30,{b:1,m:1,d:.8,e:4}),T(3,180,146,"Buchstabe S","gold",11,{b:1,d:.8,e:4}),T(3,180,168,"rund 3.500 km","mut",10,{d:.8,e:4}),
+ P(4,180,24,"1923: Radio in Deutschland","green"),E(4,70,94,"📻",40),T(4,70,138,"Berlin, 29.10.1923","mut",9.5),E(4,180,94,"🎶",36,{d:.3}),T(4,180,138,"UKW & DAB+","mut",9.5,{d:.3}),E(4,290,94,"📶",36,{d:.6}),T(4,290,138,"Handy & WLAN","mut",9.5,{d:.6}),P(4,180,186,"1909: Nobelpreis Marconi & Braun","gold",{d:.9})],
+ info:{was:"Radio (Funk) überträgt Nachrichten, Sprache und Musik mit elektromagnetischen Wellen – ohne Kabel. Die Wellen breiten sich mit Lichtgeschwindigkeit aus.",
+ so:"Im Sender schwingen elektrische Ströme in der Antenne und strahlen Wellen ab. Die Antenne des Empfängers fängt sie auf, das Radio macht daraus wieder Töne.",
+ bed:"Schiffe konnten Hilfe rufen, Nachrichten erreichten Millionen Menschen gleichzeitig. Ohne Funk gäbe es kein Fernsehen, kein Handy und kein WLAN.",
+ tipp:"Auch Alexander Popow in Russland und Nikola Tesla forschten am Funk – wer zuerst war, ist umstritten. Die Einheit Hertz für die Frequenz heißt nach Heinrich Hertz. Rechne: 3.500 km bei 300.000 km/s ≈ 0,01 Sekunden."}},
+{id:"diesel",a:"verkehr",title:"Der Dieselmotor",sub:"1892 Patent · 1897 erster Motor · Rudolf Diesel",
+ steps:["Dampfmaschinen sind groß und schwer – und sie machen nur rund 10 % der Energie aus der Kohle zu Bewegung. Der Ingenieur Rudolf Diesel will einen viel sparsameren Motor bauen.",
+ "1892 meldet Diesel seine Idee zum Patent an: Die Luft im Zylinder wird so stark zusammengedrückt, dass sie sehr heiß wird. Spritzt man dann Kraftstoff hinein, entzündet er sich von selbst – eine Zündkerze ist nicht nötig.",
+ "Bei der Maschinenfabrik Augsburg (heute MAN) arbeitet er jahrelang an seinem Motor. 1897 läuft der erste funktionsfähige Dieselmotor – mit rund 26 % Wirkungsgrad. Das ist mehr als doppelt so gut wie eine Dampfmaschine.",
+ "Zuerst treiben Dieselmotoren Fabriken und Schiffe an – 1912 fährt das erste große Motorschiff. 1923 kommt der Diesel in den Lkw, 1936 in den Pkw: den Mercedes-Benz 260 D.",
+ "Heute ist der Diesel das Arbeitstier der Welt: in Lkw, Schiffen, Traktoren und Baumaschinen. Moderne Dieselmotoren schaffen über 40 % Wirkungsgrad. Filter und AdBlue reinigen die Abgase."],
+ els:[P(0,180,24,"Vorher: Dampfmaschine","mut",{e:1}),E(0,88,100,"🚂",44,{e:1}),T(0,206,84,"nutzt nur","mut",10,{an:"start",e:1}),BAR0(0,206,94,130,16,{e:1}),HB(0,206,94,13,16,"red",{d:.4,e:1}),T(0,206,132,"≈ 10 % der Energie","red",11,{b:1,an:"start",e:1}),
+ P(1,180,24,"1892 · Rudolf Diesel · Patent","gold",{e:2}),R(1,56,52,84,130,"panel2",1,{r:4,st:"tx",e:2}),R(1,90,40,16,14,"gold",1,{r:2,e:2}),R(1,60,56,76,72,"red",.35,{r:2,d:.6,e:2}),T(1,98,96,"heiße Luft","tx",10,{b:1,d:.6,e:2}),
+ R(1,60,128,76,46,"mut",1,{r:2,e:2}),A(1,160,170,160,120,"mut",{e:2}),FL(1,[[98,56],[86,80]],"gold",{n:3,dur:.6,d:1.4,e:2}),FL(1,[[98,56],[110,80]],"gold",{n:3,dur:.6,d:1.4,e:2}),
+ T(1,262,76,"Luft stark verdichten","tx",11,{b:1,e:2}),T(1,262,94,"→ sehr heiß","red",11,{b:1,d:.6,e:2}),T(1,262,122,"Kraftstoff einspritzen","tx",11,{b:1,d:1.2,e:2}),T(1,262,140,"→ zündet von selbst","gold",11,{b:1,d:1.4,e:2}),T(1,262,170,"keine Zündkerze nötig","green",10.5,{b:1,d:1.8,e:2}),
+ P(2,180,24,"1897 · Maschinenfabrik Augsburg","gold",{e:3}),E(2,78,98,"🏭",44,{e:3}),T(2,78,146,"heute: MAN","mut",10,{e:3}),
+ T(2,186,78,"Dampfmaschine","tx",10,{an:"start",b:1,e:3}),T(2,336,78,"≈ 10 %","red",10,{an:"end",b:1,e:3}),BAR0(2,186,86,150,14,{e:3}),HB(2,186,86,15,14,"red",{e:3}),
+ T(2,186,124,"Diesel 1897","tx",10,{an:"start",b:1,e:3}),T(2,336,124,"≈ 26 %","green",10,{an:"end",b:1,d:.4,e:3}),BAR0(2,186,132,150,14,{e:3}),HB(2,186,132,39,14,"green",{d:.4,e:3}),T(2,261,176,"mehr als doppelt so gut","green",10.5,{b:1,d:.8,e:3}),
+ P(3,180,24,"Erst groß, dann überall","cyan",{e:4}),Ln(3,20,120,340,120,"line",{w:3,e:4}),...YR(3,50,"1897","1. Motor","gold",{e:4}),...YR(3,140,"1912","Motorschiff","blue",{d:.3,e:4}),...YR(3,230,"1923","Lkw","red",{d:.6,e:4}),...YR(3,315,"1936","Pkw","cyan",{d:.9,e:4}),T(3,315,160,"Mercedes 260 D","mut",9,{d:.9,e:4}),
+ P(4,180,24,"Heute: Arbeitstier der Welt","green"),...[["🚛","Lkw"],["🚢","Schiffe"],["🚜","Traktoren"],["🏗️","Baumaschinen"]].flatMap(([ic,lab],i)=>[E(4,60+i*80,90,ic,34,{d:.2*i}),T(4,60+i*80,128,lab,"mut",10,{d:.2*i})]),
+ T(4,180,164,"moderne Diesel: über 40 % Wirkungsgrad","mut",10),P(4,180,192,"Abgasreinigung: Filter & AdBlue","blue")],
+ info:{was:"Der Dieselmotor ist ein Verbrennungsmotor mit Selbstzündung: Der Kraftstoff entzündet sich an der heißen, stark verdichteten Luft – ohne Zündkerze.",
+ so:"Beim Ottomotor zündet eine Zündkerze das Benzin-Luft-Gemisch. Beim Diesel wird zuerst nur Luft verdichtet, dann wird Diesel eingespritzt und brennt von selbst.",
+ bed:"Weil der Diesel sparsam und kräftig ist, transportiert er bis heute einen großen Teil aller Waren der Welt – auf Straßen, Schienen und Meeren.",
+ tipp:"Rechne: 26 % statt 10 % sind 2,6-mal so viel nutzbare Energie aus dem Kraftstoff. Mehr zu Motoren findest du in der Auto-Technik-Schule."}}
+);
+
+Q.push(
+ {q:"Wer machte 1796 die erste Impfung gegen Pocken?",a:["Edward Jenner","Alexander Fleming","Robert Koch","Wilhelm Conrad Röntgen"],l:"impfung",ex:"Der englische Landarzt Edward Jenner."},
+ {q:"Was beobachtete man bei Melkerinnen?",a:["Wer Kuhpocken hatte, bekam keine Pocken","Sie wurden nie müde","Sie konnten im Dunkeln sehen","Sie bekamen nie Schnupfen"],l:"impfung",ex:"Die harmlosen Kuhpocken schützten vor den echten Pocken."},
+ {q:"Woher kommt das Wort „Vakzin“ (Impfstoff)?",a:["Vom lateinischen „vacca“ = Kuh","Von „Vakuum“","Von „Vater“","Von „Vase“"],l:"impfung",ex:"Weil die erste Impfung mit Kuhpocken gemacht wurde."},
+ {q:"Was lernt das Immunsystem durch eine Impfung?",a:["Den Erreger zu erkennen und abzuwehren","Schneller zu laufen","Besser zu sehen","Gar nichts"],l:"impfung",ex:"Es bildet Antikörper und merkt sich den Erreger."},
+ {q:"Was ist hier zu sehen?",img:"impfung",st:1,a:["Kuhpocken schützen die Melkerin vor Pocken","Ein Bauernhof-Spiel","Eine Milchwerbung","Ein Zoo"],l:"impfung",ex:"Kuh → Melkerin → Schutz: die Beobachtung, die zu Jenners Impfung führte."},
+ {q:"Wann erklärte die WHO die Pocken für ausgerottet?",a:["1980","1796","1900","2020"],l:"impfung",ex:"1980 – dank weltweiter Impfungen."},
+ {q:"Rechne: Erste Impfung 1796, Pocken ausgerottet 1980. Wie viele Jahre liegen dazwischen?",a:["184","84","194","284"],l:"impfung",ex:"1980 − 1796 = 184 Jahre."},
+ {q:"Wer baute 1800 die erste Batterie?",a:["Alessandro Volta","Luigi Galvani","Thomas Edison","Nikola Tesla"],l:"batterie",ex:"Die Voltasche Säule von Alessandro Volta."},
+ {q:"Woraus bestand die Voltasche Säule?",a:["Zink, Kupfer und Pappe mit Salzwasser","Holz und Glas","Gold und Silber","Plastik und Gummi"],l:"batterie",ex:"Viele Schichten übereinander gestapelt."},
+ {q:"Was zuckte bei Galvanis Versuch?",a:["Froschschenkel","Fischflossen","Katzenohren","Vogelflügel"],l:"batterie",ex:"Galvani glaubte an „tierische Elektrizität“."},
+ {q:"Welche Einheit ist nach Alessandro Volta benannt?",a:["Volt","Watt","Ampere","Hertz"],l:"batterie",ex:"Volt ist die Einheit der elektrischen Spannung."},
+ {q:"Was ist hier zu sehen?",img:"batterie",st:1,a:["Eine Voltasche Säule","Ein Stapel Pfannkuchen","Ein Turm aus Münzen","Eine Torte"],l:"batterie",ex:"Zink, Pappe mit Salzwasser und Kupfer – immer wieder übereinander."},
+ {q:"Rechne: Vier Batterien mit je 1,5 V werden hintereinander geschaltet. Wie viel Spannung ergibt das?",a:["6 V","1,5 V","4 V","5,5 V"],l:"batterie",ex:"4 × 1,5 V = 6 V."},
+ {q:"Wohin gehören alte Batterien?",a:["In die Sammelbox","In den Hausmüll","In den Garten","In die Toilette"],l:"batterie",ex:"Batterien enthalten Stoffe, die recycelt werden müssen."},
+ {q:"Wer baute 1876 eine zuverlässige Kältemaschine?",a:["Carl von Linde","Carl Benz","Rudolf Diesel","Werner von Siemens"],l:"kuehlschrank",ex:"Carl von Linde, Professor in München."},
+ {q:"Welches Kältemittel nutzte Linde?",a:["Ammoniak","Milch","Benzin","Sand"],l:"kuehlschrank",ex:"Ammoniak verdampft leicht und nimmt dabei viel Wärme auf."},
+ {q:"Warum kühlt Verdunsten?",a:["Die Flüssigkeit nimmt beim Verdampfen Wärme auf","Weil Wasser blau ist","Weil Luft schwer ist","Es kühlt gar nicht"],l:"kuehlschrank",ex:"Deshalb fühlt sich nasse Haut kalt an."},
+ {q:"Wer gehörte zu Lindes ersten Kunden?",a:["Brauereien","Bäckereien","Autohäuser","Schulen"],l:"kuehlschrank",ex:"Für das Bierbrauen braucht man Kälte – auch im Sommer."},
+ {q:"Was ist hier zu sehen?",img:"kuehlschrank",st:3,a:["Der Kältekreislauf eines Kühlschranks","Eine Achterbahn","Ein Stromnetz","Eine Wasserrutsche"],l:"kuehlschrank",ex:"Verdampfer innen, Verdichter unten, Verflüssiger hinten."},
+ {q:"Wie kalt ist ein Gefrierfach normalerweise?",a:["−18 °C","0 °C","+7 °C","−100 °C"],l:"kuehlschrank",ex:"Bei −18 °C halten Lebensmittel monatelang."},
+ {q:"Rechne: Kühlteil 7 °C, Gefrierfach −18 °C. Wie viele Grad Unterschied sind das?",a:["25 Grad","11 Grad","18 Grad","7 Grad"],l:"kuehlschrank",ex:"7 − (−18) = 25 Grad."},
+ {q:"Wer wies 1886 bis 1888 elektromagnetische Wellen nach?",a:["Heinrich Hertz","Guglielmo Marconi","Alexander Graham Bell","Thomas Edison"],l:"radio",ex:"Heinrich Hertz in Karlsruhe."},
+ {q:"Was gelang Marconi am 12. Dezember 1901?",a:["Ein Funksignal über den Atlantik","Der erste Motorflug","Die erste Glühbirne","Das erste Auto"],l:"radio",ex:"Von England nach Neufundland."},
+ {q:"Welcher Buchstabe wurde 1901 über den Atlantik gefunkt?",a:["S","A","X","M"],l:"radio",ex:"Drei kurze Morsezeichen: · · ·"},
+ {q:"Mit wem teilte Marconi 1909 den Nobelpreis für Physik?",a:["Ferdinand Braun","Heinrich Hertz","Albert Einstein","Wilhelm Conrad Röntgen"],l:"radio",ex:"Ferdinand Braun verbesserte die Sender."},
+ {q:"Was ist hier zu sehen?",img:"radio",st:3,a:["Das Funksignal über den Atlantik","Ein Regenbogen","Eine Brücke","Ein Flugzeug"],l:"radio",ex:"Der Buchstabe S von England nach Neufundland."},
+ {q:"Wann startete das Radio in Deutschland?",a:["29. Oktober 1923","1. Januar 1950","1895","1969"],l:"radio",ex:"Aus dem Vox-Haus in Berlin."},
+ {q:"Rechne: Funkwellen sind 300.000 km pro Sekunde schnell. Wie lange brauchen sie für 3.500 km?",a:["≈ 0,01 Sekunden","≈ 1 Sekunde","≈ 10 Sekunden","≈ 1 Minute"],l:"radio",ex:"3.500 : 300.000 ≈ 0,012 Sekunden."},
+ {q:"Wer erfand den Dieselmotor?",a:["Rudolf Diesel","Nikolaus August Otto","Carl Benz","Gottlieb Daimler"],l:"diesel",ex:"Patent 1892, erster Motor 1897."},
+ {q:"Was braucht ein Dieselmotor NICHT?",a:["Eine Zündkerze","Kraftstoff","Luft","Kolben"],l:"diesel",ex:"Der Kraftstoff zündet von selbst."},
+ {q:"Warum entzündet sich der Kraftstoff im Dieselmotor von selbst?",a:["Die stark verdichtete Luft ist sehr heiß","Weil es dunkel ist","Durch einen Funken","Durch Sonnenlicht"],l:"diesel",ex:"Zusammendrücken macht Luft heiß – das nennt man Selbstzündung."},
+ {q:"Wo lief 1897 der erste funktionsfähige Dieselmotor?",a:["In Augsburg","In Mannheim","In Landshut","In Wolfsburg"],l:"diesel",ex:"In der Maschinenfabrik Augsburg, heute MAN."},
+ {q:"Was ist hier zu sehen?",img:"diesel",st:2,a:["Wirkungsgrad: Dampfmaschine gegen Dieselmotor","Ein Wetterbericht","Ein Fußballergebnis","Ein Stundenplan"],l:"diesel",ex:"Rund 10 % gegen rund 26 %."},
+ {q:"Rechne: Der Diesel nutzt 26 % der Energie, die Dampfmaschine 10 %. Wie viel besser ist der Diesel?",a:["2,6-mal so gut","genauso gut","halb so gut","zehnmal so gut"],l:"diesel",ex:"26 : 10 = 2,6."},
+ {q:"Welches war 1936 das erste Serien-Auto mit Dieselmotor?",a:["Mercedes-Benz 260 D","VW Käfer","BMW Isetta","Ford Model T"],l:"diesel",ex:"Der 260 D wurde vor allem als Taxi beliebt."}
+);
+PAKETE.push({id:"p3",icon:"⚡",name:"Strom, Kälte & Kraft",tag:"PAKET 3",ids:["impfung","batterie","kuehlschrank","radio","diesel"],c:"cyan"});
 L.sort((a,b)=>{const ix=id=>{let n=0;for(const p of PAKETE){const k=p.ids.indexOf(id);if(k>=0)return n+k;n+=p.ids.length}return 999};return ix(a.id)-ix(b.id)});
 
 /* ---------- Hilfen ---------- */
