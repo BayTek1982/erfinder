@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bayazit Erfinder-Schule</title>
+<meta name="theme-color" content="#070b12">
+<meta name="description" content="Lern-App: Erfindungen, die die Welt verändert haben – mit kleinen Erklärvideos und Quiz.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Erfinder-Schule">
+<style>
+:root,[data-theme="dark"]{
+ --bg:#070b12;--panel:#0e1522;--panel2:#141d2e;--line:#1f2b40;--tx:#e6edf7;--mut:#8a99b3;
+ --gold:#f5b301;--cyan:#22d3ee;--green:#22c55e;--violet:#a78bfa;--red:#f43f5e;--blue:#3b82f6;--pink:#f472b6;--orange:#fb923c;
+ --road:#2c3a52;--blk:#1a2436;--scene:#0a101b;--body:#1c2a40;--glass:#0b3b4f;--white:#ffffff;--ink:#0a0f18;--tire:#05080d;
+ --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+[data-theme="light"]{
+ --bg:#eef2f7;--panel:#ffffff;--panel2:#f2f5fa;--line:#d6deea;--tx:#0f172a;--mut:#56657f;
+ --gold:#b7860b;--cyan:#0e8fae;--green:#15803d;--violet:#7c3aed;--red:#e11d48;--blue:#2563eb;--pink:#db2777;--orange:#ea580c;
+ --road:#b6c1d1;--blk:#dfe6ef;--scene:#f8fafc;--body:#dbe4f0;--glass:#b9e3f2;--white:#ffffff;--ink:#0a0f18;--tire:#1e293b;
+ --shadow:0 8px 24px rgba(15,23,42,.08);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{min-height:100%;background:var(--bg)}html,body{margin:0;min-height:100vh;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.mono{font-family:ui-monospace,"JetBrains Mono","SF Mono",Consolas,monospace}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+#app{display:flex;min-height:100vh}
+#side{display:none}
+main{flex:1;min-width:0;max-width:980px;margin:0 auto;padding:0 14px 40px}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:12px 0 10px;background:linear-gradient(var(--bg) 75%,transparent)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1;cursor:pointer}
+.logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--green));color:#fff;font-weight:800;font-size:17px;flex:none}
+.brand b{display:block;font-size:13px;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;color:var(--mut);font-size:11px;white-space:nowrap}
+.brand>div:last-child{min-width:0}
+.theme{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:3px;flex:none}
+.theme button{border:0;background:none;padding:5px 8px;border-radius:9px;font-size:12px;color:var(--mut);white-space:nowrap}
+.theme button.on{background:var(--panel2);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line)}
+.theme button span{display:none}
+@media(min-width:520px){.theme button span{display:inline}}
+@media(max-width:420px){.brand b{font-size:11.5px;letter-spacing:.02em}}
+.hero{padding:6px 2px 14px}
+.hero h1{font-size:24px;line-height:1.15;margin:4px 0 6px;letter-spacing:.02em}
+.hero p{margin:0;color:var(--mut);font-size:14px}
+.kicker{font-size:11px;letter-spacing:.16em;color:var(--cyan);font-weight:700}
+.prog{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:12px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:6px}
+.bento{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{position:relative;overflow:hidden;border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:16px;min-height:170px;text-align:left;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:transform .15s}
+.tile:active{transform:scale(.98)}
+.tile.big{grid-column:span 2;min-height:180px}
+.tile::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--ac) 22%,transparent),transparent 60%);pointer-events:none}
+.tile .ico{font-size:34px;line-height:1;margin-bottom:10px}
+.tile .tag{font-size:10px;letter-spacing:.14em;color:var(--ac);font-weight:700}
+.tile h3{margin:3px 0 4px;font-size:17px;line-height:1.2}
+.tile p{margin:0;color:var(--mut);font-size:12.5px;line-height:1.4;flex:1}
+.tile .bar{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:11px;color:var(--mut)}
+.tile .bar span.t{flex:1;height:5px;border-radius:5px;background:var(--line);overflow:hidden}
+.tile .bar span.t i{display:block;height:100%;background:var(--ac)}
+.note{margin:14px 0 0;padding:12px 14px;border-radius:14px;border:1px dashed var(--line);color:var(--mut);font-size:12.5px}
+.note b{color:var(--gold)}
+.back{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:7px 12px;font-size:13px;margin:4px 0 12px}
+.ahead{border-radius:20px;padding:16px;border:1px solid var(--line);background:var(--panel);position:relative;overflow:hidden;margin-bottom:14px}
+.ahead::before{content:"";position:absolute;inset:0;background:radial-gradient(100% 120% at 100% 0%,color-mix(in srgb,var(--ac) 25%,transparent),transparent 60%)}
+.ahead *{position:relative}
+.ahead .ico{font-size:36px}
+.ahead h2{margin:6px 0 4px;font-size:21px}
+.ahead p{margin:0;color:var(--mut);font-size:13.5px}
+.list{display:grid;gap:10px}
+@media(min-width:700px){.list{grid-template-columns:1fr 1fr}}
+.lcard{display:flex;gap:12px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:12px 14px}
+.lcard .n{font-size:10px;letter-spacing:.14em;color:var(--ac);font-weight:700}
+.lcard h4{margin:2px 0 2px;font-size:15px}
+.lcard p{margin:0;color:var(--mut);font-size:12px}
+.lcard .chk{margin-left:auto;flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);font-size:14px;color:var(--mut)}
+.lcard.seen .chk{background:var(--ac);border-color:var(--ac);color:#fff}
+.player{border:1px solid var(--line);background:var(--panel);border-radius:20px;overflow:hidden}
+.stage{position:relative;background:var(--scene);aspect-ratio:360/220}
+.stage svg{display:block;width:100%;height:100%}
+.ctrl{padding:10px 12px 12px;border-top:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:8px}
+.pbtn{border:1px solid var(--line);background:var(--panel2);border-radius:10px;min-width:38px;height:34px;padding:0 10px;font-size:13px}
+.pbtn.main{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:700}
+input[type=range]{flex:1;accent-color:var(--ac);min-width:60px}
+.speeds{display:flex;gap:4px}
+.speeds .pbtn{min-width:0;padding:0 8px;font-size:12px}
+.speeds .pbtn.on{background:color-mix(in srgb,var(--ac) 25%,var(--panel2));border-color:var(--ac)}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.steps button{width:34px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);font-size:12px}
+.steps button.on{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:700}
+.steps button.done{border-color:var(--ac)}
+.stxt{margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);min-height:76px}
+.stxt .k{font-size:10.5px;letter-spacing:.14em;color:var(--ac);font-weight:700}
+.stxt p{margin:4px 0 0;font-size:14.5px}
+.info{display:grid;gap:10px;margin-top:14px}
+@media(min-width:700px){.info{grid-template-columns:1fr 1fr}}
+.ibox{border-radius:16px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--c) 45%,var(--line));background:color-mix(in srgb,var(--c) 9%,var(--panel))}
+.ibox b{display:block;font-size:11px;letter-spacing:.12em;color:var(--c);margin-bottom:4px}
+.ibox p{margin:0;font-size:13.5px}
+.nav2{display:flex;gap:10px;margin-top:16px}
+.nav2 button{flex:1;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:12px;font-size:13px;text-align:left}
+.nav2 button small{display:block;color:var(--mut);font-size:11px}
+.nav2 button.r{text-align:right}
+.nav2 button:disabled{opacity:.35}
+.lh{margin:0 0 10px}
+.lh .n{font-size:11px;letter-spacing:.14em;color:var(--ac);font-weight:700}
+.lh h2{margin:3px 0 0;font-size:20px;line-height:1.2}
+.qcard{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:16px}
+.qtop{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:8px}
+.qcard h3{margin:4px 0 12px;font-size:17px;line-height:1.35}
+.qimg{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--scene);margin-bottom:12px;aspect-ratio:360/220}
+.qimg svg{display:block;width:100%;height:100%}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:11px 13px;font-size:14px}
+.opt.ok{border-color:var(--green);background:color-mix(in srgb,var(--green) 18%,var(--panel2))}
+.opt.no{border-color:var(--red);background:color-mix(in srgb,var(--red) 16%,var(--panel2))}
+.fb{margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:13.5px}
+.fb b.ok{color:var(--green)}.fb b.no{color:var(--red)}
+.qbtns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.qbtns button{flex:1;min-width:140px;border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:11px;font-size:13.5px}
+.qbtns button.main{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:700}
+.score{font-size:46px;font-weight:800;margin:6px 0}
+.rep{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:6px}
+.rep li button{width:100%;text-align:left;border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:9px 12px;font-size:13px}
+footer{margin-top:26px;color:var(--mut);font-size:11.5px;text-align:center}
+@media(min-width:1000px){
+ #side{display:block;width:290px;flex:none;border-right:1px solid var(--line);background:var(--panel);height:100vh;position:sticky;top:0;overflow:auto;padding:16px 14px}
+ #side input{width:100%;border:1px solid var(--line);background:var(--panel2);color:var(--tx);border-radius:12px;padding:9px 12px;font:inherit;font-size:13px;margin:10px 0 12px}
+ #side .sg{font-size:10.5px;letter-spacing:.14em;font-weight:700;margin:14px 4px 6px}
+ #side button.si{display:flex;gap:8px;width:100%;text-align:left;border:0;background:none;border-radius:10px;padding:7px 8px;font-size:13px;color:var(--tx)}
+ #side button.si:hover,#side button.si.on{background:var(--panel2)}
+ #side button.si .d{color:var(--mut);margin-left:auto}
+ main{padding:0 28px 40px}
+ .bento{grid-template-columns:repeat(3,1fr)}
+ .tile.big{grid-column:span 2}
+}
+
+.lcard.soon{opacity:.55;border-style:dashed;box-shadow:none}
+.lcard.soon .chk{border-style:dashed}
+.lh p{margin:0}
+</style>
+</head>
+<body>
+<div id="app">
+ <aside id="side"></aside>
+ <main>
+  <header class="top">
+   <div class="brand" onclick="go('#start')"><div class="logo" style="background:linear-gradient(135deg,var(--gold),var(--orange))">💡</div><div><b class="mono">BAYAZIT ERFINDER-SCHULE</b><small>Erfindungen, die die Welt verändert haben</small></div></div>
+   <div class="theme" id="theme">
+    <button data-m="dark" title="Dunkel">☾<span> Dunkel</span></button>
+    <button data-m="light" title="Hell">☀<span> Hell</span></button>
+    <button data-m="auto" title="Automatisch">◐<span> Auto</span></button>
+   </div>
+  </header>
+  <div id="view"></div>
+  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1: Die 5 größten Erfindungen</footer>
+ </main>
+</div>
+<script>
+"use strict";
+const store={get(k,d){try{const v=localStorage.getItem("erfinder_"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("erfinder_"+k,JSON.stringify(v))}catch(e){}}};
+const mq=window.matchMedia?matchMedia("(prefers-color-scheme: light)"):null;
+function applyTheme(){const m=store.get("theme","dark");const t=m==="auto"?(mq&&mq.matches?"light":"dark"):m;document.documentElement.setAttribute("data-theme",t);
+ document.querySelectorAll("#theme button").forEach(b=>b.classList.toggle("on",b.dataset.m===m));
+ const mc=document.querySelector('meta[name=theme-color]');if(mc)mc.content=t==="light"?"#eef2f7":"#070b12";}
+document.querySelectorAll("#theme button").forEach(b=>b.onclick=()=>{store.set("theme",b.dataset.m);applyTheme()});
+if(mq&&mq.addEventListener)mq.addEventListener("change",applyTheme);
+applyTheme();
+/* ---------- Szenen-Bausteine ---------- */
+const D=4.5;
+const R=(s,x,y,w,h,c,o,x2)=>Object.assign({t:"rect",s,x,y,w,h,c,o},x2||{});
+const P=(s,x,y,txt,c,x2)=>Object.assign({t:"pill",s,x,y,txt,c},x2||{});
+const T=(s,x,y,txt,c,size,x2)=>Object.assign({t:"txt",s,x,y,txt,c,size},x2||{});
+const A=(s,x1,y1,x2,y2,c,x3)=>Object.assign({t:"arrow",s,x1,y1,x2,y2,c},x3||{});
+const Ln=(s,x1,y1,x2,y2,c,x3)=>Object.assign({t:"line",s,x1,y1,x2,y2,c},x3||{});
+const C=(s,x,y,r,c,o,x2)=>Object.assign({t:"circ",s,x,y,r,c,o},x2||{});
+const G=(s,pts,c,o,x2)=>Object.assign({t:"poly",s,pts,c,o},x2||{});
+const E=(s,x,y,txt,size,x2)=>Object.assign({t:"emo",s,x,y,txt,size},x2||{});
+const B=(s,x,y,w,h,c,x2)=>Object.assign({t:"bar",s,x,y,w,h,c},x2||{});
+const HB=(s,x,y,w,h,c,x2)=>Object.assign({t:"hbar",s,x,y,w,h,c},x2||{});
+const RING=(s,x,y,r,c,x2)=>Object.assign({t:"ring",s,x,y,r,c},x2||{});
+const PATH=(s,pd,c,x2)=>Object.assign({t:"path",s,pd,c},x2||{});
+const FL=(s,pts,c,x2)=>Object.assign({t:"flow",s,pts,c},x2||{});
+const RAW=(s,svg,x2)=>Object.assign({t:"raw",s,svg},x2||{});
+const SPIN=(s,x,y,r,c,x2)=>Object.assign({t:"spin",s,x,y,r,c},x2||{});
+const BAT=(s,x,y,w,h,lv,c,x2)=>Object.assign({t:"bat",s,x,y,w,h,lv,c},x2||{});
+/* Auto in Seitenansicht: x = linke Kante, y = Boden, k = Maßstab (200 breit bei k=1) */
+function carSvg(x,y,k,c){return `<g transform="translate(${x} ${y}) scale(${k})">
+<path d="M5,-22 L5,-42 Q8,-50 20,-52 L60,-56 L85,-78 Q92,-82 105,-82 L140,-82 Q150,-82 158,-74 L178,-56 L192,-52 Q198,-50 198,-42 L198,-22 Z" style="fill:var(--body);stroke:${c?`var(--${c})`:"var(--mut)"};stroke-width:2"/>
+<path d="M68,-58 L89,-76 L118,-76 L118,-58 Z M124,-58 L124,-76 L141,-76 Q148,-76 152,-70 L162,-58 Z" style="fill:var(--glass)"/>
+<circle cx="45" cy="-16" r="16" style="fill:var(--tire)"/><circle cx="45" cy="-16" r="7" style="fill:var(--mut)"/>
+<circle cx="155" cy="-16" r="16" style="fill:var(--tire)"/><circle cx="155" cy="-16" r="7" style="fill:var(--mut)"/></g>`}
+const CAR=(s,x,y,k,c,x2)=>RAW(s,carSvg(x,y,k,c),x2);
+const MOT=(s,x,y,r,part,sp,x2)=>Object.assign({t:"mot",s,x,y,r,part,sp:sp||0},x2||{});
+function box3d(s,x,y,w,h,dp,c,del){const o={d:del||0};return[
+ G(s,`${x},${y} ${x+w},${y} ${x+w},${y-h} ${x},${y-h}`,c,.85,o),
+ G(s,`${x},${y-h} ${x+dp},${y-h-dp*.6} ${x+w+dp},${y-h-dp*.6} ${x+w},${y-h}`,c,.55,o),
+ G(s,`${x+w},${y} ${x+w+dp},${y-dp*.6} ${x+w+dp},${y-h-dp*.6} ${x+w},${y-h}`,c,.35,o)]}
+function sinP(x0,x1,y,a,n,ph){let d="";for(let x=x0;x<=x1;x+=2){const v=y-a*Math.sin((x-x0)/(x1-x0)*n*2*Math.PI+ph);d+=(d?"L":"M")+x+","+v.toFixed(1)}return d}
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const col=c=>!c?"var(--tx)":(c[0]==="#"?c:`var(--${c})`);
+const clamp=v=>v<0?0:v>1?1:v;
+const ease=p=>1-Math.pow(1-p,3);
+const area=id=>AREAS.find(a=>a.id===id);
+const seen=()=>store.get("seen",{});
+function markSeen(id){const s=seen();if(!s[id]){s[id]=1;store.set("seen",s)}}
+function go(h){if(location.hash===h)route();else location.hash=h}
+
+/* ---------- Renderer ---------- */
+function along(pts,f){let segs=[],tot=0;for(let i=1;i<pts.length;i++){const l=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);segs.push(l);tot+=l}
+ let d=f*tot;for(let i=0;i<segs.length;i++){if(d<=segs[i]||i===segs.length-1){const k=segs[i]?Math.min(1,d/segs[i]):0;const a=pts[i],b=pts[i+1];return[a[0]+(b[0]-a[0])*k,a[1]+(b[1]-a[1])*k]}d-=segs[i]}return[pts[0][0],pts[0][1]]}
+function pillW(t){return t.length*6.1+18}
+function drawMot(e,P1,op,t){const r=e.r,x=e.x,y=e.y;let o="";
+ const coil=(k,fill,stroke)=>`<g transform="translate(${x} ${y}) rotate(${k*60})"><rect x="${-r*.15}" y="${-r*.93}" width="${r*.3}" height="${r*.24}" rx="3" style="fill:${fill};stroke:${stroke||"none"};stroke-width:2"/></g>`;
+ if(e.part==="stator"){o=`<circle cx="${x}" cy="${y}" r="${r*.84}" style="fill:none;stroke:var(--blue);stroke-width:${r*.2};stroke-opacity:.35"/><circle cx="${x}" cy="${y}" r="${r}" style="fill:none;stroke:var(--blue);stroke-width:2"/><circle cx="${x}" cy="${y}" r="${r*.64}" style="fill:none;stroke:var(--line);stroke-width:1.5"/>`}
+ else if(e.part==="coils"){for(let k=0;k<6;k++)o+=coil(k,"var(--gold)")}
+ else if(e.part==="field"){const a=(t*e.sp)%1,idx=Math.floor(a*6+.5)%6;o+=coil(idx,"var(--cyan)","var(--white)")+coil((idx+3)%6,"var(--cyan)","var(--white)");
+  const ang=idx*60;o+=`<g transform="translate(${x} ${y}) rotate(${ang})"><circle cx="0" cy="${-r*.8}" r="${r*.2}" style="fill:var(--cyan);fill-opacity:.25"/><circle cx="0" cy="${r*.8}" r="${r*.2}" style="fill:var(--cyan);fill-opacity:.25"/></g>`}
+ else if(e.part==="rotor"){const rr=r*.5,ang=(t*e.sp*360)-(e.sp?20:0);
+  o=`<g transform="translate(${x} ${y}) rotate(${ang})"><path d="M${-rr},0 A${rr},${rr} 0 0 1 ${rr},0 Z" style="fill:var(--red)"/><path d="M${rr},0 A${rr},${rr} 0 0 1 ${-rr},0 Z" style="fill:var(--blue)"/><text x="0" y="${-rr*.38}" text-anchor="middle" style="fill:#fff;font-size:${rr*.45}px;font-weight:800">N</text><text x="0" y="${rr*.62}" text-anchor="middle" style="fill:#fff;font-size:${rr*.45}px;font-weight:800">S</text><circle r="${rr*.18}" style="fill:var(--panel2);stroke:var(--mut)"/></g>`}
+ return `<g opacity="${P1*op}">${o}</g>`}
+function drawEl(e,p,lt,op,t){
+ const c=col(e.c),o=(e.o==null?1:e.o),st=e.st?`;stroke:${col(e.st)};stroke-width:1.5`:"";const P1=ease(p);
+ switch(e.t){
+ case"rect":{let ob=P1*op;if(e.bl)ob*=(Math.floor((lt+(e.ph||0))/e.bl)%2)?1:.2;return `<rect x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="${e.r||0}" style="fill:${c};fill-opacity:${o}${st}" opacity="${ob}"/>`}
+ case"bar":{const h=e.h*P1;return `<rect x="${e.x}" y="${e.y+e.h-h}" width="${e.w}" height="${h}" rx="4" style="fill:${c}" opacity="${op}"/>`}
+ case"hbar":return `<rect x="${e.x}" y="${e.y}" width="${Math.max(0,e.w*P1)}" height="${e.h}" rx="4" style="fill:${c}" opacity="${op}"/><rect x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="4" style="fill:none;stroke:${c};stroke-opacity:.25" opacity="${op}"/>`;
+ case"circ":return `<circle cx="${e.x}" cy="${e.y}" r="${e.r*(.6+.4*P1)}" style="fill:${c};fill-opacity:${o}${st}" opacity="${P1*op}"/>`;
+ case"line":{const x2=e.x1+(e.x2-e.x1)*P1,y2=e.y1+(e.y2-e.y1)*P1;return `<line x1="${e.x1}" y1="${e.y1}" x2="${x2}" y2="${y2}" style="stroke:${c};stroke-width:${e.w||2};stroke-linecap:round${e.dash?`;stroke-dasharray:${e.dash}`:""}" opacity="${op}"/>`}
+ case"arrow":{const x2=e.x1+(e.x2-e.x1)*P1,y2=e.y1+(e.y2-e.y1)*P1,a=Math.atan2(e.y2-e.y1,e.x2-e.x1),h=8;
+  return `<g opacity="${op}"><line x1="${e.x1}" y1="${e.y1}" x2="${x2}" y2="${y2}" style="stroke:${c};stroke-width:2.5;stroke-linecap:round"/><polygon points="${x2},${y2} ${x2-h*Math.cos(a-.5)},${y2-h*Math.sin(a-.5)} ${x2-h*Math.cos(a+.5)},${y2-h*Math.sin(a+.5)}" style="fill:${c}"/></g>`}
+ case"path":return `<path d="${e.pd}" pathLength="1" style="fill:none;stroke:${c};stroke-width:${e.w||2};stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:${1-P1}" opacity="${op}"/>`;
+ case"poly":return `<polygon points="${e.pts}" style="fill:${c};fill-opacity:${o}${st}" opacity="${P1*op}"/>`;
+ case"txt":return `<text x="${e.x}" y="${e.y}" text-anchor="${e.an||"middle"}" style="fill:${c};font-size:${e.size||10}px;font-weight:${e.b?700:500}${e.m?";font-family:ui-monospace,Consolas,monospace":""}" opacity="${P1*op}">${esc(e.txt)}</text>`;
+ case"emo":return `<text x="${e.x}" y="${e.y}" text-anchor="middle" dominant-baseline="middle" style="font-size:${e.size||16}px" opacity="${P1*op}" transform="translate(${e.x} ${e.y}) scale(${.5+.5*P1}) translate(${-e.x} ${-e.y})">${e.txt}</text>`;
+ case"pill":{const w=pillW(e.txt),s=.7+.3*P1;return `<g opacity="${P1*op}" transform="translate(${e.x} ${e.y}) scale(${s})"><rect x="${-w/2}" y="-10" width="${w}" height="20" rx="10" style="fill:${c}"/><text x="0" y="3.8" text-anchor="middle" style="fill:#fff;font-size:10.5px;font-weight:700">${esc(e.txt)}</text></g>`}
+ case"ring":{const k=(lt%1.6)/1.6;return `<circle cx="${e.x}" cy="${e.y}" r="${e.r*(.4+.6*k)}" style="fill:none;stroke:${c};stroke-width:2" opacity="${(1-k)*op*P1}"/>`}
+ case"flow":{const n=e.n||5,du=e.dur||2;let l2=lt-(e.lag||0);if(l2<0)return"";let s="";for(let i=0;i<n;i++){const f=((l2/du)+i/n)%1;const[x,y]=along(e.pts,f);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${e.r||3}" style="fill:${c}"/>`}return `<g opacity="${P1*op}">${s}</g>`}
+ case"raw":return `<g opacity="${P1*op}">${e.svg}</g>`;
+ case"spin":{const a=lt*(e.sp==null?1:e.sp)*360;return `<g opacity="${P1*op}" transform="translate(${e.x} ${e.y}) rotate(${a})"><circle r="${e.r}" style="fill:var(--panel2);stroke:${c};stroke-width:2"/><line x1="${-e.r*.8}" y1="0" x2="${e.r*.8}" y2="0" style="stroke:${c};stroke-width:2"/><line x1="0" y1="${-e.r*.8}" x2="0" y2="${e.r*.8}" style="stroke:${c};stroke-width:2"/><circle r="${e.r*.25}" style="fill:${c}"/></g>`}
+ case"bat":{const fw=(e.w-8)*e.lv*P1;return `<g opacity="${op}"><rect x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="5" style="fill:var(--panel2);stroke:${c};stroke-width:2"/><rect x="${e.x+e.w}" y="${e.y+e.h*.3}" width="4" height="${e.h*.4}" rx="1.5" style="fill:${c}"/><rect x="${e.x+4}" y="${e.y+4}" width="${fw}" height="${e.h-8}" rx="3" style="fill:${c}"/></g>`}
+ case"mot":return drawMot(e,P1,op,t);
+ }return""}
+function renderScene(els,t){let out="";for(const e of els){const start=e.s*D+(e.d||0);if(t<start)continue;const lt=t-start;const p=clamp(lt/.7);
+ let op=1;if(e.e!=null){const et=e.e*D;if(t>=et)op=clamp(1-(t-et)/.4);if(op<=0)continue}
+ out+=drawEl(e,p,lt,op,t)}return out}
+function svgWrap(inner){return `<svg viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg" role="img">${inner}</svg>`}
+
+/* ---------- Player ---------- */
+let player=null;
+function stopPlayer(){if(player){cancelAnimationFrame(player.raf);player=null}}
+function startPlayer(les){stopPlayer();const n=les.steps.length,total=n*D;
+ const pl={les,t:0,playing:true,speed:store.get("speed",1),last:performance.now(),step:-1,total,raf:0};player=pl;
+ const svg=$("#svg"),rng=$("#rng"),pbtn=$("#pp");
+ function setStep(i){if(i===pl.step)return;pl.step=i;$("#sk").textContent=`SCHRITT ${i+1} / ${n}`;$("#st").textContent=les.steps[i];
+  document.querySelectorAll(".steps button").forEach((b,k)=>{b.classList.toggle("on",k===i);b.classList.toggle("done",k<i)})}
+ function frame(now){if(player!==pl)return;const dt=Math.min(.1,(now-pl.last)/1000);pl.last=now;
+  if(pl.playing){pl.t+=dt*pl.speed;if(pl.t>=total){pl.t=total;pl.playing=false;pbtn.textContent="▶"}}
+  const sh=Math.min(pl.t,total-.001);svg.innerHTML=renderScene(les.els,pl.t);rng.value=Math.round(sh/total*1000);
+  setStep(Math.min(n-1,Math.floor(sh/D)));pl.raf=requestAnimationFrame(frame)}
+ pbtn.onclick=()=>{if(pl.t>=total)pl.t=0;pl.playing=!pl.playing;pbtn.textContent=pl.playing?"❚❚":"▶"};
+ $("#rs").onclick=()=>{pl.t=0;pl.playing=true;pbtn.textContent="❚❚"};
+ rng.oninput=()=>{pl.t=rng.value/1000*total;};
+ document.querySelectorAll(".speeds .pbtn").forEach(b=>{b.classList.toggle("on",+b.dataset.s===pl.speed);b.onclick=()=>{pl.speed=+b.dataset.s;store.set("speed",pl.speed);document.querySelectorAll(".speeds .pbtn").forEach(x=>x.classList.toggle("on",x===b))}});
+ document.querySelectorAll(".steps button").forEach((b,k)=>b.onclick=()=>{pl.t=k*D+.01;pl.playing=true;pbtn.textContent="❚❚"});
+ pbtn.textContent="❚❚";pl.raf=requestAnimationFrame(frame)}
+
+/* ---------- Zusatz-Bausteine ---------- */
+function stadt(s){const o=[],hs=[70,110,90,130,80];let k=0;
+ hs.forEach((h,i)=>{const x=18+i*36;o.push(R(s,x,200-h,30,h,"blk",1,{r:3,st:"line",d:.1*i}));
+  for(let yy=200-h+8;yy<192;yy+=14)for(let xx=x+5;xx<x+26;xx+=10){o.push(R(s,xx,yy,6,7,"gold",.9,{r:1,d:.4+.03*k++}))}});return o}
+const RADSCHEIBE=`<defs><clipPath id="wc"><circle cx="130" cy="115" r="60"/></clipPath></defs><g clip-path="url(#wc)"><rect x="70" y="55" width="40" height="120" style="fill:#9a6a36"/><rect x="110" y="55" width="40" height="120" style="fill:#b98246"/><rect x="150" y="55" width="40" height="120" style="fill:#9a6a36"/></g><circle cx="130" cy="115" r="60" style="fill:none;stroke:var(--tx);stroke-width:3"/><circle cx="130" cy="115" r="9" style="fill:var(--panel2);stroke:var(--tx);stroke-width:2"/>`;
+const BIRNE=`<circle cx="180" cy="88" r="48" style="fill:var(--glass);fill-opacity:.45;stroke:var(--cyan);stroke-width:2"/><path d="M164,128 L196,128 L196,160 L164,160 Z" style="fill:var(--mut)"/><path d="M164,138 L196,138 M164,148 L196,148" style="stroke:var(--panel2);stroke-width:2"/><path d="M172,128 L172,96 M188,128 L188,96" style="stroke:var(--mut);stroke-width:2"/>`;
+const FADEN="M172,96 L175,86 L178,100 L181,86 L184,100 L188,96";
+const MOTORWAGEN=`<g style="stroke:var(--tx);stroke-width:3;fill:none;stroke-linecap:round">
+<circle cx="110" cy="158" r="36"/><path d="M110,122 L110,194 M74,158 L146,158 M85,133 L135,183 M135,133 L85,183"/>
+<circle cx="250" cy="172" r="22"/><path d="M250,150 L250,194 M228,172 L272,172"/>
+<path d="M110,158 L250,172 M240,166 L228,104 L210,100"/></g>
+<rect x="96" y="104" width="78" height="14" rx="5" style="fill:var(--red);fill-opacity:.8"/><rect x="100" y="80" width="10" height="26" rx="3" style="fill:var(--red);fill-opacity:.8"/>
+<rect x="80" y="124" width="44" height="22" rx="4" style="fill:var(--gold);fill-opacity:.85"/><circle cx="102" cy="135" r="5" style="fill:var(--panel2)"/>`;
+const VERMITTLUNG=(s)=>{const o=[R(s,22,48,136,92,"blk",1,{r:10,st:"mut"})];for(let r=0;r<3;r++)for(let c=0;c<5;c++)o.push(C(s,42+c*24,70+r*24,5,"tx",.85,{d:.03*(r*5+c)}));
+ o.push(PATH(s,"M42,70 Q70,150 114,94","red",{w:2.5}),PATH(s,"M90,70 Q110,160 138,118","green",{w:2.5,d:.4}),PATH(s,"M66,118 Q60,170 42,94","cyan",{w:2.5,d:.8}));return o};
+
+/* ---------- Bereiche ---------- */
+const AREAS=[
+ {id:"strom",name:"Strom & Energie",yrs:"1752–1954",icon:"⚡",c:"gold",desc:"Blitzableiter, Batterie, Elektromotor, Dynamo, Glühbirne und Wechselstrom."},
+ {id:"komm",name:"Kommunikation",yrs:"1450–1989",icon:"📡",c:"blue",desc:"Buchdruck, Telefon, Radio, Fernsehen, Handy und das World Wide Web."},
+ {id:"verkehr",name:"Verkehr & Motoren",yrs:"3500 v. Chr.–1903",icon:"🚗",c:"red",desc:"Das Rad, die Laufmaschine, Ottomotor, Automobil, Diesel und Flugzeug."},
+ {id:"haushalt",name:"Haushalt & Alltag",yrs:"1596–1958",icon:"🏠",c:"green",desc:"Spültoilette, Kühlschrank, Staubsauger, Kaffeefilter und Mikrowelle."},
+ {id:"medizin",name:"Medizin & Wissenschaft",yrs:"1285–1971",icon:"🔬",c:"violet",desc:"Mikroskop, Impfung, Röntgenstrahlen, Penicillin und Computertomograph."},
+ {id:"computer",name:"Computer & Digital",yrs:"1623–2007",icon:"💻",c:"cyan",desc:"Rechenmaschine, Zuses Z3, Transistor, Mikrochip und Smartphone."}
+];
+
+/* ---------- Alle geplanten Erfindungen (aus der Auswahl-Tabelle) ---------- */
+const PLAN=[
+ [1,"strom","Blitzableiter","Benjamin Franklin","1752"],[2,"strom","Dampfmaschine (verbessert)","James Watt","1769"],[3,"strom","Batterie","Alessandro Volta","1800"],[4,"strom","Elektromotor","Moritz Hermann Jacobi","1834"],[5,"strom","Dynamo (Generator)","Werner von Siemens","1866"],[6,"strom","Glühbirne","Thomas Edison","1879","gluehbirne"],[7,"strom","Wechselstrom-Motor","Nikola Tesla","1888"],[8,"strom","Solarzelle","Bell Labs","1954"],
+ [9,"komm","Buchdruck","Johannes Gutenberg","ca. 1450","buchdruck"],[10,"komm","Fotografie","Niépce / Daguerre","1826 / 1839"],[11,"komm","Telegraf & Morsecode","Samuel Morse","1837"],[12,"komm","Telefon","Philipp Reis / A. G. Bell","1861 / 1876","telefon"],[13,"komm","Radio (Funk)","Guglielmo Marconi","1895"],[14,"komm","Fernsehen","Paul Nipkow / John Logie Baird","1884 / 1926"],[15,"komm","Handy","Martin Cooper (Motorola)","1973"],[16,"komm","World Wide Web","Tim Berners-Lee","1989"],
+ [17,"verkehr","Rad","Mesopotamien","ca. 3500 v. Chr.","rad"],[18,"verkehr","Laufmaschine","Karl Drais","1817"],[19,"verkehr","Dampflokomotive","Trevithick / Stephenson","1804 / 1825"],[20,"verkehr","Viertakt-Ottomotor","Nikolaus August Otto","1876"],[21,"verkehr","Automobil","Carl Benz","1886","auto"],[22,"verkehr","Luftreifen","John Boyd Dunlop","1888"],[23,"verkehr","Dieselmotor","Rudolf Diesel","1893–1897"],[24,"verkehr","Motorflugzeug","Gebrüder Wright","1903"],
+ [25,"haushalt","Spültoilette","Harington / Cumming","1596 / 1775"],[26,"haushalt","Streichholz","John Walker","1826"],[27,"haushalt","Kältemaschine (Kühlschrank)","Carl von Linde","1876"],[28,"haushalt","Reißverschluss","Judson / Sundback","1893 / 1913"],[29,"haushalt","Staubsauger (mit Motor)","Hubert Cecil Booth","1901"],[30,"haushalt","Kaffeefilter","Melitta Bentz","1908"],[31,"haushalt","Mikrowelle","Percy Spencer","1945"],[32,"haushalt","Dübel","Artur Fischer","1958"],
+ [33,"medizin","Brille","unbekannt, Italien","ca. 1285"],[34,"medizin","Mikroskop","Janssen / van Leeuwenhoek","ca. 1590 / 1670"],[35,"medizin","Fernrohr","Hans Lipperhey","1608"],[36,"medizin","Impfung","Edward Jenner","1796"],[37,"medizin","Röntgenstrahlen","Wilhelm Conrad Röntgen","1895"],[38,"medizin","Penicillin","Alexander Fleming","1928"],[39,"medizin","Computertomograph","Godfrey Hounsfield","1971"],[40,"medizin","Herzschrittmacher","Elmqvist / Senning","1958"],
+ [41,"computer","Rechenmaschine","Wilhelm Schickard","1623"],[42,"computer","Computer Z3","Konrad Zuse","1941"],[43,"computer","Transistor","Bardeen, Brattain, Shockley","1947"],[44,"computer","Mikrochip","Jack Kilby / Robert Noyce","1958 / 1959"],[45,"computer","Chipkarte","Dethloff & Gröttrup","1969"],[46,"computer","MP3","Karlheinz Brandenburg","1990er"],[47,"computer","Smartphone","IBM Simon / Apple iPhone","1994 / 2007"],[48,"computer","GPS","US-Verteidigungsministerium","1978–1995"]
+].map(([nr,a,title,who,yr,id])=>({nr,a,title,who,yr,id}));
+
+/* ---------- Lektionen (Paket 1: die 5 größten Erfindungen) ---------- */
+const L=[
+{id:"rad",a:"verkehr",title:"Das Rad",sub:"ca. 3500 v. Chr. · Mesopotamien",
+ steps:["Bevor es das Rad gab, mussten Menschen schwere Lasten tragen, auf Schlitten ziehen oder über Baumstämme rollen. Das war mühsam und langsam.",
+ "Um 3500 v. Chr. tauchen in Mesopotamien – dem heutigen Irak – die ersten Räder auf. Wahrscheinlich wurden sie zuerst als Töpferscheibe benutzt, um Gefäße zu formen.",
+ "Die ersten Wagenräder sind Scheibenräder: Holzbretter, die zu einem Kreis zusammengefügt werden. Das älteste erhaltene Holzrad wurde im Laibacher Moor in Slowenien gefunden – es ist rund 5.150 Jahre alt.",
+ "Der eigentliche Trick ist die Achse: Das Rad dreht sich um einen Stab. Die Reibung entsteht nur noch an einer kleinen Stelle – so lässt sich eine schwere Last mit wenig Kraft bewegen.",
+ "Um 2000 v. Chr. kommen Speichenräder auf: viel leichter und schneller. Heute steckt das Rad fast überall – in Autos, Fahrrädern, Zahnrädern, Uhren und Turbinen."],
+ els:[P(0,180,24,"Vorher: alles schleppen","mut",{e:1}),R(0,70,140,140,10,"mut",.8,{r:3,e:1}),R(0,95,98,90,42,"gold",.35,{r:4,st:"gold",e:1}),T(0,140,124,"Last","gold",11,{b:1,e:1}),
+ Ln(0,210,145,250,122,"tx",{w:2,e:1}),E(0,268,112,"🧍",38,{e:1}),C(0,100,162,9,"orange",.85,{e:1}),C(0,140,162,9,"orange",.85,{e:1,d:.2}),C(0,180,162,9,"orange",.85,{e:1,d:.4}),T(0,150,200,"Schlitten & Baumstämme","mut",10,{e:1}),
+ P(1,180,24,"Mesopotamien · ca. 3500 v. Chr.","gold",{e:2}),SPIN(1,110,112,42,"orange",{sp:.5,e:2}),T(1,110,180,"Töpferscheibe","orange",11,{b:1,e:2}),E(1,260,108,"🏺",42,{e:2}),T(1,260,180,"Gefäße formen","mut",10,{e:2}),
+ RAW(2,RADSCHEIBE,{e:3}),P(2,130,24,"Scheibenrad aus Brettern","gold",{e:3}),R(2,218,76,132,74,"cyan",.12,{r:12,st:"cyan",e:3}),T(2,284,100,"ältestes Holzrad","cyan",10.5,{b:1,e:3}),T(2,284,118,"Laibacher Moor","mut",9.5,{e:3}),T(2,284,136,"≈ 5.150 Jahre alt","tx",10,{b:1,m:1,e:3}),
+ R(3,130,62,150,40,"gold",.25,{r:6,st:"gold",e:4}),T(3,205,87,"Last","gold",11,{b:1,e:4}),R(3,90,115,230,10,"mut",1,{r:4,e:4}),SPIN(3,100,120,40,"gold",{sp:.6,e:4}),SPIN(3,310,120,40,"gold",{sp:.6,e:4}),T(3,205,145,"Achse","mut",10,{b:1,e:4}),P(3,205,196,"Achse = wenig Reibung","green",{e:4}),
+ SPIN(4,100,112,55,"tx",{sp:.8}),P(4,100,196,"Speichenrad · ca. 2000 v. Chr.","gold"),E(4,240,78,"🚗",26),E(4,300,78,"🚲",26),E(4,240,136,"⚙️",26),E(4,300,136,"🎡",26),T(4,270,178,"Räder überall","tx",11,{b:1})],
+ info:{was:"Das Rad ist eine runde Scheibe, die sich um eine Achse dreht. Es gehört zu den ältesten und wichtigsten Erfindungen der Menschheit.",
+ so:"Rad und Achse arbeiten zusammen: Statt die ganze Last über den Boden zu schleifen, reibt nur die kleine Achse – das spart sehr viel Kraft.",
+ bed:"Ohne das Rad gäbe es keine Wagen, keine Autos, keine Züge und keine Maschinen mit Zahnrädern. Es machte Handel und Reisen erst möglich.",
+ tipp:"Rechne: Ein Rad mit 60 cm Durchmesser rollt bei einer Umdrehung π × 0,6 m ≈ 1,88 m weit."}},
+{id:"buchdruck",a:"komm",title:"Der Buchdruck",sub:"um 1450 · Johannes Gutenberg · Mainz",
+ steps:["Früher wurde jedes Buch von Hand abgeschrieben, oft von Mönchen in Klöstern. Ein einziges Buch zu kopieren dauerte Monate bis Jahre. Bücher waren selten und sehr teuer.",
+ "Um 1450 hat Johannes Gutenberg in Mainz eine geniale Idee: bewegliche Lettern aus Metall. Jeder Buchstabe wird einzeln gegossen und kann immer wieder neu zusammengesetzt werden.",
+ "Gutenberg erfindet ein ganzes System: ein Handgießinstrument für gleich große Lettern, eine Metallmischung aus Blei, Zinn und Antimon, eine haftende Druckfarbe und eine Druckerpresse nach dem Vorbild der Weinpresse.",
+ "So wird gedruckt: Lettern zu Zeilen setzen, mit Farbe einfärben, Papier auflegen und pressen. Die gleiche Seite lässt sich hundertfach drucken.",
+ "Um 1454/55 erscheint die Gutenberg-Bibel – rund 180 Stück, 49 sind noch erhalten. Bald gibt es in ganz Europa Druckereien. Wissen ist nicht mehr nur für wenige da."],
+ els:[P(0,180,24,"Vorher: Bücher sind selten","mut",{e:1}),E(0,90,100,"✍️",40,{e:1}),T(0,90,150,"von Hand abschreiben","mut",10,{e:1}),E(0,260,100,"⏳",36,{e:1}),T(0,260,150,"Monate bis Jahre","red",11,{b:1,e:1}),
+ P(1,180,24,"Mainz · um 1450 · Gutenberg","gold",{e:3}),...[..."GUTENBERG"].flatMap((ch,i)=>[R(1,27+i*34,66,30,40,"panel2",1,{r:4,st:"gold",d:.12*i,e:2}),T(1,42+i*34,93,ch,"gold",18,{b:1,m:1,d:.12*i,e:2})]),
+ T(1,180,140,"bewegliche Lettern aus Metall","tx",12,{b:1,e:2}),T(1,180,160,"jeder Buchstabe einzeln","mut",10,{e:2}),
+ ...[["🔥","Gießinstrument","orange"],["🖋️","Druckfarbe","blue"],["🗜️","Druckerpresse","green"]].flatMap(([ic,lab,c],i)=>[R(2,12+i*116,58,104,96,c,.12,{r:12,st:c,d:.3*i,e:3}),E(2,64+i*116,92,ic,28,{d:.3*i,e:3}),T(2,64+i*116,134,lab,c,10.5,{b:1,d:.3*i,e:3})]),
+ T(2,180,190,"Blei + Zinn + Antimon","mut",10,{b:1,e:3}),
+ P(3,180,24,"So wird gedruckt","cyan",{e:4}),...["Setzen","Färben","Papier","Pressen"].map((w,i)=>P(3,48+i*88,62,w,["gold","blue","mut","green"][i],{d:.5*i,e:4})),...[0,1,2].map(i=>A(3,78+i*88,62,104+i*88,62,"mut",{d:.5*i+.3,e:4})),
+ R(3,130,92,80,104,"white",1,{r:4,st:"mut",d:1.8,e:4}),...[0,1,2,3,4,5].map(k=>Ln(3,140,108+k*14,200-(k%3)*12,108+k*14,"ink",{w:3,d:2+.1*k,e:4})),T(3,272,150,"× 100","gold",22,{b:1,m:1,d:2.4,e:4}),
+ E(4,80,92,"📖",40),T(4,80,138,"Gutenberg-Bibel","gold",11,{b:1}),T(4,80,154,"≈ 180 Stück · 49 erhalten","mut",9.5),...Array.from({length:12},(_,i)=>E(4,196+(i%4)*40,66+Math.floor(i/4)*38,"📚",22,{d:.1*i})),P(4,180,200,"Wissen für alle","green")],
+ info:{was:"Der Buchdruck mit beweglichen Lettern ist ein Verfahren, um Texte schnell und in großer Zahl zu vervielfältigen. In Europa entwickelte ihn Johannes Gutenberg um 1450.",
+ so:"Einzelne Metallbuchstaben werden zu Zeilen und Seiten zusammengesetzt, eingefärbt und mit einer Presse auf Papier gedrückt – danach können die Lettern für neue Seiten wiederverwendet werden.",
+ bed:"Bücher wurden billiger und verbreiteten sich schnell. Das half der Bildung, der Wissenschaft und der Reformation – viele nennen den Buchdruck den Beginn der Neuzeit.",
+ tipp:"Bewegliche Lettern gab es schon früher in China (Bi Sheng, um 1040) und Korea. Gutenbergs komplettes System verbreitete sich aber in ganz Europa. Das Gutenberg-Museum steht in Mainz."}},
+{id:"gluehbirne",a:"strom",title:"Die Glühbirne",sub:"1879 · Thomas Edison (und Joseph Swan)",
+ steps:["Früher gab es Licht nur von Kerzen, Öllampen und Gaslaternen. Sie rußten, rochen und waren gefährlich – viele Brände entstanden durch offenes Feuer.",
+ "Das Prinzip der Glühbirne: Strom fließt durch einen sehr dünnen Draht, den Glühfaden. Der Draht wird dabei über 2.000 °C heiß und leuchtet hell.",
+ "Das Problem: An der Luft verbrennt der heiße Faden sofort. Deshalb kommt er in einen Glaskolben, aus dem die Luft herausgepumpt wird – ein Vakuum.",
+ "Viele Erfinder arbeiten daran, zum Beispiel Joseph Swan in England. Thomas Edison testet tausende Materialien. 1879 leuchtet seine Lampe mit Kohlefaden über 13 Stunden – später mit Bambusfaser über 1.000 Stunden.",
+ "Edison baut gleich das ganze System dazu: Kraftwerk, Leitungen und Stromzähler. 1882 geht in New York sein erstes Kraftwerk ans Netz. Heute leuchten sparsame LEDs – bei gleicher Helligkeit mit viel weniger Strom."],
+ els:[P(0,180,24,"Vorher: Licht aus Feuer","mut",{e:1}),E(0,80,100,"🕯️",40,{e:1}),E(0,180,100,"🪔",40,{e:1}),E(0,280,100,"🏮",40,{e:1}),T(0,80,148,"Kerze","mut",10,{e:1}),T(0,180,148,"Öllampe","mut",10,{e:1}),T(0,280,148,"Laterne","mut",10,{e:1}),P(0,180,192,"Ruß & Brandgefahr","red",{e:1}),
+ P(1,180,24,"Strom → heißer Draht → Licht","gold",{e:2}),BAT(1,30,150,60,30,1,"green",{e:2}),T(1,60,198,"Batterie","green",9.5,{b:1,e:2}),
+ PATH(1,"M90,165 L310,165 L310,95 L200,95","mut",{w:2,e:2}),PATH(1,"M30,165 L18,165 L18,95 L160,95","mut",{w:2,e:2}),
+ C(1,180,95,34,"gold",.22,{d:.9,e:2}),RING(1,180,95,44,"gold",{d:.9,e:2}),PATH(1,"M160,95 L166,85 L172,105 L178,85 L184,105 L190,85 L196,105 L200,95","gold",{w:3,e:2}),
+ FL(1,[[90,165],[310,165],[310,95],[200,95]],"cyan",{n:6,dur:2,e:2}),T(1,180,140,"über 2.000 °C","gold",13,{b:1,m:1,d:.9,e:2}),
+ RAW(2,BIRNE,{e:3}),C(2,180,90,26,"gold",.3,{d:.6,e:3}),PATH(2,FADEN,"gold",{w:3,e:3}),
+ T(2,58,66,"mit Luft","red",11,{b:1,e:3}),E(2,58,98,"🔥",24,{e:3}),T(2,58,130,"Faden verbrennt","mut",9.5,{e:3}),T(2,302,66,"Vakuum","green",11,{b:1,e:3}),T(2,302,104,"✓","green",26,{b:1,e:3}),T(2,302,130,"Faden hält","mut",9.5,{e:3}),P(2,180,196,"Glaskolben ohne Luft","cyan",{e:3}),
+ P(3,180,24,"Edison & Swan · 1879","gold",{e:4}),T(3,96,80,"Kohlefaden","tx",10,{an:"end",b:1,e:4}),HB(3,104,70,30,14,"gold",{e:4}),T(3,140,81,"13 Std.","gold",10,{an:"start",b:1,e:4}),
+ T(3,96,130,"Bambus","tx",10,{an:"end",b:1,e:4}),HB(3,104,120,230,14,"green",{d:.5,e:4}),T(3,334,112,"über 1.000 Std.","green",10,{an:"end",b:1,d:.5,e:4}),T(3,180,176,"tausende Materialien getestet","mut",10,{e:4}),
+ ...stadt(4),P(4,180,24,"1882: Kraftwerk in New York","cyan"),T(4,280,82,"60 W","red",18,{b:1,m:1}),T(4,280,100,"Glühbirne","mut",9.5),T(4,280,140,"8 W","green",18,{b:1,m:1}),T(4,280,158,"LED · gleich hell","mut",9.5)],
+ info:{was:"Eine Glühbirne ist eine elektrische Lampe: Ein dünner Faden in einem luftleeren Glaskolben wird vom Strom so heiß, dass er leuchtet.",
+ so:"Strom → Widerstand im Draht → Hitze → Licht. Das Vakuum im Glas verhindert, dass der Faden verbrennt.",
+ bed:"Elektrisches Licht machte die Nacht zum Tag – für Arbeit, Lernen und Sicherheit. Mit der Glühbirne begann auch der Aufbau der Stromnetze.",
+ tipp:"Eine alte Glühbirne macht nur rund 5 % des Stroms zu Licht, der Rest wird Wärme. Rechne: 60-W-Glühbirne gegen 8-W-LED = 52 W gespart."}},
+{id:"telefon",a:"komm",title:"Das Telefon",sub:"1861 Philipp Reis · 1876 Alexander Graham Bell",
+ steps:["Früher dauerte eine Nachricht Tage: Briefe mussten transportiert werden. Ab 1837 gab es den Telegrafen – aber er übertrug nur Morsezeichen, keine Stimme.",
+ "1861 zeigt Philipp Reis, ein Lehrer aus Friedrichsdorf bei Frankfurt, sein Gerät und nennt es „Telephon“. Berühmt wird der Testsatz: „Das Pferd frisst keinen Gurkensalat.“ Die Übertragung klappt aber noch nicht zuverlässig.",
+ "So funktioniert ein Telefon: Der Schall bringt eine dünne Membran zum Schwingen. Das Mikrofon macht daraus einen schwankenden Strom. Im Hörer bewegt der Strom wieder eine Membran – und es entsteht Schall.",
+ "Am 7. März 1876 erhält Alexander Graham Bell in den USA das Patent auf das Telefon. Drei Tage später führt er das erste Gespräch: „Mr. Watson, come here, I want to see you.“",
+ "Bald entstehen Telefonnetze: Das „Fräulein vom Amt“ verbindet die Gespräche von Hand mit Steckkabeln. 1881 startet in Berlin das erste deutsche Netz. Daraus wird später das Handy und das Smartphone."],
+ els:[P(0,180,24,"Vorher","mut",{e:1}),E(0,70,92,"✉️",34,{e:1}),T(0,70,134,"Brief: Tage","mut",10,{e:1}),T(0,180,96,"· — · ·","cyan",22,{b:1,m:1,e:1}),T(0,180,134,"Telegraf: nur Morse","mut",10,{e:1}),E(0,290,92,"🗣️",34,{e:1}),T(0,290,134,"Stimme? Noch nicht","red",10,{b:1,e:1}),
+ P(1,180,24,"1861: das „Telephon“","gold",{e:2}),E(1,80,98,"👨‍🏫",44,{e:2}),T(1,80,148,"Philipp Reis","gold",12,{b:1,e:2}),T(1,80,164,"Lehrer · Friedrichsdorf","mut",9,{e:2}),
+ R(1,168,70,182,70,"gold",.1,{r:12,st:"gold",e:2}),T(1,259,98,"„Das Pferd frisst","tx",10.5,{b:1,e:2}),T(1,259,116,"keinen Gurkensalat.“","tx",10.5,{b:1,e:2}),
+ E(2,26,80,"🗣️",22,{e:3}),PATH(2,sinP(44,88,80,8,2,0),"cyan",{e:3}),Ln(2,96,58,96,102,"gold",{w:4,e:3}),PATH(2,sinP(104,256,80,6,4,0),"green",{w:2,d:.6,e:3}),T(2,180,58,"schwankender Strom","green",9.5,{b:1,d:.6,e:3}),
+ Ln(2,264,58,264,102,"gold",{w:4,d:1.2,e:3}),PATH(2,sinP(272,316,80,8,2,0),"cyan",{d:1.4,e:3}),E(2,336,80,"👂",22,{d:1.4,e:3}),
+ P(2,96,140,"Mikrofon","cyan",{e:3}),P(2,264,140,"Hörer","violet",{d:1.2,e:3}),P(2,180,196,"Schall → Strom → Schall","gold",{e:3}),
+ P(3,180,24,"Patent: 7. März 1876","blue",{e:4}),E(3,74,98,"👨‍🔬",44,{e:4}),T(3,74,148,"A. G. Bell","blue",12,{b:1,e:4}),
+ R(3,150,66,200,78,"blue",.1,{r:12,st:"blue",e:4}),T(3,250,90,"10. März 1876:","blue",10.5,{b:1,m:1,e:4}),T(3,250,110,"„Mr. Watson, come here,","tx",10,{b:1,e:4}),T(3,250,126,"I want to see you.“","tx",10,{b:1,e:4}),
+ ...VERMITTLUNG(4),T(4,90,162,"Fräulein vom Amt","mut",10,{b:1}),P(4,262,60,"1881: Netz in Berlin","gold"),E(4,226,124,"☎️",28),A(4,248,124,290,124,"mut"),E(4,312,124,"📱",28),T(4,270,170,"bis zum Smartphone","mut",10),P(4,180,200,"Sprechen über weite Strecken","green")],
+ info:{was:"Ein Telefon überträgt die menschliche Stimme als elektrisches Signal über eine Leitung – heute meist digital und per Funk.",
+ so:"Membran im Mikrofon schwingt → Strom schwankt im gleichen Takt → im Hörer bewegt der Strom eine Membran → du hörst die Stimme.",
+ bed:"Zum ersten Mal konnten Menschen über große Entfernungen sofort miteinander sprechen. Das veränderte Familie, Arbeit und Wirtschaft.",
+ tipp:"Wer das Telefon „erfunden“ hat, ist bis heute umstritten: Reis, Bell, Elisha Gray (meldete am selben Tag wie Bell an) und Antonio Meucci arbeiteten alle daran."}},
+{id:"auto",a:"verkehr",title:"Das Automobil",sub:"1886 · Carl Benz · Mannheim",
+ steps:["Früher reiste man zu Fuß, mit Pferd und Kutsche oder später mit der Eisenbahn. Es gab zwar schon Dampfwagen – aber die waren schwer, laut und unpraktisch.",
+ "Die Grundlage: 1876 baut Nikolaus August Otto den Viertaktmotor. Seine vier Takte: Ansaugen, Verdichten, Arbeiten und Ausstoßen. Ein Benzin-Luft-Gemisch verbrennt und treibt den Kolben an.",
+ "Am 29. Januar 1886 meldet Carl Benz in Mannheim sein Patent an: den Benz Patent-Motorwagen Nummer 1. Er hat drei Räder, einen kleinen Einzylinder-Viertaktmotor mit knapp 1 PS und fährt rund 16 km/h.",
+ "Im August 1888 fährt Bertha Benz mit ihren beiden Söhnen ohne Wissen ihres Mannes von Mannheim nach Pforzheim – rund 106 km. Unterwegs kauft sie Benzin in einer Apotheke in Wiesloch.",
+ "Ebenfalls 1886 bauen Gottlieb Daimler und Wilhelm Maybach eine Motorkutsche. Aus diesen Anfängen wird eine Weltindustrie – heute fahren weltweit über eine Milliarde Autos."],
+ els:[P(0,180,24,"Vorher: Pferd & Kutsche","mut",{e:1}),E(0,90,100,"🐎",44,{e:1}),T(0,90,150,"Pferd & Kutsche","mut",10,{e:1}),E(0,260,100,"💨",40,{e:1}),T(0,260,150,"Dampfwagen: schwer","mut",10,{e:1}),
+ P(1,180,24,"1876: Ottos Viertaktmotor","cyan",{e:2}),...[["1","Ansaugen","cyan",110],["2","Verdichten","gold",84],["3","Arbeiten","red",110],["4","Ausstoßen","mut",84]].flatMap(([n,w,c,py],i)=>{const x=10+i*87;return[R(1,x,52,80,104,c,.12,{r:10,st:c,d:.4*i,e:2}),T(1,x+40,72,n,c,14,{b:1,m:1,d:.4*i,e:2}),R(1,x+22,82,36,48,"panel2",1,{r:3,st:"mut",d:.4*i,e:2}),R(1,x+24,py,32,12,"mut",1,{r:2,d:.4*i,e:2}),T(1,x+40,146,w,c,9.5,{b:1,d:.4*i,e:2})]}),
+ T(1,180,184,"Benzin-Luft-Gemisch verbrennt → Kraft","mut",10,{d:1.6,e:2}),
+ RAW(2,MOTORWAGEN,{e:3}),P(2,180,24,"29. Januar 1886 · Patent","gold",{e:3}),T(2,316,74,"3 Räder","tx",11,{b:1,e:3}),T(2,316,94,"knapp 1 PS","gold",11,{b:1,m:1,e:3}),T(2,316,114,"≈ 16 km/h","cyan",11,{b:1,m:1,e:3}),
+ C(3,60,72,7,"gold",1,{e:4}),T(3,60,56,"Mannheim","gold",10,{b:1,e:4}),C(3,130,120,6,"mut",1,{e:4}),T(3,130,142,"Wiesloch","mut",10,{e:4}),E(3,154,108,"⛽",16,{e:4}),C(3,300,170,7,"green",1,{e:4}),T(3,300,194,"Pforzheim","green",10,{b:1,e:4}),
+ PATH(3,"M60,72 L130,120 L300,170","red",{w:2.5,e:4}),FL(3,[[60,72],[130,120],[300,170]],"red",{n:1,dur:3.5,r:6,e:4}),P(3,250,44,"Bertha Benz · 1888","red",{e:4}),T(3,222,132,"≈ 106 km","tx",12,{b:1,m:1,e:4}),
+ E(4,90,88,"👨‍🔧",36),T(4,90,128,"Daimler & Maybach","gold",10,{b:1}),T(4,90,144,"1886: Motorkutsche","mut",9.5),E(4,270,88,"🚗",40),T(4,270,128,"heute","tx",11,{b:1}),T(4,270,144,"über 1 Mrd. Autos","cyan",10,{b:1,m:1}),P(4,180,196,"Mobilität für alle","green")],
+ info:{was:"Ein Automobil („Selbstbeweger“) ist ein Fahrzeug, das von einem eigenen Motor angetrieben wird. Als Geburtsstunde gilt das Patent von Carl Benz aus dem Jahr 1886.",
+ so:"Den Benz Patent-Motorwagen erkennst du an den drei Rädern, den großen Speichenrädern hinten und dem Motor unter der Sitzbank.",
+ bed:"Das Auto machte Menschen unabhängig von Pferden und Fahrplänen. Es veränderte Städte, Arbeit und Freizeit – und schuf Millionen Arbeitsplätze.",
+ tipp:"Die Stadt-Apotheke in Wiesloch gilt als „erste Tankstelle der Welt“. Rechne: 106 km bei 16 km/h ≈ 6,6 Stunden reine Fahrzeit."}}
+];
+
+/* ---------- Quiz ---------- */
+const Q=[
+ {q:"Wo tauchten die ersten Räder auf?",a:["In Mesopotamien (heute Irak)","In Bayern","In Amerika","In Australien"],l:"rad",ex:"Um 3500 v. Chr. gab es in Mesopotamien die ersten Räder."},
+ {q:"Wofür wurde das Rad vermutlich zuerst benutzt?",a:["Als Töpferscheibe","Als Lenkrad","Als Münze","Als Uhr"],l:"rad",ex:"Wahrscheinlich drehten sich die ersten Räder als Töpferscheibe."},
+ {q:"Wie alt ist das älteste erhaltene Holzrad aus dem Laibacher Moor?",a:["rund 5.150 Jahre","rund 500 Jahre","rund 50.000 Jahre","rund 1.000 Jahre"],l:"rad",ex:"Das Scheibenrad aus Slowenien ist rund 5.150 Jahre alt."},
+ {q:"Was ist hier zu sehen?",img:"rad",st:3,a:["Zwei Räder auf einer Achse unter einer Last","Ein Fahrradschloss","Eine Waage","Eine Hantel"],l:"rad",ex:"Rad und Achse: Die Reibung entsteht nur an der kleinen Achse."},
+ {q:"Rechne: Ein Rad hat 60 cm Durchmesser. Wie weit rollt es bei einer Umdrehung? (Umfang = π × Durchmesser)",a:["≈ 1,88 m","≈ 60 cm","≈ 3,6 m","≈ 1,2 m"],l:"rad",ex:"3,14 × 0,6 m ≈ 1,88 m."},
+ {q:"Warum waren Speichenräder besser als Scheibenräder?",a:["Sie sind leichter","Sie sind schwerer","Sie brauchen keine Achse","Sie sind eckig"],l:"rad",ex:"Speichenräder sparen Holz und Gewicht – Wagen werden schneller."},
+ {q:"Wer entwickelte um 1450 in Europa den Buchdruck mit beweglichen Lettern?",a:["Johannes Gutenberg","Martin Luther","Albrecht Dürer","Carl Benz"],l:"buchdruck",ex:"Johannes Gutenberg in Mainz."},
+ {q:"In welcher Stadt arbeitete Gutenberg?",a:["Mainz","München","Hamburg","Wien"],l:"buchdruck",ex:"Gutenberg druckte in Mainz – dort steht heute das Gutenberg-Museum."},
+ {q:"Was sind bewegliche Lettern?",a:["Einzeln gegossene Buchstaben aus Metall","Buchstaben auf Rädern","Briefe mit Briefmarken","Gemalte Bilder"],l:"buchdruck",ex:"Jeder Buchstabe wird einzeln gegossen und immer wieder neu gesetzt."},
+ {q:"Wovon schaute sich Gutenberg die Druckerpresse ab?",a:["Von der Weinpresse","Vom Webstuhl","Von der Dampfmaschine","Vom Wasserrad"],l:"buchdruck",ex:"Die Druckerpresse funktionierte ähnlich wie eine Weinpresse."},
+ {q:"Was ist hier zu sehen?",img:"buchdruck",st:3,a:["Die Arbeitsschritte beim Drucken","Ein Kochrezept","Ein Stundenplan","Eine Landkarte"],l:"buchdruck",ex:"Setzen, Färben, Papier auflegen, Pressen – und das hundertfach."},
+ {q:"Rechne: Gutenberg druckte rund 180 Bibeln, 49 sind erhalten. Wie viele gingen verloren?",a:["131","49","229","151"],l:"buchdruck",ex:"180 − 49 = 131."},
+ {q:"Wo gab es bewegliche Lettern schon vor Gutenberg?",a:["In China und Korea","In Amerika","In Australien","Nirgendwo"],l:"buchdruck",ex:"Zum Beispiel bei Bi Sheng in China um 1040 und später in Korea."},
+ {q:"In welchem Jahr leuchtete Edisons Kohlefaden-Lampe über 13 Stunden?",a:["1879","1779","1929","1850"],l:"gluehbirne",ex:"Im Oktober 1879."},
+ {q:"Warum ist im Glaskolben einer Glühbirne keine Luft?",a:["Damit der Glühfaden nicht verbrennt","Damit sie leichter ist","Damit sie lauter ist","Damit sie nicht kalt wird"],l:"gluehbirne",ex:"Ohne Sauerstoff kann der heiße Faden nicht verbrennen."},
+ {q:"Wie heiß wird der Glühfaden ungefähr?",a:["über 2.000 °C","rund 100 °C","rund 37 °C","rund 500 °C"],l:"gluehbirne",ex:"Erst bei über 2.000 °C leuchtet der Faden hell."},
+ {q:"Welcher Engländer arbeitete zur selben Zeit wie Edison an der Glühbirne?",a:["Joseph Swan","Isaac Newton","James Watt","Charles Darwin"],l:"gluehbirne",ex:"Joseph Swan zeigte ebenfalls eine Glühlampe."},
+ {q:"Was ist hier zu sehen?",img:"gluehbirne",st:2,a:["Eine Glühbirne mit Vakuum im Glaskolben","Ein Luftballon","Eine Lupe","Ein Fischglas"],l:"gluehbirne",ex:"Der Glühfaden hält nur im luftleeren Glaskolben."},
+ {q:"Rechne: Eine 60-W-Glühbirne wird durch eine gleich helle 8-W-LED ersetzt. Wie viel Watt sparst du?",a:["52 W","68 W","8 W","480 W"],l:"gluehbirne",ex:"60 W − 8 W = 52 W."},
+ {q:"Was ging 1882 in New York ans Netz?",a:["Edisons erstes Kraftwerk","Der erste Wolkenkratzer","Eine Autofabrik","Ein Flughafen"],l:"gluehbirne",ex:"Edison baute gleich das ganze Stromsystem dazu."},
+ {q:"Wer zeigte 1861 sein „Telephon“?",a:["Philipp Reis","Thomas Edison","Werner von Siemens","Karl Drais"],l:"telefon",ex:"Der Lehrer Philipp Reis aus Friedrichsdorf."},
+ {q:"Welcher Satz wurde mit dem Telefon von Philipp Reis berühmt?",a:["„Das Pferd frisst keinen Gurkensalat.“","„Hallo, wer ist da?“","„Es werde Licht.“","„Guten Morgen, Deutschland.“"],l:"telefon",ex:"Ein Testsatz, den man nicht erraten konnte."},
+ {q:"Was macht die Membran im Mikrofon?",a:["Sie schwingt durch den Schall","Sie leuchtet","Sie speichert Töne","Sie kühlt das Telefon"],l:"telefon",ex:"Die Schwingung wird in einen schwankenden Strom umgewandelt."},
+ {q:"In welchem Jahr bekam Alexander Graham Bell sein Patent auf das Telefon?",a:["1876","1861","1901","1837"],l:"telefon",ex:"Am 7. März 1876."},
+ {q:"Was ist hier zu sehen?",img:"telefon",st:2,a:["Wie Schall zu Strom und wieder zu Schall wird","Wie ein Radio sendet","Wie ein Brief ankommt","Wie ein Herz schlägt"],l:"telefon",ex:"Mikrofon → Leitung → Hörer."},
+ {q:"Rechne: Reis 1861, Bell 1876 – wie viele Jahre liegen dazwischen?",a:["15","25","5","10"],l:"telefon",ex:"1876 − 1861 = 15 Jahre."},
+ {q:"Wer verband früher die Telefongespräche von Hand?",a:["Das „Fräulein vom Amt“","Der Briefträger","Der Bürgermeister","Ein Roboter"],l:"telefon",ex:"Mit Steckkabeln in der Vermittlung."},
+ {q:"Wer meldete am 29. Januar 1886 das Patent für das erste Auto an?",a:["Carl Benz","Gottlieb Daimler","Rudolf Diesel","Henry Ford"],l:"auto",ex:"Carl Benz mit dem Patent-Motorwagen Nummer 1."},
+ {q:"Wie viele Räder hatte der Benz Patent-Motorwagen Nummer 1?",a:["3","4","2","6"],l:"auto",ex:"Zwei große Räder hinten, ein kleines vorne."},
+ {q:"Wer baute 1876 den Viertaktmotor?",a:["Nikolaus August Otto","Carl Benz","James Watt","Nikola Tesla"],l:"auto",ex:"Nach ihm heißt der Ottomotor."},
+ {q:"Was ist der dritte Takt beim Viertaktmotor?",a:["Arbeiten","Ansaugen","Ausstoßen","Bremsen"],l:"auto",ex:"Ansaugen, Verdichten, Arbeiten, Ausstoßen."},
+ {q:"Wer machte 1888 die erste lange Fahrt mit einem Auto?",a:["Bertha Benz","Marie Curie","Melitta Bentz","Clara Schumann"],l:"auto",ex:"Bertha Benz fuhr von Mannheim nach Pforzheim."},
+ {q:"Wo kaufte Bertha Benz unterwegs Benzin?",a:["In einer Apotheke in Wiesloch","An einer Tankstelle in Stuttgart","Bei einem Bäcker in Köln","Am Bahnhof in Landshut"],l:"auto",ex:"Die Stadt-Apotheke Wiesloch gilt als erste Tankstelle der Welt."},
+ {q:"Was ist hier zu sehen?",img:"auto",st:3,a:["Die Fahrt von Bertha Benz nach Pforzheim","Eine Wanderung in den Alpen","Ein Flug nach Amerika","Eine Bahnstrecke"],l:"auto",ex:"Mannheim → Wiesloch → Pforzheim, rund 106 km."},
+ {q:"Rechne: Bertha Benz fuhr rund 106 km. Bei 16 km/h – wie lange ist das reine Fahrzeit?",a:["≈ 6,6 Stunden","≈ 1,6 Stunden","≈ 16 Stunden","≈ 10,6 Stunden"],l:"auto",ex:"106 : 16 ≈ 6,6 Stunden."},
+ {q:"Welche Erfindung ist am ältesten?",a:["Das Rad","Der Buchdruck","Die Glühbirne","Das Telefon"],l:"rad",ex:"Rad ca. 3500 v. Chr., Buchdruck um 1450, Telefon 1861/1876, Glühbirne 1879."},
+ {q:"Welche Reihenfolge stimmt?",a:["Buchdruck → Telefon → Glühbirne → Automobil","Telefon → Buchdruck → Automobil → Glühbirne","Glühbirne → Telefon → Buchdruck → Automobil","Automobil → Glühbirne → Telefon → Buchdruck"],l:"buchdruck",ex:"1450 → 1876 → 1879 → 1886."}
+];
+
+/* ---------- Hilfen ---------- */
+const lesson=id=>L.find(l=>l.id===id);
+const nrOf=id=>(PLAN.find(p=>p.id===id)||{}).nr;
+function progArea(aid){const ls=L.filter(l=>l.a===aid),s=seen();return[ls.filter(l=>s[l.id]).length,ls.length]}
+
+/* ---------- Ansichten ---------- */
+function viewHome(){const s=seen(),done=L.filter(l=>s[l.id]).length,best=store.get("best",null);
+ let h=`<section class="hero"><div class="kicker mono">${AREAS.length} BEREICHE · ${L.length} LEKTIONEN · ${PLAN.length} ERFINDUNGEN GEPLANT</div><h1 class="mono">Erfindungen, die die Welt verändert haben</h1>
+ <p>Wer hat es erfunden, wie funktioniert es und was hat es verändert? Schritt für Schritt mit kleinen Videos.</p>
+ <div class="prog"><i style="width:${done/L.length*100}%"></i></div><p style="margin-top:6px;font-size:12px">${done} von ${L.length} Lektionen gesehen</p></section><div class="bento">
+ <button class="tile big" style="--ac:var(--gold)" onclick="go('#top')"><div class="ico">🏆</div><div class="tag mono">PAKET 1 · START HIER</div><h3 style="font-size:21px">Die 5 größten Erfindungen</h3>
+ <p>Rad · Buchdruck · Glühbirne · Telefon · Automobil</p><div class="bar"><span class="t"><i style="width:${done/L.length*100}%"></i></span><span class="mono">${done}/${L.length}</span></div></button>`;
+ AREAS.forEach((a,i)=>{const[d,n]=progArea(a.id),all=PLAN.filter(p=>p.a===a.id).length;h+=`<button class="tile" style="--ac:${col(a.c)}" onclick="go('#b-${a.id}')">
+  <div class="ico">${a.icon}</div><div class="tag mono">BEREICH ${i+1}<br>${a.yrs}</div><h3>${a.name}</h3><p>${a.desc}</p>
+  <div class="bar"><span class="t"><i style="width:${n?d/n*100:0}%"></i></span><span class="mono">${d}/${n} · ${all-n} bald</span></div></button>`});
+ h+=`<button class="tile" style="--ac:var(--cyan)" onclick="go('#quiz')"><div class="ico">🎯</div><div class="tag mono">QUIZ</div><h3>Teste dein Wissen</h3>
+ <p>10 zufällige Fragen aus ${Q.length} – mit Bilderfragen und Rechenaufgaben.</p><div class="bar"><span class="mono">Bestwert: ${best==null?"–":best+" / 10"}</span></div></button></div>
+ <div class="note"><b>Hinweis:</b> Bei manchen Erfindungen ist umstritten, wer zuerst da war – die Lektionen nennen dann mehrere Erfinder. Jahreszahlen teils gerundet.</div>`;
+ return h}
+function viewTop(){const s=seen();let h=`<button class="back" onclick="go('#start')">← Startseite</button><div class="ahead" style="--ac:var(--gold)"><div class="ico">🏆</div><h2 class="mono">Die 5 größten Erfindungen</h2><p>Paket 1 · nach Jahren geordnet – vom Rad bis zum Auto.</p></div><div class="list">`;
+ L.forEach((l,i)=>{const a=area(l.a);h+=`<button class="lcard ${s[l.id]?"seen":""}" style="--ac:${col(a.c)}" onclick="go('#l-${l.id}')"><div style="font-size:28px">${a.icon}</div><div><div class="n mono">LEKTION ${i+1} · ${a.name.toUpperCase()}</div><h4>${l.title}</h4><p>${l.sub}</p></div><span class="chk">${s[l.id]?"✓":"▶"}</span></button>`});
+ return h+"</div>"}
+function viewArea(aid){const a=area(aid);if(!a)return viewHome();const s=seen(),ps=PLAN.filter(p=>p.a===aid);
+ let h=`<button class="back" onclick="go('#start')">← Startseite</button><div class="ahead" style="--ac:${col(a.c)}"><div class="ico">${a.icon}</div><h2>${a.name}</h2><p><b class="mono" style="color:var(--ac)">${a.yrs}</b> · ${a.desc}</p></div><div class="list">`;
+ let k=0;ps.forEach(p=>{if(p.id){k++;h+=`<button class="lcard ${s[p.id]?"seen":""}" style="--ac:${col(a.c)}" onclick="go('#l-${p.id}')"><div><div class="n mono">LEKTION ${k} · ${p.yr}</div><h4>${p.title}</h4><p>${p.who}</p></div><span class="chk">${s[p.id]?"✓":"▶"}</span></button>`}
+  else h+=`<div class="lcard soon" style="--ac:${col(a.c)}"><div><div class="n mono">BALD · ${p.yr}</div><h4>${p.title}</h4><p>${p.who}</p></div><span class="chk">⏳</span></div>`});
+ return h+"</div>"}
+function viewLesson(id){const l=lesson(id);if(!l)return viewHome();const a=area(l.a);markSeen(id);const i=L.indexOf(l),prev=L[i-1],next=L[i+1];
+ return `<div style="--ac:${col(a.c)}"><button class="back" onclick="go('#b-${a.id}')">← ${a.name}</button>
+ <div class="lh"><div class="n mono">${a.icon} ${a.name.toUpperCase()} · ERFINDUNG NR. ${nrOf(id)}</div><h2>${l.title}</h2><p style="margin:2px 0 0;color:var(--mut);font-size:13px">${l.sub}</p></div>
+ <div class="player"><div class="stage"><svg id="svg" viewBox="0 0 360 220" xmlns="http://www.w3.org/2000/svg"></svg></div>
+ <div class="ctrl"><div class="row"><button class="pbtn main" id="pp" aria-label="Abspielen/Pause">❚❚</button><input type="range" id="rng" min="0" max="1000" value="0" aria-label="Spulen"><button class="pbtn" id="rs" aria-label="Neustart">↺</button></div>
+ <div class="row" style="margin-top:8px;justify-content:space-between"><div class="speeds"><button class="pbtn" data-s="0.5">½×</button><button class="pbtn" data-s="1">1×</button><button class="pbtn" data-s="2">2×</button></div><span class="mono" style="font-size:11px;color:var(--mut)">Schritte</span></div>
+ <div class="steps">${l.steps.map((_,k)=>`<button>${k+1}</button>`).join("")}</div></div></div>
+ <div class="stxt"><div class="k mono" id="sk">SCHRITT 1 / ${l.steps.length}</div><p id="st">${l.steps[0]}</p></div>
+ <div class="info"><div class="ibox" style="--c:var(--blue)"><b class="mono">WAS IST DAS?</b><p>${l.info.was}</p></div>
+ <div class="ibox" style="--c:var(--green)"><b class="mono">SO FUNKTIONIERT'S</b><p>${l.info.so}</p></div>
+ <div class="ibox" style="--c:var(--gold)"><b class="mono">WAS HAT ES VERÄNDERT?</b><p>${l.info.bed}</p></div>
+ <div class="ibox" style="--c:var(--red)"><b class="mono">TIPP</b><p>${l.info.tipp}</p></div></div>
+ <div class="nav2"><button ${prev?"":"disabled"} onclick="go('#l-${prev?prev.id:""}')"><small>← Zurück</small>${prev?prev.title:"–"}</button>
+ <button class="r" ${next?"":"disabled"} onclick="go('#l-${next?next.id:""}')"><small>Weiter →</small>${next?next.title:"–"}</button></div></div>`}
+
+/* ---------- Quiz ---------- */
+let quiz=null;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function newQuiz(){quiz={qs:shuffle(Q).slice(0,10).map(q=>({...q,opts:shuffle(q.a.map((t,i)=>({t,ok:i===0})))})),i:0,pts:0,wrong:[],answered:false}}
+function viewQuiz(){if(!quiz)newQuiz();const z=quiz,n=z.qs.length;const back=`<button class="back" onclick="go('#start')">← Startseite</button>`;
+ if(z.i>=n){const best=Math.max(store.get("best",0)||0,z.pts);store.set("best",best);const rep=[...new Set(z.wrong)].map(lesson);
+  return `<div style="--ac:var(--cyan)">${back}<div class="qcard" style="text-align:center"><div class="kicker mono">ERGEBNIS</div><div class="score mono">${z.pts} / ${n}</div><p style="color:var(--mut);margin:0">Bestwert: ${best} / ${n}</p>
+  ${rep.length?`<p style="margin:16px 0 0;text-align:left;font-weight:700">Diese Lektionen solltest du wiederholen:</p><ul class="rep">${rep.map(l=>`<li><button onclick="go('#l-${l.id}')">${area(l.a).icon} ${l.title}</button></li>`).join("")}</ul>`:`<p style="margin-top:14px">Alles richtig – stark! 🏆</p>`}
+  <div class="qbtns"><button class="main" onclick="newQuiz();route()">Neues Quiz</button><button onclick="go('#start')">Zurück</button></div></div></div>`}
+ const q=z.qs[z.i];const img=q.img?lesson(q.img):null;
+ return `<div style="--ac:var(--cyan)">${back}<div class="qcard"><div class="qtop mono"><span>FRAGE ${z.i+1} / ${n}</span><span>Punkte: ${z.pts}</span></div><div class="prog" style="margin:0 0 10px"><i style="width:${z.i/n*100}%"></i></div>
+ ${img?`<div class="qimg">${svgWrap(renderScene(img.els,q.st*D+3.6))}</div>`:""}
+ <h3>${q.q}</h3><div class="opts">${q.opts.map((o,k)=>`<button class="opt" data-k="${k}">${o.t}</button>`).join("")}</div><div id="fb"></div></div></div>`}
+function bindQuiz(){const z=quiz;if(!z||z.i>=z.qs.length)return;const q=z.qs[z.i],n=z.qs.length;
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(z.answered)return;z.answered=true;const o=q.opts[+b.dataset.k];
+  if(o.ok)z.pts++;else z.wrong.push(q.l);
+  document.querySelectorAll(".opt").forEach((x,k)=>{if(q.opts[k].ok)x.classList.add("ok");else if(x===b)x.classList.add("no")});
+  $("#fb").innerHTML=`<div class="fb"><b class="${o.ok?"ok":"no"}">${o.ok?"✓ Richtig!":"✗ Leider falsch."}</b> ${q.ex}</div>
+  <div class="qbtns"><button onclick="go('#l-${q.l}')">📖 Zur Lektion</button><button class="main" id="nx">${z.i<n-1?"Nächste Frage →":"Ergebnis anzeigen"}</button></div>`;
+  $("#nx").onclick=()=>{z.i++;z.answered=false;route();window.scrollTo(0,0)}})}
+
+/* ---------- Seitenleiste (PC) ---------- */
+function renderSide(cur){const s=seen(),qv=(store._q||"").toLowerCase();
+ let h=`<div class="brand" onclick="go('#start')"><div class="logo" style="background:linear-gradient(135deg,var(--gold),var(--orange))">💡</div><div><b class="mono">ERFINDER-SCHULE</b><small>${L.filter(l=>s[l.id]).length}/${L.length} gesehen</small></div></div>
+ <input id="sq" placeholder="🔍 Erfindung suchen …" value="${esc(store._q||"")}"><button class="si ${cur==="top"?"on":""}" onclick="go('#top')">🏆 Die 5 größten Erfindungen</button>`;
+ AREAS.forEach(a=>{const ps=PLAN.filter(p=>p.a===a.id&&(!qv||(p.title+" "+p.who+" "+p.yr+" "+(p.id?lesson(p.id).steps.join(" "):"")).toLowerCase().includes(qv)));if(!ps.length)return;
+  h+=`<div class="sg mono" style="color:${col(a.c)}">${a.icon} ${a.name.toUpperCase()}</div>`;
+  ps.forEach(p=>h+=p.id?`<button class="si ${cur===p.id?"on":""}" onclick="go('#l-${p.id}')">${p.title}<span class="d">${s[p.id]?"✓":""}</span></button>`:`<button class="si" style="color:var(--mut)" onclick="go('#b-${a.id}')">${p.title}<span class="d">bald</span></button>`)});
+ h+=`<div class="sg mono" style="color:var(--cyan)">🎯 QUIZ</div><button class="si ${cur==="quiz"?"on":""}" onclick="go('#quiz')">Quiz starten</button>`;
+ $("#side").innerHTML=h;const inp=$("#sq");inp.oninput=()=>{store._q=inp.value;const pos=inp.selectionStart;renderSide(cur);const n=$("#sq");n.focus();n.setSelectionRange(pos,pos)}}
+
+/* ---------- Routing ---------- */
+function route(){stopPlayer();const h=location.hash||"#start";const m=h.slice(1);let cur="";const v=$("#view");
+ if(m==="top"){v.innerHTML=viewTop();cur="top"}
+ else if(m.startsWith("b-")){v.innerHTML=viewArea(m.slice(2))}
+ else if(m.startsWith("l-")){const id=m.slice(2);v.innerHTML=viewLesson(id);cur=id;const l=lesson(id);if(l)startPlayer(l)}
+ else if(m==="quiz"){v.innerHTML=viewQuiz();bindQuiz();cur="quiz"}
+ else v.innerHTML=viewHome();
+ renderSide(cur);if(route._last!==h)window.scrollTo(0,0);route._last=h}
+window.addEventListener("hashchange",()=>{if(quiz&&quiz.i>=quiz.qs.length)quiz=null;route()});
+route();
+if("serviceWorker"in navigator&&location.protocol==="https:"&&!/claude|anthropic|usercontent/.test(location.host)){navigator.serviceWorker.register("sw.js").catch(()=>{})}
+
+</script>
+</body>
+</html>
