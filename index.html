@@ -159,7 +159,7 @@ footer{margin-top:26px;color:var(--mut);font-size:11.5px;text-align:center}
    </div>
   </header>
   <div id="view"></div>
-  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1: Die 5 größten Erfindungen</footer>
+  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1 + 2 · 10 Erfindungen</footer>
  </main>
 </div>
 <script>
@@ -444,6 +444,152 @@ const Q=[
  {q:"Welche Reihenfolge stimmt?",a:["Buchdruck → Telefon → Glühbirne → Automobil","Telefon → Buchdruck → Automobil → Glühbirne","Glühbirne → Telefon → Buchdruck → Automobil","Automobil → Glühbirne → Telefon → Buchdruck"],l:"buchdruck",ex:"1450 → 1876 → 1879 → 1886."}
 ];
 
+/* ---------- Paket 2 ---------- */
+(function(){const ids={25:"toilette",37:"roentgen",38:"penicillin",42:"z3",24:"flugzeug"};PLAN.forEach(p=>{if(ids[p.nr])p.id=ids[p.nr]})})();
+const WC=`<rect x="60" y="40" width="72" height="36" rx="5" style="fill:var(--panel2);stroke:var(--tx);stroke-width:2"/><rect x="90" y="76" width="12" height="52" style="fill:var(--panel2);stroke:var(--tx);stroke-width:2"/><path d="M50,128 L150,128 Q150,176 110,182 L92,182 Q50,176 50,128 Z" style="fill:var(--panel2);stroke:var(--tx);stroke-width:2"/><rect x="66" y="184" width="70" height="12" rx="3" style="fill:var(--panel2);stroke:var(--tx);stroke-width:2"/>`;
+const ROEHRE=`<ellipse cx="145" cy="100" rx="85" ry="32" style="fill:var(--glass);fill-opacity:.45;stroke:var(--cyan);stroke-width:2"/><rect x="50" y="94" width="22" height="12" style="fill:var(--mut)"/><rect x="218" y="94" width="22" height="12" style="fill:var(--mut)"/>`;
+const HAND=[[150,180,140,128],[166,182,160,120],[182,182,182,116],[198,182,204,120],[208,186,226,150],[140,124,132,72],[160,116,156,58],[182,112,182,54],[204,116,210,64],[226,146,240,114]];
+const DOPPEL=`<g style="stroke:var(--tx);stroke-width:2"><line x1="120" y1="88" x2="120" y2="110"/><line x1="170" y1="88" x2="170" y2="110"/><line x1="220" y1="88" x2="220" y2="110"/><line x1="260" y1="88" x2="260" y2="110"/><line x1="72" y1="99" x2="100" y2="99"/><line x1="260" y1="99" x2="300" y2="99"/></g>
+<rect x="100" y="80" width="170" height="8" rx="3" style="fill:var(--body);stroke:var(--gold);stroke-width:1.5"/><rect x="100" y="110" width="170" height="8" rx="3" style="fill:var(--body);stroke:var(--gold);stroke-width:1.5"/>
+<rect x="44" y="96" width="30" height="6" rx="2" style="fill:var(--body);stroke:var(--gold)"/><rect x="298" y="84" width="6" height="32" rx="2" style="fill:var(--body);stroke:var(--gold)"/><rect x="176" y="98" width="18" height="12" rx="2" style="fill:var(--gold)"/>`;
+function petri(s){const o=[C(s,140,115,80,"panel2",1,{st:"mut",e:2})];let k=0;
+ for(let y=50;y<185;y+=13)for(let x=72;x<212;x+=13){const xx=x+((y*7)%6),dx=xx-140,dy=y-115;if(dx*dx+dy*dy>70*70)continue;const mx=xx-172,my=y-92;if(mx*mx+my*my<40*40)continue;o.push(C(s,xx,y,3,"violet",.85,{d:.01*k++,e:2}))}
+ o.push(C(s,172,92,38,"cyan",.13,{d:.9,e:2}),C(s,172,92,15,"green",.9,{d:.6,e:2}));return o}
+
+L.push(
+{id:"toilette",a:"haushalt",title:"Die Spültoilette",sub:"1596 John Harington · 1775 Alexander Cumming",
+ steps:["Früher gab es Nachttöpfe und Plumpsklos. In vielen Städten wurde der Inhalt einfach auf die Straße gekippt. Es stank – und Krankheiten wie Cholera verbreiteten sich.",
+ "1596 baut John Harington, ein Patenkind von Königin Elisabeth I., ein Wasserklosett mit Spülkasten. Wasser spült alles weg. Doch nur wenige Menschen bekommen so ein WC.",
+ "1775 meldet der Londoner Uhrmacher Alexander Cumming den S-förmigen Geruchsverschluss zum Patent an. Im Bogen bleibt immer etwas Wasser stehen – das hält den Gestank aus dem Abwasserrohr zurück.",
+ "Im 19. Jahrhundert bauen die Städte eine Kanalisation: Rohre unter der Straße bringen das Abwasser weg. Hamburg beginnt 1843 als erste deutsche Stadt mit einem modernen Kanalnetz.",
+ "Heute hat fast jede Toilette einen Spülkasten mit zwei Tasten: rund 6 Liter für die große Spülung und rund 3 Liter für die Spartaste. Am 19. November ist Welttoilettentag – viele Menschen auf der Welt haben noch keine sichere Toilette."],
+ els:[P(0,180,24,"Vorher: Nachttopf & Plumpsklo","mut",{e:1}),E(0,80,98,"🪣",40,{e:1}),T(0,80,146,"Nachttopf","mut",10,{e:1}),E(0,180,98,"🏚️",40,{e:1}),T(0,180,146,"Plumpsklo","mut",10,{e:1}),E(0,280,98,"🦠",40,{e:1}),T(0,280,146,"Krankheiten","red",10,{b:1,e:1}),P(0,180,192,"Abwasser auf der Straße","red",{e:1}),
+ RAW(1,WC,{e:2}),FL(1,[[96,46],[96,126]],"cyan",{n:4,dur:1,e:2}),P(1,262,40,"1596 · John Harington","gold",{e:2}),T(1,262,84,"Wasserklosett","tx",12,{b:1,e:2}),T(1,262,102,"mit Spülkasten","mut",10,{e:2}),T(1,262,128,"für Königin","mut",10,{e:2}),T(1,262,144,"Elisabeth I.","mut",10,{e:2}),
+ P(2,180,24,"1775 · Alexander Cumming","gold",{e:3}),PATH(2,"M70,44 L70,110 Q70,160 120,160 Q170,160 170,110 Q170,80 200,80 L330,80","mut",{w:14,e:3}),PATH(2,"M70,112 Q70,160 120,160 Q170,160 170,112","cyan",{w:9,d:.8,e:3}),
+ T(2,120,196,"Wasser bleibt stehen","cyan",10.5,{b:1,d:.8,e:3}),T(2,265,108,"Abwasserrohr","mut",10,{e:3}),T(2,265,136,"Gestank bleibt draußen","green",10.5,{b:1,d:1.2,e:3}),
+ P(3,180,24,"Kanalisation in den Städten","cyan",{e:4}),...[60,140,220].flatMap((x,i)=>[E(3,x,78,"🏠",28,{d:.2*i,e:4}),Ln(3,x,96,x,150,"mut",{w:4,d:.2*i,e:4})]),Ln(3,24,150,330,150,"mut",{w:8,e:4}),FL(3,[[24,150],[330,150]],"orange",{n:6,dur:3,e:4}),
+ E(3,300,118,"🏭",26,{e:4}),T(3,300,178,"Klärwerk","mut",9.5,{e:4}),T(3,130,184,"Hamburg ab 1843","gold",10.5,{b:1,e:4}),
+ P(4,180,24,"Heute: Spülen mit Spartaste","cyan"),R(4,80,62,90,70,"blue",.18,{r:14,st:"blue"}),T(4,125,104,"6 L","blue",20,{b:1,m:1}),T(4,125,150,"große Taste","mut",10),R(4,190,62,90,70,"green",.18,{r:14,st:"green",d:.3}),T(4,235,104,"3 L","green",20,{b:1,m:1,d:.3}),T(4,235,150,"Spartaste","mut",10,{d:.3}),P(4,180,192,"19. November: Welttoilettentag","gold")],
+ info:{was:"Die Spültoilette (Wasserklosett, WC) spült Ausscheidungen mit Wasser in ein Abwasserrohr. Wichtig sind Spülkasten, Geruchsverschluss und Kanalisation.",
+ so:"Unter jeder Toilette liegt ein gebogenes Rohr. Das Wasser, das darin stehen bleibt, ist eine Sperre für die Gase aus dem Kanal.",
+ bed:"Sauberes Abwasser-System = weniger Krankheiten. Toiletten und Kanalisation haben wahrscheinlich mehr Leben gerettet als viele Medikamente.",
+ tipp:"Rechne: Wer 4-mal am Tag die Spartaste (3 L) statt der großen Taste (6 L) drückt, spart 12 Liter Wasser am Tag – über 4.000 Liter im Jahr."}},
+{id:"roentgen",a:"medizin",title:"Die Röntgenstrahlen",sub:"8. November 1895 · Wilhelm Conrad Röntgen · Würzburg",
+ steps:["Der Physiker Wilhelm Conrad Röntgen experimentiert in Würzburg mit einer Glasröhre. An ihren Enden liegt Hochspannung – in der Röhre fliegen Elektronen.",
+ "Am 8. November 1895 deckt er die Röhre mit schwarzem Karton ab. Trotzdem leuchtet ein Leuchtschirm im Raum. Unsichtbare Strahlen gehen durch den Karton! Er nennt sie „X-Strahlen“.",
+ "Am 22. Dezember 1895 macht er eine Aufnahme von der Hand seiner Frau Anna Bertha. Man sieht die Knochen und den Ehering. Knochen und Metall schlucken mehr Strahlen als Haut und Muskeln.",
+ "Röntgen meldet kein Patent an – seine Entdeckung soll allen Menschen nützen. 1901 bekommt er den allerersten Nobelpreis für Physik.",
+ "Heute helfen Röntgenstrahlen beim Arzt, beim Zahnarzt und bei der Gepäckkontrolle am Flughafen. Der Computertomograph (CT) macht daraus 3D-Bilder – auch von Gussteilen in der Industrie."],
+ els:[RAW(0,ROEHRE,{e:2}),T(0,40,84,"−","red",20,{b:1,e:2}),T(0,250,84,"+","blue",20,{b:1,e:2}),FL(0,[[72,100],[218,100]],"violet",{n:6,dur:1,e:1}),P(0,180,24,"Würzburg · Glasröhre","cyan",{e:1}),P(0,145,170,"Hochspannung ⚡","gold",{e:1}),
+ R(1,40,58,220,84,"ink",.94,{r:6,st:"mut",e:2}),T(1,150,104,"schwarzer Karton","mut",10,{b:1,e:2}),...[80,100,120].map((y,i)=>Ln(1,262,y,296,y+(i-1)*6,"violet",{w:2,dash:"4 3",d:.5,e:2})),
+ R(1,298,52,40,96,"green",.75,{r:4,d:.8,e:2}),RING(1,318,100,30,"green",{d:.8,e:2}),T(1,318,166,"Leuchtschirm","green",10,{b:1,d:.8,e:2}),P(1,180,24,"8. November 1895","gold",{e:2}),P(1,150,196,"unbekannte X-Strahlen","violet",{d:1,e:2}),
+ R(2,110,40,140,170,"ink",.95,{r:8,e:3}),R(2,134,118,84,72,"#8a99b3",.35,{r:16,e:3}),...HAND.slice(4).map(([a,b,c,d])=>Ln(2,a,b,c+(c-a)*.12,d+(d-b)*.12,"#8a99b366",{w:18,e:3})),...HAND.map(([a,b,c,d],i)=>Ln(2,a,b,c,d,"white",{w:6,d:.06*i,e:3})),C(2,182,84,7,"gold",0,{st:"gold",d:.9,e:3}),
+ T(2,55,100,"Knochen","tx",10,{b:1,e:3}),T(2,55,114,"schlucken","mut",9.5,{e:3}),T(2,55,128,"mehr Strahlen","mut",9.5,{e:3}),T(2,305,92,"22.12.1895","gold",11,{b:1,m:1,e:3}),T(2,305,110,"Hand von","mut",9.5,{e:3}),T(2,305,124,"Anna Bertha","mut",9.5,{e:3}),T(2,305,142,"mit Ehering","gold",9.5,{b:1,e:3}),
+ P(3,180,24,"Wilhelm Conrad Röntgen","blue",{e:4}),E(3,90,92,"🏅",40,{e:4}),T(3,90,140,"1901: erster","gold",11,{b:1,e:4}),T(3,90,156,"Nobelpreis Physik","gold",11,{b:1,e:4}),R(3,190,70,150,80,"green",.12,{r:12,st:"green",e:4}),T(3,265,104,"kein Patent","green",13,{b:1,e:4}),T(3,265,124,"Entdeckung für alle","mut",10,{e:4}),
+ E(4,60,76,"🏥",30),T(4,60,112,"Arzt","mut",10),E(4,140,76,"🦷",30,{d:.2}),T(4,140,112,"Zahnarzt","mut",10,{d:.2}),E(4,220,76,"🧳",30,{d:.4}),T(4,220,112,"Flughafen","mut",10,{d:.4}),
+ C(4,300,82,26,"panel2",1,{st:"cyan",d:.6}),RING(4,300,82,34,"cyan",{d:.6}),T(4,300,87,"CT","cyan",13,{b:1,m:1,d:.6}),T(4,300,130,"Gussteile prüfen","mut",9.5,{d:.6}),P(4,180,186,"Blick ins Innere – ohne Aufschneiden","green")],
+ info:{was:"Röntgenstrahlen sind unsichtbare, sehr energiereiche Strahlen. Sie gehen durch viele Stoffe hindurch – unterschiedlich gut, je nach Dichte.",
+ so:"Wo viel Strahlung ankommt, wird das Bild dunkel. Dichte Stoffe wie Knochen oder Metall schlucken mehr Strahlung und erscheinen hell.",
+ bed:"Zum ersten Mal konnten Ärzte in den Körper schauen, ohne zu operieren. Heute prüft man damit auch Bauteile, Koffer und Kunstwerke.",
+ tipp:"Auf Englisch heißen sie bis heute „X-rays“ – nach Röntgens eigenem Namen „X-Strahlen“. Mehr zur Technik findest du in der CT-Schule."}},
+{id:"penicillin",a:"medizin",title:"Das Penicillin",sub:"1928 · Alexander Fleming · London",
+ steps:["Früher konnte schon eine kleine, entzündete Wunde lebensgefährlich sein. Gegen viele Bakterien gab es kein wirksames Mittel.",
+ "Im September 1928 kommt Alexander Fleming in London aus dem Urlaub zurück. Auf einer Petrischale mit Bakterien wächst Schimmel – und rund um den Pilz sind die Bakterien verschwunden!",
+ "Fleming erkennt: Der Schimmelpilz bildet einen Stoff, der Bakterien tötet. Er nennt ihn Penicillin und veröffentlicht 1929 einen Bericht. Doch den Stoff in größeren Mengen herzustellen, gelingt ihm nicht.",
+ "Ab 1939 reinigen Howard Florey und Ernst Chain in Oxford das Penicillin. 1941 wird der erste Patient behandelt. Im Zweiten Weltkrieg beginnt in den USA die Massenproduktion. 1945 bekommen alle drei den Nobelpreis.",
+ "Penicillin war das erste Antibiotikum. Antibiotika retten seitdem Millionen Leben. Wichtig: Sie wirken nur gegen Bakterien, nicht gegen Viren – und man nimmt sie nur so, wie es der Arzt sagt."],
+ els:[P(0,180,24,"Vorher: Bakterien sind gefährlich","mut",{e:1}),...Array.from({length:30},(_,i)=>C(0,50+((i*53)%260),50+((i*37)%110),5,"violet",.85,{d:.03*i,e:1})),T(0,180,188,"kleine Wunde → gefährliche Entzündung","red",10.5,{b:1,e:1}),
+ P(1,180,24,"London · September 1928","gold",{e:2}),...petri(1),T(1,296,68,"Schimmelpilz","green",11,{b:1,d:.6,e:2}),T(1,296,86,"Penicillium","mut",9.5,{d:.6,e:2}),T(1,296,128,"heller Ring:","cyan",11,{b:1,d:.9,e:2}),T(1,296,146,"keine Bakterien","mut",9.5,{d:.9,e:2}),
+ P(2,180,24,"Der Wirkstoff","gold",{e:3}),E(2,92,100,"👨‍🔬",44,{e:3}),T(2,92,150,"Alexander Fleming","gold",11,{b:1,e:3}),R(2,180,66,166,80,"gold",.1,{r:12,st:"gold",e:3}),T(2,263,92,"Name: Penicillin","tx",11,{b:1,e:3}),T(2,263,112,"1929 veröffentlicht","mut",10,{e:3}),T(2,263,132,"Herstellen? Zu schwierig","red",9.5,{b:1,e:3}),
+ P(3,180,24,"Oxford · Florey & Chain","blue",{e:4}),E(3,60,88,"⚗️",32,{e:4}),A(3,88,88,136,88,"mut",{d:.3,e:4}),E(3,180,88,"🏭",32,{d:.4,e:4}),A(3,208,88,256,88,"mut",{d:.7,e:4}),E(3,300,88,"💉",32,{d:.8,e:4}),
+ T(3,60,128,"reinigen","mut",10,{e:4}),T(3,180,128,"Massenproduktion","mut",10,{d:.4,e:4}),T(3,300,128,"1941: 1. Patient","mut",10,{d:.8,e:4}),P(3,180,186,"1945: Nobelpreis für alle drei","gold",{d:1.2,e:4}),
+ E(4,90,94,"💊",44),T(4,90,144,"Antibiotika","green",12,{b:1}),T(4,90,160,"retten Millionen Leben","mut",9.5),R(4,190,58,156,100,"red",.1,{r:12,st:"red"}),T(4,268,84,"⚠ Wichtig","red",11,{b:1}),T(4,268,104,"nur nach Anweisung","tx",10),T(4,268,120,"vom Arzt","tx",10),T(4,268,140,"nicht gegen Viren","mut",9.5),P(4,180,194,"Resistenzen vermeiden","violet")],
+ info:{was:"Penicillin ist ein Wirkstoff aus einem Schimmelpilz, der Bakterien abtötet. Es war das erste Antibiotikum der Welt.",
+ so:"Um den Schimmelpilz bildete sich ein heller Ring, in dem keine Bakterien wuchsen – so erkannte Fleming die Wirkung.",
+ bed:"Lungenentzündung, Wundinfektionen oder Blutvergiftung durch Bakterien wurden behandelbar. Viele Operationen sind erst mit Antibiotika sicher möglich.",
+ tipp:"Werden Antibiotika zu oft oder falsch genommen, werden Bakterien unempfindlich – man nennt das Resistenz. Darum: Antibiotika nur nach Anweisung vom Arzt und immer so lange wie verordnet."}},
+{id:"z3",a:"computer",title:"Der Computer Z3",sub:"12. Mai 1941 · Konrad Zuse · Berlin",
+ steps:["Früher rechneten Ingenieure lange Tabellen von Hand, mit dem Rechenschieber oder mit mechanischen Rechenmaschinen. Der Bauingenieur Konrad Zuse findet das langweilig – er will eine Maschine, die selbst rechnet.",
+ "1938 baut Zuse in der Wohnung seiner Eltern in Berlin die Z1. Sie ist rein mechanisch, aus vielen Blechteilen – und macht oft Fehler.",
+ "Am 12. Mai 1941 stellt er die Z3 vor: den ersten funktionsfähigen, frei programmierbaren und vollautomatischen Computer der Welt. Sie hat rund 2.600 Relais und rechnet im Binärsystem – nur mit 0 und 1.",
+ "Das Programm steckt in Löchern auf einem alten Kinofilm-Streifen. Eine Multiplikation dauert etwa 3 Sekunden.",
+ "1943 wird die Z3 bei einem Bombenangriff zerstört. Ein Nachbau steht im Deutschen Museum in München. Heute rechnet jedes Smartphone Milliarden Mal pro Sekunde."],
+ els:[P(0,180,24,"Vorher: Rechnen dauert","mut",{e:1}),E(0,70,94,"✏️",36,{e:1}),T(0,70,140,"von Hand","mut",10,{e:1}),E(0,180,94,"📏",36,{e:1}),T(0,180,140,"Rechenschieber","mut",10,{e:1}),E(0,290,94,"🧮",36,{e:1}),T(0,290,140,"Rechenmaschine","mut",10,{e:1}),P(0,180,190,"Konrad Zuse will das ändern","gold",{e:1}),
+ P(1,180,24,"1938: Z1 in Berlin","cyan",{e:2}),SPIN(1,110,110,36,"mut",{sp:.3,e:2}),SPIN(1,168,92,22,"mut",{sp:-.5,e:2}),SPIN(1,162,148,18,"mut",{sp:.6,e:2}),T(1,276,92,"mechanisch","tx",12,{b:1,e:2}),T(1,276,112,"viele Blechteile","mut",10,{e:2}),T(1,276,132,"oft Fehler","red",10,{b:1,e:2}),
+ P(2,180,24,"12. Mai 1941: Z3","gold",{e:3}),...Array.from({length:40},(_,i)=>R(2,22+(i%8)*20,50+Math.floor(i/8)*20,14,14,"gold",.9,{r:2,bl:.5+(i%3)*.2,ph:i*.13,d:.02*i,e:3})),
+ T(2,272,72,"≈ 2.600 Relais","tx",12,{b:1,m:1,e:3}),T(2,272,110,"5 = 101","cyan",18,{b:1,m:1,d:.6,e:3}),T(2,272,132,"Binärsystem: 0 und 1","mut",9.5,{d:.6,e:3}),P(2,180,184,"frei programmierbar & vollautomatisch","green",{d:1,e:3}),
+ P(3,180,24,"Programm auf altem Kinofilm","violet",{e:4}),R(3,20,70,320,60,"ink",.92,{r:4,e:4}),...Array.from({length:16},(_,i)=>R(3,26+i*20,74,10,6,"mut",.9,{r:1,e:4})),...Array.from({length:16},(_,i)=>R(3,26+i*20,120,10,6,"mut",.9,{r:1,e:4})),
+ ...Array.from({length:24},(_,i)=>C(3,32+i*13,92+((i*5)%3)*8,3.2,"white",1,{d:.05*i,e:4})),T(3,180,156,"Löcher = Befehle","tx",11,{b:1,e:4}),T(3,180,176,"Multiplikation: ≈ 3 Sekunden","mut",10,{e:4}),
+ R(4,16,52,156,90,"mut",.12,{r:12,st:"mut"}),T(4,94,82,"Z3 · 1941","tx",12,{b:1}),T(4,94,104,"wenige Rechnungen","mut",9.5),T(4,94,118,"pro Sekunde","mut",9.5),R(4,188,52,156,90,"cyan",.12,{r:12,st:"cyan",d:.4}),T(4,266,82,"Smartphone","cyan",12,{b:1,d:.4}),T(4,266,104,"Milliarden Rechnungen","mut",9.5,{d:.4}),T(4,266,118,"pro Sekunde","mut",9.5,{d:.4}),P(4,180,180,"1943 zerstört · Nachbau im Deutschen Museum","gold",{d:.8})],
+ info:{was:"Die Z3 von Konrad Zuse gilt als erster funktionsfähiger, frei programmierbarer, vollautomatischer Digitalrechner – also der erste echte Computer.",
+ so:"Ein Computer rechnet mit nur zwei Zuständen: 0 und 1 (aus und an). Bei der Z3 schalteten dafür Relais – kleine elektrische Schalter, die klickten.",
+ bed:"Aus Zuses Idee wurden Großrechner, PCs, Laptops und Smartphones. Fast alles in unserem Alltag läuft heute mit Computern.",
+ tipp:"Rechne im Binärsystem: 1 = 1, 10 = 2, 11 = 3, 100 = 4, 101 = 5, 110 = 6. Mehr dazu in der Computer-Schule."}},
+{id:"flugzeug",a:"verkehr",title:"Das Motorflugzeug",sub:"17. Dezember 1903 · Gebrüder Wright · Kitty Hawk",
+ steps:["Der Traum vom Fliegen ist uralt. 1783 steigen in Frankreich die ersten Heißluftballons auf. Ab 1891 macht Otto Lilienthal bei Berlin über 2.000 Gleitflüge – er zeigt, dass Flügel Menschen tragen können.",
+ "Die Brüder Orville und Wilbur Wright haben eine Fahrradwerkstatt in Dayton (USA). Sie bauen einen eigenen Windkanal und testen darin viele Flügelformen.",
+ "So fliegt ein Flugzeug: Der gewölbte Flügel lenkt die Luft nach unten, über dem Flügel entsteht Unterdruck. Das ergibt Auftrieb – eine Kraft nach oben. Ein Motor mit Propellern sorgt für Vortrieb.",
+ "Am 17. Dezember 1903 fliegt Orville Wright bei Kitty Hawk mit dem „Flyer“ – angetrieben von einem selbst gebauten Motor mit rund 12 PS. Der erste Flug dauert 12 Sekunden und geht 36,5 Meter weit.",
+ "Am selben Tag schafft Wilbur schon 59 Sekunden und rund 260 Meter. Heute fliegen jedes Jahr Milliarden Menschen mit dem Flugzeug um die Welt."],
+ els:[P(0,180,24,"Vorher: Ballon & Gleiter","mut",{e:1}),E(0,70,92,"🎈",40,{e:1}),T(0,70,140,"1783: Ballon","mut",10,{e:1}),PATH(0,"M170,60 Q240,90 320,140","gold",{w:2,e:1}),FL(0,[[170,60],[240,95],[320,140]],"gold",{n:1,dur:2.5,r:6,e:1}),
+ T(0,250,172,"Otto Lilienthal: Gleitflüge","gold",10,{b:1,e:1}),T(0,250,188,"ab 1891 · über 2.000 Flüge","mut",9.5,{e:1}),
+ P(1,180,24,"Dayton, Ohio (USA)","gold",{e:2}),E(1,72,86,"👨‍🔧",34,{e:2}),E(1,118,86,"👨‍🔧",34,{e:2}),T(1,95,128,"Orville & Wilbur Wright","gold",10.5,{b:1,e:2}),E(1,95,164,"🚲",26,{e:2}),T(1,95,196,"Fahrradwerkstatt","mut",9.5,{e:2}),
+ R(1,190,64,150,64,"cyan",.1,{r:8,st:"cyan",e:2}),FL(1,[[196,84],[334,84]],"cyan",{n:5,dur:1,e:2}),FL(1,[[196,108],[334,108]],"cyan",{n:5,dur:1,lag:.3,e:2}),T(1,265,150,"eigener Windkanal","cyan",10.5,{b:1,e:2}),
+ PATH(2,"M24,98 Q150,48 336,100","cyan",{w:2,e:3}),PATH(2,"M24,142 Q150,134 336,128","cyan",{w:2,e:3}),RAW(2,`<path d="M80,120 Q150,72 282,112 Q170,124 80,120 Z" style="fill:var(--body);stroke:var(--tx);stroke-width:2"/>`,{e:3}),
+ A(2,180,84,180,40,"green",{d:.6,e:3}),T(2,192,50,"Auftrieb","green",12,{b:1,an:"start",d:.6,e:3}),T(2,180,170,"Luft wird nach unten gelenkt","mut",10,{e:3}),T(2,180,186,"oben entsteht Unterdruck","mut",10,{e:3}),
+ P(3,180,24,"17.12.1903 · Kitty Hawk","gold",{e:4}),RAW(3,DOPPEL,{e:4}),SPIN(3,268,99,12,"tx",{sp:4,e:4}),Ln(3,20,150,340,150,"mut",{w:2,e:4}),A(3,40,168,300,168,"cyan",{d:.5,e:4}),T(3,170,192,"36,5 m in 12 Sekunden","cyan",11,{b:1,m:1,d:.5,e:4}),
+ E(4,90,94,"✈️",44),T(4,90,144,"heute","tx",11,{b:1}),T(4,90,160,"Milliarden Fluggäste im Jahr","mut",9.5),R(4,190,62,150,86,"gold",.12,{r:12,st:"gold"}),T(4,265,88,"am selben Tag:","mut",10),T(4,265,110,"Wilbur: 59 Sek.","gold",12,{b:1}),T(4,265,130,"≈ 260 m","gold",12,{b:1,m:1}),P(4,180,194,"Der Traum vom Fliegen wird wahr","green")],
+ info:{was:"Ein Motorflugzeug ist schwerer als Luft und fliegt mit eigenem Motor. Als erster gesteuerter Motorflug gilt der Flug der Gebrüder Wright am 17. Dezember 1903.",
+ so:"Flügel erzeugen Auftrieb, der Motor mit Propeller erzeugt Vortrieb. Die Wrights konnten ihr Flugzeug außerdem sicher steuern – das war ihr großer Vorsprung.",
+ bed:"Reisen über Ozeane dauern heute Stunden statt Wochen. Das Flugzeug verbindet Länder, Familien und den Welthandel.",
+ tipp:"Rechne: 36,5 m in 12 Sekunden sind rund 3 Meter pro Sekunde – kaum schneller als ein Jogger. Mehr zum Fliegen findest du in der Flug-Schule."}}
+);
+
+Q.push(
+ {q:"Wer baute 1596 ein Wasserklosett mit Spülkasten?",a:["John Harington","Thomas Edison","Alexander Fleming","Carl Benz"],l:"toilette",ex:"Harington war ein Patenkind von Königin Elisabeth I."},
+ {q:"Was meldete Alexander Cumming 1775 zum Patent an?",a:["Den S-förmigen Geruchsverschluss","Das Toilettenpapier","Den Wasserhahn","Die Badewanne"],l:"toilette",ex:"Im gebogenen Rohr bleibt Wasser stehen – das hält den Gestank zurück."},
+ {q:"Warum bleibt im Geruchsverschluss Wasser stehen?",a:["Es hält den Gestank aus dem Abwasserrohr zurück","Damit die Toilette schwerer ist","Damit man es trinken kann","Damit es wärmer bleibt"],l:"toilette",ex:"Das Wasser ist eine Sperre für die Kanalgase."},
+ {q:"Was ist hier zu sehen?",img:"toilette",st:2,a:["Ein Geruchsverschluss (Siphon)","Eine Wasserrutsche","Ein Gartenschlauch","Eine Achterbahn"],l:"toilette",ex:"Das S-förmige Rohr unter der Toilette."},
+ {q:"Rechne: 20 Spülungen am Tag mit 6 Litern statt mit der 3-Liter-Spartaste. Wie viel Wasser ist das mehr?",a:["60 Liter","20 Liter","120 Liter","30 Liter"],l:"toilette",ex:"20 × (6 − 3) = 60 Liter."},
+ {q:"Wann ist Welttoilettentag?",a:["19. November","1. Mai","24. Dezember","3. Oktober"],l:"toilette",ex:"Die Vereinten Nationen erinnern daran, dass viele Menschen keine sichere Toilette haben."},
+ {q:"Welche deutsche Stadt begann 1843 mit einer modernen Kanalisation?",a:["Hamburg","Landshut","München","Köln"],l:"toilette",ex:"Hamburg war die erste deutsche Stadt mit einem modernen Kanalnetz."},
+ {q:"An welchem Tag entdeckte Röntgen die neuen Strahlen?",a:["8. November 1895","1. Januar 1900","24. Dezember 1876","9. November 1989"],l:"roentgen",ex:"Am 8. November 1895 in Würzburg."},
+ {q:"In welcher Stadt arbeitete Wilhelm Conrad Röntgen bei seiner Entdeckung?",a:["Würzburg","Berlin","Wien","Zürich"],l:"roentgen",ex:"An der Universität Würzburg."},
+ {q:"Wie nannte Röntgen die Strahlen selbst?",a:["X-Strahlen","Y-Strahlen","Lichtstrahlen","Sonnenstrahlen"],l:"roentgen",ex:"X steht für „unbekannt“ – auf Englisch heißen sie bis heute X-rays."},
+ {q:"Was ist hier zu sehen?",img:"roentgen",st:2,a:["Die erste Röntgenaufnahme einer Hand","Ein Baum im Winter","Ein Handschuh","Ein Fingerabdruck"],l:"roentgen",ex:"Die Hand von Anna Bertha Röntgen mit Ehering, 22. Dezember 1895."},
+ {q:"Warum sieht man auf dem Röntgenbild die Knochen?",a:["Knochen schlucken mehr Strahlen als Haut und Muskeln","Knochen leuchten im Dunkeln","Knochen sind magnetisch","Knochen sind durchsichtig"],l:"roentgen",ex:"Dichte Stoffe halten mehr Strahlung auf und erscheinen hell."},
+ {q:"Welchen Preis bekam Röntgen 1901?",a:["Den ersten Nobelpreis für Physik","Einen Oscar","Den Friedensnobelpreis","Eine Olympia-Goldmedaille"],l:"roentgen",ex:"Er war der allererste Physik-Nobelpreisträger."},
+ {q:"Rechne: Röntgen entdeckte die Strahlen 1895. Wie viele Jahre ist das im Jahr 2025 her?",a:["130","120","95","140"],l:"roentgen",ex:"2025 − 1895 = 130 Jahre."},
+ {q:"Wer entdeckte 1928 das Penicillin?",a:["Alexander Fleming","Robert Koch","Louis Pasteur","Wilhelm Conrad Röntgen"],l:"penicillin",ex:"Alexander Fleming in London."},
+ {q:"Woraus stammt Penicillin?",a:["Aus einem Schimmelpilz","Aus Zitronen","Aus Meerwasser","Aus Erdöl"],l:"penicillin",ex:"Der Pilz heißt Penicillium."},
+ {q:"Was sah Fleming um den Schimmelpilz herum?",a:["Einen hellen Ring ohne Bakterien","Einen roten Fleck","Lauter neue Pilze","Gar nichts"],l:"penicillin",ex:"Dort waren die Bakterien abgestorben."},
+ {q:"Was ist hier zu sehen?",img:"penicillin",st:1,a:["Eine Petrischale mit Schimmel und Bakterien","Ein Teller Suppe","Eine Pizza","Der Mond"],l:"penicillin",ex:"Rund um den grünen Pilz wachsen keine Bakterien."},
+ {q:"Wogegen helfen Antibiotika NICHT?",a:["Gegen Viren, zum Beispiel bei einer Erkältung","Gegen Bakterien","Gegen Wundinfektionen durch Bakterien","Gegen Lungenentzündung durch Bakterien"],l:"penicillin",ex:"Antibiotika wirken nur gegen Bakterien."},
+ {q:"Wer bekam 1945 zusammen mit Fleming den Nobelpreis?",a:["Howard Florey und Ernst Chain","Carl und Bertha Benz","Orville und Wilbur Wright","Konrad Zuse und Johannes Gutenberg"],l:"penicillin",ex:"Florey und Chain machten das Penicillin in Oxford als Medikament nutzbar."},
+ {q:"Rechne: 1928 entdeckt, 1941 der erste Patient. Wie viele Jahre liegen dazwischen?",a:["13","3","23","10"],l:"penicillin",ex:"1941 − 1928 = 13 Jahre."},
+ {q:"Wer baute den Computer Z3?",a:["Konrad Zuse","Bill Gates","Steve Jobs","Alan Turing"],l:"z3",ex:"Der Bauingenieur Konrad Zuse aus Berlin."},
+ {q:"Wann stellte Zuse die Z3 vor?",a:["12. Mai 1941","1. Januar 1980","1876","2007"],l:"z3",ex:"Am 12. Mai 1941 in Berlin."},
+ {q:"Mit welchen Ziffern rechnet ein Computer im Binärsystem?",a:["0 und 1","1 bis 10","nur 5","A bis Z"],l:"z3",ex:"Aus und an – 0 und 1."},
+ {q:"Rechne: Wie schreibt man die Zahl 6 im Binärsystem?",a:["110","101","111","100"],l:"z3",ex:"4 + 2 + 0 = 6 → 110."},
+ {q:"Was ist hier zu sehen?",img:"z3",st:2,a:["Relais und Binärzahlen der Z3","Ein Schachbrett","Eine Ampel","Ein Kalender"],l:"z3",ex:"Rund 2.600 Relais schalteten zwischen 0 und 1."},
+ {q:"Worauf war das Programm der Z3 gespeichert?",a:["Auf gelochtem Kinofilm","Auf einem USB-Stick","Auf einer CD","In einer Cloud"],l:"z3",ex:"Die Löcher im Filmstreifen waren die Befehle."},
+ {q:"Wo steht heute ein Nachbau der Z3?",a:["Im Deutschen Museum in München","Im Louvre in Paris","Im Weißen Haus","Im Kölner Dom"],l:"z3",ex:"Das Original wurde 1943 zerstört."},
+ {q:"Wann flogen die Gebrüder Wright zum ersten Mal mit Motor?",a:["17. Dezember 1903","1. Januar 1900","1783","1969"],l:"flugzeug",ex:"Bei Kitty Hawk in den USA."},
+ {q:"Welchen Beruf hatten die Wright-Brüder?",a:["Sie hatten eine Fahrradwerkstatt","Bäcker","Lehrer","Ärzte"],l:"flugzeug",ex:"Sie bauten und reparierten Fahrräder in Dayton."},
+ {q:"Welcher Deutsche machte ab 1891 über 2.000 Gleitflüge?",a:["Otto Lilienthal","Carl Benz","Konrad Zuse","Rudolf Diesel"],l:"flugzeug",ex:"Lilienthal bewies, dass Flügel Menschen tragen können."},
+ {q:"Wie lange dauerte der erste Motorflug von Orville Wright?",a:["12 Sekunden","12 Minuten","2 Stunden","1 Sekunde"],l:"flugzeug",ex:"12 Sekunden für 36,5 Meter."},
+ {q:"Was ist hier zu sehen?",img:"flugzeug",st:2,a:["Wie ein Flügel Auftrieb erzeugt","Wie ein Fisch schwimmt","Ein Regenbogen","Eine Meereswelle"],l:"flugzeug",ex:"Die Luft wird nach unten gelenkt, oben entsteht Unterdruck."},
+ {q:"Rechne: 36,5 m in 12 Sekunden – wie viele Meter pro Sekunde sind das ungefähr?",a:["≈ 3 m/s","≈ 12 m/s","≈ 36 m/s","≈ 0,3 m/s"],l:"flugzeug",ex:"36,5 : 12 ≈ 3 m/s."},
+ {q:"Welche dieser Erfindungen ist am ältesten?",a:["Die Spültoilette (1596)","Die Röntgenstrahlen","Das Penicillin","Der Computer Z3"],l:"toilette",ex:"1596 → 1895 → 1928 → 1941."}
+);
+
+const PAKETE=[
+ {id:"p1",icon:"🏆",name:"Die 5 größten Erfindungen",tag:"PAKET 1",ids:["rad","buchdruck","gluehbirne","telefon","auto"],c:"gold"},
+ {id:"p2",icon:"🚀",name:"Gesundheit, Alltag & Technik",tag:"PAKET 2",ids:["toilette","roentgen","flugzeug","penicillin","z3"],c:"violet"}
+];
+/* Reihenfolge der Lektionen = Paket-Reihenfolge */
+L.sort((a,b)=>{const ix=id=>{let n=0;for(const p of PAKETE){const k=p.ids.indexOf(id);if(k>=0)return n+k;n+=p.ids.length}return 999};return ix(a.id)-ix(b.id)});
+
 /* ---------- Hilfen ---------- */
 const lesson=id=>L.find(l=>l.id===id);
 const nrOf=id=>(PLAN.find(p=>p.id===id)||{}).nr;
@@ -454,8 +600,9 @@ function viewHome(){const s=seen(),done=L.filter(l=>s[l.id]).length,best=store.g
  let h=`<section class="hero"><div class="kicker mono">${AREAS.length} BEREICHE · ${L.length} LEKTIONEN · ${PLAN.length} ERFINDUNGEN GEPLANT</div><h1 class="mono">Erfindungen, die die Welt verändert haben</h1>
  <p>Wer hat es erfunden, wie funktioniert es und was hat es verändert? Schritt für Schritt mit kleinen Videos.</p>
  <div class="prog"><i style="width:${done/L.length*100}%"></i></div><p style="margin-top:6px;font-size:12px">${done} von ${L.length} Lektionen gesehen</p></section><div class="bento">
- <button class="tile big" style="--ac:var(--gold)" onclick="go('#top')"><div class="ico">🏆</div><div class="tag mono">PAKET 1 · START HIER</div><h3 style="font-size:21px">Die 5 größten Erfindungen</h3>
- <p>Rad · Buchdruck · Glühbirne · Telefon · Automobil</p><div class="bar"><span class="t"><i style="width:${done/L.length*100}%"></i></span><span class="mono">${done}/${L.length}</span></div></button>`;
+`;
+ PAKETE.forEach(pk=>{const d=pk.ids.filter(id=>s[id]).length;h+=`<button class="tile big" style="--ac:${col(pk.c)}" onclick="go('#${pk.id}')"><div class="ico">${pk.icon}</div><div class="tag mono">${pk.tag}</div><h3 style="font-size:21px">${pk.name}</h3>
+ <p>${pk.ids.map(id=>lesson(id).title.replace(/^(Das|Die|Der) /,"")).join(" · ")}</p><div class="bar"><span class="t"><i style="width:${d/pk.ids.length*100}%"></i></span><span class="mono">${d}/${pk.ids.length}</span></div></button>`});
  AREAS.forEach((a,i)=>{const[d,n]=progArea(a.id),all=PLAN.filter(p=>p.a===a.id).length;h+=`<button class="tile" style="--ac:${col(a.c)}" onclick="go('#b-${a.id}')">
   <div class="ico">${a.icon}</div><div class="tag mono">BEREICH ${i+1}<br>${a.yrs}</div><h3>${a.name}</h3><p>${a.desc}</p>
   <div class="bar"><span class="t"><i style="width:${n?d/n*100:0}%"></i></span><span class="mono">${d}/${n} · ${all-n} bald</span></div></button>`});
@@ -463,8 +610,8 @@ function viewHome(){const s=seen(),done=L.filter(l=>s[l.id]).length,best=store.g
  <p>10 zufällige Fragen aus ${Q.length} – mit Bilderfragen und Rechenaufgaben.</p><div class="bar"><span class="mono">Bestwert: ${best==null?"–":best+" / 10"}</span></div></button></div>
  <div class="note"><b>Hinweis:</b> Bei manchen Erfindungen ist umstritten, wer zuerst da war – die Lektionen nennen dann mehrere Erfinder. Jahreszahlen teils gerundet.</div>`;
  return h}
-function viewTop(){const s=seen();let h=`<button class="back" onclick="go('#start')">← Startseite</button><div class="ahead" style="--ac:var(--gold)"><div class="ico">🏆</div><h2 class="mono">Die 5 größten Erfindungen</h2><p>Paket 1 · nach Jahren geordnet – vom Rad bis zum Auto.</p></div><div class="list">`;
- L.forEach((l,i)=>{const a=area(l.a);h+=`<button class="lcard ${s[l.id]?"seen":""}" style="--ac:${col(a.c)}" onclick="go('#l-${l.id}')"><div style="font-size:28px">${a.icon}</div><div><div class="n mono">LEKTION ${i+1} · ${a.name.toUpperCase()}</div><h4>${l.title}</h4><p>${l.sub}</p></div><span class="chk">${s[l.id]?"✓":"▶"}</span></button>`});
+function viewPaket(pid){const pk=PAKETE.find(p=>p.id===pid)||PAKETE[0],s=seen();let h=`<button class="back" onclick="go('#start')">← Startseite</button><div class="ahead" style="--ac:${col(pk.c)}"><div class="ico">${pk.icon}</div><h2 class="mono">${pk.name}</h2><p>${pk.tag} · nach Jahren geordnet.</p></div><div class="list">`;
+ pk.ids.map(lesson).forEach((l,i)=>{const a=area(l.a);h+=`<button class="lcard ${s[l.id]?"seen":""}" style="--ac:${col(a.c)}" onclick="go('#l-${l.id}')"><div style="font-size:28px">${a.icon}</div><div><div class="n mono">LEKTION ${i+1} · ${a.name.toUpperCase()}</div><h4>${l.title}</h4><p>${l.sub}</p></div><span class="chk">${s[l.id]?"✓":"▶"}</span></button>`});
  return h+"</div>"}
 function viewArea(aid){const a=area(aid);if(!a)return viewHome();const s=seen(),ps=PLAN.filter(p=>p.a===aid);
  let h=`<button class="back" onclick="go('#start')">← Startseite</button><div class="ahead" style="--ac:${col(a.c)}"><div class="ico">${a.icon}</div><h2>${a.name}</h2><p><b class="mono" style="color:var(--ac)">${a.yrs}</b> · ${a.desc}</p></div><div class="list">`;
@@ -510,7 +657,7 @@ function bindQuiz(){const z=quiz;if(!z||z.i>=z.qs.length)return;const q=z.qs[z.i
 /* ---------- Seitenleiste (PC) ---------- */
 function renderSide(cur){const s=seen(),qv=(store._q||"").toLowerCase();
  let h=`<div class="brand" onclick="go('#start')"><div class="logo" style="background:linear-gradient(135deg,var(--gold),var(--orange))">💡</div><div><b class="mono">ERFINDER-SCHULE</b><small>${L.filter(l=>s[l.id]).length}/${L.length} gesehen</small></div></div>
- <input id="sq" placeholder="🔍 Erfindung suchen …" value="${esc(store._q||"")}"><button class="si ${cur==="top"?"on":""}" onclick="go('#top')">🏆 Die 5 größten Erfindungen</button>`;
+ <input id="sq" placeholder="🔍 Erfindung suchen …" value="${esc(store._q||"")}">`+PAKETE.map(pk=>`<button class="si ${cur===pk.id?"on":""}" onclick="go('#${pk.id}')">${pk.icon} ${pk.tag}: ${pk.name}</button>`).join("");
  AREAS.forEach(a=>{const ps=PLAN.filter(p=>p.a===a.id&&(!qv||(p.title+" "+p.who+" "+p.yr+" "+(p.id?lesson(p.id).steps.join(" "):"")).toLowerCase().includes(qv)));if(!ps.length)return;
   h+=`<div class="sg mono" style="color:${col(a.c)}">${a.icon} ${a.name.toUpperCase()}</div>`;
   ps.forEach(p=>h+=p.id?`<button class="si ${cur===p.id?"on":""}" onclick="go('#l-${p.id}')">${p.title}<span class="d">${s[p.id]?"✓":""}</span></button>`:`<button class="si" style="color:var(--mut)" onclick="go('#b-${a.id}')">${p.title}<span class="d">bald</span></button>`)});
@@ -519,7 +666,7 @@ function renderSide(cur){const s=seen(),qv=(store._q||"").toLowerCase();
 
 /* ---------- Routing ---------- */
 function route(){stopPlayer();const h=location.hash||"#start";const m=h.slice(1);let cur="";const v=$("#view");
- if(m==="top"){v.innerHTML=viewTop();cur="top"}
+ if(m==="top"||PAKETE.some(p=>p.id===m)){const pid=m==="top"?"p1":m;v.innerHTML=viewPaket(pid);cur=pid}
  else if(m.startsWith("b-")){v.innerHTML=viewArea(m.slice(2))}
  else if(m.startsWith("l-")){const id=m.slice(2);v.innerHTML=viewLesson(id);cur=id;const l=lesson(id);if(l)startPlayer(l)}
  else if(m==="quiz"){v.innerHTML=viewQuiz();bindQuiz();cur="quiz"}
