@@ -159,7 +159,7 @@ footer{margin-top:26px;color:var(--mut);font-size:11.5px;text-align:center}
    </div>
   </header>
   <div id="view"></div>
-  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1–3 · 15 Erfindungen</footer>
+  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1–4 · 20 Erfindungen</footer>
  </main>
 </div>
 <script>
@@ -248,6 +248,7 @@ function drawEl(e,p,lt,op,t){
  case"spin":{const a=lt*(e.sp==null?1:e.sp)*360;return `<g opacity="${P1*op}" transform="translate(${e.x} ${e.y}) rotate(${a})"><circle r="${e.r}" style="fill:var(--panel2);stroke:${c};stroke-width:2"/><line x1="${-e.r*.8}" y1="0" x2="${e.r*.8}" y2="0" style="stroke:${c};stroke-width:2"/><line x1="0" y1="${-e.r*.8}" x2="0" y2="${e.r*.8}" style="stroke:${c};stroke-width:2"/><circle r="${e.r*.25}" style="fill:${c}"/></g>`}
  case"bat":{const fw=(e.w-8)*e.lv*P1;return `<g opacity="${op}"><rect x="${e.x}" y="${e.y}" width="${e.w}" height="${e.h}" rx="5" style="fill:var(--panel2);stroke:${c};stroke-width:2"/><rect x="${e.x+e.w}" y="${e.y+e.h*.3}" width="4" height="${e.h*.4}" rx="1.5" style="fill:${c}"/><rect x="${e.x+4}" y="${e.y+4}" width="${fw}" height="${e.h-8}" rx="3" style="fill:${c}"/></g>`}
  case"mot":return drawMot(e,P1,op,t);
+ case"fn":return `<g opacity="${P1*op}">${e.f(lt)}</g>`;
  }return""}
 function renderScene(els,t){let out="";for(const e of els){const start=e.s*D+(e.d||0);if(t<start)continue;const lt=t-start;const p=clamp(lt/.7);
  let op=1;if(e.e!=null){const et=e.e*D;if(t>=et)op=clamp(1-(t-et)/.4);if(op<=0)continue}
@@ -735,6 +736,171 @@ Q.push(
  {q:"Welches war 1936 das erste Serien-Auto mit Dieselmotor?",a:["Mercedes-Benz 260 D","VW Käfer","BMW Isetta","Ford Model T"],l:"diesel",ex:"Der 260 D wurde vor allem als Taxi beliebt."}
 );
 PAKETE.push({id:"p3",icon:"⚡",name:"Strom, Kälte & Kraft",tag:"PAKET 3",ids:["impfung","batterie","kuehlschrank","radio","diesel"],c:"cyan"});
+L.sort((a,b)=>{const ix=id=>{let n=0;for(const p of PAKETE){const k=p.ids.indexOf(id);if(k>=0)return n+k;n+=p.ids.length}return 999};return ix(a.id)-ix(b.id)});
+
+/* ---------- Paket 4 ---------- */
+(function(){const ids={4:"elektromotor",14:"fernsehen",20:"ottomotor",34:"mikroskop",43:"transistor"};PLAN.forEach(p=>{if(ids[p.nr])p.id=ids[p.nr]})})();
+const FN=(s,f,x2)=>Object.assign({t:"fn",s,f},x2||{});
+function nadel(lt){const a=lt<1.2?0:Math.min(65,(lt-1.2)*80);return `<g transform="translate(180 150) rotate(${a})"><polygon points="0,-22 5,0 -5,0" style="fill:var(--red)"/><polygon points="0,22 5,0 -5,0" style="fill:var(--mut)"/><circle r="3" style="fill:var(--tx)"/></g>`}
+function faraday(lt){const x=180+40*Math.cos(lt*2.4),z=Math.sin(lt*2.4);return `<line x1="180" y1="50" x2="${x.toFixed(1)}" y2="140" style="stroke:var(--orange);stroke-width:3;stroke-linecap:round;opacity:${z>0?1:.55}"/><circle cx="${x.toFixed(1)}" cy="140" r="4" style="fill:var(--orange)"/>`}
+function otto(lt){const th=lt*0.38*2*Math.PI,cx=100,cy=176,r=20,Lr=58;const s=r*Math.sin(th),c=r*Math.cos(th);const pin=cy-(c+Math.sqrt(Lr*Lr-s*s));
+ const st=Math.floor((th%(4*Math.PI))/Math.PI);const cols=["cyan","gold","red","mut"],names=["1 Ansaugen","2 Verdichten","3 Arbeiten","4 Ausstoßen"];
+ const top=46,pt=pin-16;let o=`<rect x="64" y="${top}" width="72" height="${(pt-top).toFixed(1)}" style="fill:var(--${cols[st]});fill-opacity:${st===2?.6:.35}"/>`;
+ o+=`<path d="M60,40 L60,150 M140,40 L140,150 M60,40 L140,40" style="fill:none;stroke:var(--tx);stroke-width:3"/>`;
+ const vl=st===0?6:0,vr=st===3?6:0;o+=`<rect x="72" y="${36+vl}" width="16" height="5" style="fill:var(--cyan)"/><rect x="112" y="${36+vr}" width="16" height="5" style="fill:var(--mut)"/><rect x="96" y="30" width="8" height="12" style="fill:var(--gold)"/>`;
+ if(st===2&&(th%Math.PI)<0.9)o+=`<circle cx="100" cy="${top+8}" r="10" style="fill:#fff;opacity:.85"/>`;
+ o+=`<rect x="64" y="${pt.toFixed(1)}" width="72" height="24" rx="3" style="fill:var(--mut)"/>`;
+ const kx=cx+s,ky=cy-c;o+=`<line x1="100" y1="${pin.toFixed(1)}" x2="${kx.toFixed(1)}" y2="${ky.toFixed(1)}" style="stroke:var(--tx);stroke-width:5;stroke-linecap:round"/><circle cx="${cx}" cy="${cy}" r="${r+6}" style="fill:none;stroke:var(--line);stroke-width:2"/><circle cx="${kx.toFixed(1)}" cy="${ky.toFixed(1)}" r="5" style="fill:var(--gold)"/>`;
+ names.forEach((n,i)=>{const on=i===st;o+=`<rect x="196" y="${54+i*30}" width="140" height="24" rx="12" style="fill:var(--${on?cols[i]:"panel2"});fill-opacity:${on?.9:1};stroke:var(--line)"/><text x="266" y="${70+i*30}" text-anchor="middle" style="fill:${on?"#fff":"var(--mut)"};font-size:11px;font-weight:700">${n}</text>`});return o}
+function nipkow(lt){const a=lt*70;let h="";for(let k=0;k<12;k++){const an=k*30*Math.PI/180,rr=56-k*3.4;h+=`<circle cx="${(rr*Math.cos(an)).toFixed(1)}" cy="${(rr*Math.sin(an)).toFixed(1)}" r="3.2" style="fill:var(--scene)"/>`}
+ return `<g transform="translate(110 115) rotate(${a.toFixed(1)})"><circle r="66" style="fill:var(--mut);fill-opacity:.55;stroke:var(--tx);stroke-width:2"/>${h}<circle r="6" style="fill:var(--panel2);stroke:var(--tx)"/></g>`}
+const HAUS=["...##...","..####..",".######.","########",".#....#.",".#.##.#.",".#.##.#.",".######."];
+function scan(lt){const idx=Math.min(64,Math.floor(lt*16));let o="";
+ for(let k=0;k<64;k++){const r=Math.floor(k/8),c=k%8,on=HAUS[r][c]==="#";
+  o+=`<rect x="${34+c*14}" y="${54+r*14}" width="13" height="13" rx="2" style="fill:var(--${on?"gold":"panel2"})"/>`;
+  if(k<idx)o+=`<rect x="${214+c*14}" y="${54+r*14}" width="13" height="13" rx="2" style="fill:var(--${on?"gold":"panel2"})"/>`}
+ if(idx<64){const r=Math.floor(idx/8),c=idx%8;o+=`<rect x="${33+c*14}" y="${53+r*14}" width="15" height="15" rx="2" style="fill:none;stroke:var(--cyan);stroke-width:2.5"/><rect x="34" y="${54+r*14}" width="112" height="13" style="fill:var(--cyan);fill-opacity:.12"/>`}
+ o+=`<rect x="212" y="52" width="116" height="116" rx="4" style="fill:none;stroke:var(--line)"/>`;return o}
+function schalter(lt){const on=Math.floor(lt/1.3)%2===1;const cb=on?"var(--cyan)":"var(--line)",cl=on?"var(--gold)":"var(--line)";
+ return `<line x1="40" y1="115" x2="132" y2="115" style="stroke:${cb};stroke-width:3"/><line x1="140" y1="92" x2="140" y2="138" style="stroke:var(--tx);stroke-width:4"/>
+ <path d="M140,104 L166,88 L166,62 L262,62 L262,88 M262,112 L262,176 L166,176 L166,144 L140,128" style="fill:none;stroke:${cl};stroke-width:3"/><circle cx="150" cy="115" r="32" style="fill:none;stroke:var(--mut);stroke-width:2"/>
+ <circle cx="262" cy="100" r="13" style="fill:var(--${on?"gold":"panel2"});stroke:var(--tx);stroke-width:2"/>${on?`<circle cx="262" cy="100" r="24" style="fill:var(--gold);fill-opacity:.25"/>`:""}
+ <text x="318" y="108" text-anchor="middle" style="fill:var(--${on?"green":"mut"});font-size:15px;font-weight:800;font-family:ui-monospace,Consolas,monospace">${on?"AN = 1":"AUS = 0"}</text>`}
+
+L.push(
+{id:"mikroskop",a:"medizin",title:"Das Mikroskop",sub:"um 1590 Janssen · 1665 Hooke · 1670er Leeuwenhoek",
+ steps:["Mit bloßem Auge sehen wir Dinge nur bis etwa 0,1 Millimeter – ungefähr so dick wie ein Haar. Bakterien sind viel kleiner. Warum Menschen krank werden, wusste lange niemand.",
+ "Um 1590 setzen Brillenmacher in den Niederlanden – wahrscheinlich Hans und Zacharias Janssen – zwei Linsen hintereinander in ein Rohr. So entsteht das erste zusammengesetzte Mikroskop.",
+ "1665 schaut der Engländer Robert Hooke durch sein Mikroskop auf ein dünnes Stück Kork. Er sieht lauter kleine Kammern und nennt sie „Zellen“ – das Wort benutzen wir bis heute.",
+ "Der Niederländer Antoni van Leeuwenhoek schleift winzige Linsen, die bis etwa 270-fach vergrößern. In den 1670er-Jahren entdeckt er in einem Wassertropfen „kleine Tierchen“: Einzeller und Bakterien.",
+ "Heute vergrößern gute Lichtmikroskope – etwa von Zeiss aus Jena – rund 1.000-fach. 1931 bauen Ernst Ruska und Max Knoll in Berlin das Elektronenmikroskop. Es vergrößert über eine Million Mal – man sieht sogar Viren."],
+ els:[P(0,180,24,"Vorher: nur das bloße Auge","mut",{e:1}),E(0,90,98,"👁️",44,{e:1}),T(0,90,146,"sieht bis etwa 0,1 mm","mut",10,{e:1}),E(0,270,98,"🦠",34,{e:1}),T(0,270,146,"Bakterien: unsichtbar","red",10,{b:1,e:1}),T(0,180,184,"Krankheiten? Niemand weiß, warum","mut",10,{e:1}),
+ RAW(1,`<path d="M210,190 L120,190 M150,190 L150,170 L196,170 L196,60" style="fill:none;stroke:var(--tx);stroke-width:4"/><rect x="146" y="38" width="30" height="96" rx="4" style="fill:var(--panel2);stroke:var(--tx);stroke-width:2"/><ellipse cx="161" cy="42" rx="14" ry="4" style="fill:var(--cyan)"/><ellipse cx="161" cy="130" rx="11" ry="4" style="fill:var(--cyan)"/><rect x="118" y="146" width="90" height="8" rx="2" style="fill:var(--mut)"/>`,{e:2}),
+ FL(1,[[161,164],[161,44]],"gold",{n:4,dur:1.5,e:2}),T(1,138,46,"Okular","cyan",9.5,{an:"end",b:1,e:2}),T(1,138,134,"Objektiv","cyan",9.5,{an:"end",b:1,e:2}),
+ P(1,272,40,"um 1590 · Janssen","gold",{e:2}),T(1,272,82,"zwei Linsen","tx",12,{b:1,e:2}),T(1,272,100,"in einem Rohr","mut",10,{e:2}),T(1,272,126,"Brillenmacher","mut",10,{e:2}),T(1,272,142,"aus den Niederlanden","mut",10,{e:2}),
+ P(2,180,24,"1665 · Robert Hooke","gold",{e:3}),...Array.from({length:24},(_,k)=>R(2,30+(k%6)*27,52+Math.floor(k/6)*30,24,27,"orange",.14,{r:5,st:"orange",d:.04*k,e:3})),
+ T(2,272,88,"Kork unter dem","tx",11,{b:1,e:3}),T(2,272,104,"Mikroskop","tx",11,{b:1,e:3}),T(2,272,132,"„Zellen“ =","orange",12,{b:1,d:.8,e:3}),T(2,272,150,"kleine Kammern","mut",10,{d:.8,e:3}),
+ P(3,180,24,"1670er · Leeuwenhoek","gold",{e:4}),C(3,110,116,70,"cyan",.1,{st:"cyan",e:4}),FL(3,[[70,96],[150,86],[146,146],[80,150],[70,96]],"violet",{n:4,dur:5,r:4,e:4}),FL(3,[[90,120],[130,110],[120,80],[90,120]],"green",{n:3,dur:3,r:3,e:4}),
+ T(3,272,84,"winzige Linse","tx",11,{b:1,e:4}),T(3,272,106,"bis 270-fach","gold",13,{b:1,m:1,e:4}),T(3,272,134,"„kleine Tierchen“","mut",10,{e:4}),T(3,272,150,"im Wassertropfen","mut",10,{e:4}),
+ P(4,180,24,"Heute: Licht & Elektronen","cyan"),...[["Auge: 1×",8,"mut"],["Lichtmikroskop: ≈ 1.000×",150,"cyan"],["Elektronenmikroskop: > 1.000.000×",318,"violet"]].flatMap(([lab,w,c],i)=>[T(4,22,64+i*40,lab,"tx",10,{an:"start",b:1,d:.4*i}),HB(4,22,70+i*40,w,10,c,{d:.4*i})]),
+ T(4,180,190,"1931: Ruska & Knoll bauen das Elektronenmikroskop","mut",9.5,{d:1.2})],
+ info:{was:"Ein Mikroskop vergrößert sehr kleine Dinge mit Linsen (Lichtmikroskop) oder mit Elektronenstrahlen (Elektronenmikroskop).",
+ so:"Das Objektiv nah am Präparat macht ein vergrößertes Bild, das Okular am Auge vergrößert es noch einmal – wie zwei Lupen hintereinander.",
+ bed:"Mit dem Mikroskop entdeckte man Zellen, Bakterien und Viren. Ohne es gäbe es keine moderne Medizin und Biologie.",
+ tipp:"Wer das allererste Mikroskop baute, ist nicht sicher belegt – die Janssens gelten als wahrscheinlich. Rechne: Ein Bakterium von 0,002 mm erscheint bei 1.000-facher Vergrößerung 2 mm groß. Mehr zu Zellen in der Zell-Schule."}},
+{id:"elektromotor",a:"strom",title:"Der Elektromotor",sub:"1820 Ørsted · 1821 Faraday · 1834 Jacobi",
+ steps:["1820 bemerkt der Däne Hans Christian Ørsted: Fließt Strom durch einen Draht, bewegt sich eine Kompassnadel daneben. Strom erzeugt also ein Magnetfeld!",
+ "1821 baut der Engländer Michael Faraday einen Versuch: Ein Draht mit Strom kreist in einer Schale mit Quecksilber um einen Magneten. Zum ersten Mal erzeugt Strom eine Drehbewegung.",
+ "1834 baut Moritz Hermann Jacobi in Königsberg den ersten Elektromotor, der wirklich etwas antreiben kann. 1838 fährt damit ein Boot mit Fahrgästen auf der Newa in Sankt Petersburg.",
+ "So funktioniert er: Spulen mit Strom werden zu Elektromagneten. Nord zieht Süd an. Weil der Strom immer im richtigen Moment umgeschaltet wird, läuft das Magnetfeld im Kreis – und der Rotor dreht sich mit.",
+ "1879 zeigt Werner von Siemens in Berlin die erste elektrische Lokomotive, 1881 fährt dort die erste elektrische Straßenbahn. Heute stecken Elektromotoren in Bahnen, E-Autos, Waschmaschinen und Bohrmaschinen – mit über 90 % Wirkungsgrad."],
+ els:[P(0,180,24,"1820 · Hans Christian Ørsted","gold",{e:1}),Ln(0,30,100,330,100,"orange",{w:4,e:1}),T(0,30,90,"Draht mit Strom","orange",10,{an:"start",b:1,e:1}),FL(0,[[30,100],[330,100]],"cyan",{n:6,dur:2,lag:.8,e:1}),
+ C(0,180,150,28,"panel2",1,{st:"tx",e:1}),FN(0,nadel,{e:1}),T(0,180,204,"Strom lenkt die Kompassnadel ab","tx",10.5,{b:1,d:1.4,e:1}),
+ P(1,180,24,"1821 · Michael Faraday","gold",{e:2}),R(1,110,128,140,40,"cyan",.25,{r:8,e:2}),T(1,180,160,"Quecksilber","cyan",9.5,{e:2}),R(1,174,86,12,62,"red",.9,{r:2,e:2}),T(1,180,82,"N","white",9,{b:1,e:2}),FN(1,faraday,{e:2}),
+ T(1,300,98,"erste","mut",10,{e:2}),T(1,300,114,"Drehbewegung","gold",11,{b:1,e:2}),T(1,300,130,"durch Strom","mut",10,{e:2}),T(1,180,196,"Draht kreist um den Magneten","tx",10.5,{b:1,e:2}),
+ P(2,180,24,"1834 · Moritz Hermann Jacobi","gold",{e:3}),E(2,80,96,"👨‍🔬",44,{e:3}),T(2,80,146,"Jacobi, Königsberg","gold",10.5,{b:1,e:3}),E(2,272,90,"🚤",40,{d:.5,e:3}),T(2,272,132,"1838: Elektroboot","tx",11,{b:1,d:.5,e:3}),T(2,272,148,"auf der Newa","mut",10,{d:.5,e:3}),T(2,180,190,"erster praxistauglicher Elektromotor","green",10.5,{b:1,e:3}),
+ MOT(3,110,115,68,"stator",0,{e:4}),MOT(3,110,115,68,"coils",0,{e:4}),MOT(3,110,115,68,"field",.45,{d:.4,e:4}),MOT(3,110,115,68,"rotor",.45,{d:.4,e:4}),
+ T(3,272,66,"Spulen werden zu","tx",10.5,{b:1,e:4}),T(3,272,82,"Elektromagneten","cyan",11,{b:1,e:4}),T(3,272,108,"Nord zieht Süd an","mut",10,{e:4}),T(3,272,132,"Strom wird ständig","mut",10,{e:4}),T(3,272,148,"umgeschaltet","mut",10,{e:4}),T(3,272,176,"→ der Rotor dreht","green",11,{b:1,e:4}),
+ P(4,180,24,"1879: Siemens-E-Lok · heute überall","cyan"),...[["🚆","Bahn"],["🚗","E-Auto"],["🧺","Waschmaschine"],["🛠️","Bohrmaschine"]].flatMap(([ic,lab],i)=>[E(4,52+i*85,84,ic,32,{d:.2*i}),T(4,52+i*85,120,lab,"mut",10,{d:.2*i})]),
+ T(4,180,156,"1881: erste elektrische Straßenbahn in Berlin","mut",10),P(4,180,188,"Wirkungsgrad: über 90 %","green")],
+ info:{was:"Ein Elektromotor wandelt elektrische Energie in Bewegung um. Er nutzt die Kraft zwischen Magneten und stromdurchflossenen Spulen.",
+ so:"Außen sitzt der feste Stator mit Spulen, innen dreht sich der Rotor. Das Magnetfeld der Spulen wird im Kreis weitergeschaltet – der Rotor läuft hinterher.",
+ bed:"Elektromotoren sind leise, sauber und sehr effizient. Sie bewegen Züge, Fabrikmaschinen, Haushaltsgeräte und Elektroautos.",
+ tipp:"Rechne: Ein Elektromotor mit 90 % Wirkungsgrad nutzt 50 Prozentpunkte mehr als ein moderner Diesel mit 40 %. Mehr dazu in der Elektroauto-Schule."}},
+{id:"ottomotor",a:"verkehr",title:"Der Ottomotor",sub:"1876 · Nikolaus August Otto · Köln-Deutz",
+ steps:["Dampfmaschinen sind groß, teuer und brauchen lange zum Anheizen. Kleine Werkstätten und Betriebe wünschen sich einen kleinen Motor, der sofort läuft.",
+ "1864 gründen Nikolaus August Otto und Eugen Langen in Köln die erste Motorenfabrik der Welt. 1867 bekommt ihr Gasmotor auf der Weltausstellung in Paris eine Goldmedaille.",
+ "1876 baut Otto den Viertaktmotor. In zwei Umdrehungen der Kurbelwelle läuft alles einmal ab: 1 Ansaugen, 2 Verdichten, 3 Arbeiten (Zündung), 4 Ausstoßen. Schau dem Kolben zu!",
+ "Der Trick ist das Verdichten: Zusammengedrückt verbrennt das Gemisch viel kräftiger. Ottos Motor lief noch mit Gas. Seine Mitarbeiter Gottlieb Daimler und Wilhelm Maybach machen ihn später klein, schnell und tauglich für Benzin.",
+ "Bis heute heißt der Benzinmotor nach ihm „Ottomotor“. Eine Zündkerze zündet das Gemisch. Er treibt Millionen Autos, Motorräder und Boote an. Ottos Firma gibt es noch: die Deutz AG."],
+ els:[P(0,180,24,"Vorher: große Dampfmaschinen","mut",{e:1}),E(0,90,98,"🏭",44,{e:1}),T(0,90,146,"Kessel anheizen dauert","mut",9.5,{e:1}),E(0,270,98,"🔨",40,{e:1}),T(0,270,146,"Werkstätten brauchen","mut",9.5,{e:1}),T(0,270,162,"kleine Motoren","gold",10,{b:1,e:1}),
+ P(1,180,24,"1864 · Otto & Langen · Köln","gold",{e:2}),E(1,72,90,"👨‍🔧",36,{e:2}),E(1,118,90,"👨‍💼",36,{e:2}),T(1,95,132,"Nikolaus Otto & Eugen Langen","gold",10,{b:1,e:2}),T(1,95,148,"erste Motorenfabrik der Welt","mut",9.5,{e:2}),
+ R(1,200,62,140,86,"gold",.1,{r:12,st:"gold",d:.5,e:2}),E(1,270,88,"🥇",28,{d:.5,e:2}),T(1,270,122,"1867: Goldmedaille","tx",10.5,{b:1,d:.5,e:2}),T(1,270,138,"Weltausstellung Paris","mut",9.5,{d:.5,e:2}),
+ FN(2,otto,{e:3}),P(2,266,24,"1876: der Viertakt","cyan",{e:3}),T(2,266,190,"2 Umdrehungen = 4 Takte","mut",10,{e:3}),
+ P(3,180,24,"Der Trick: Verdichten","gold",{e:4}),R(3,50,50,70,112,"panel2",1,{r:4,st:"tx",e:4}),R(3,54,54,62,82,"gold",.3,{e:4}),R(3,54,136,62,22,"mut",1,{r:2,e:4}),T(3,85,182,"locker","mut",10,{e:4}),
+ A(3,128,104,152,104,"mut",{e:4}),R(3,160,50,70,112,"panel2",1,{r:4,st:"tx",d:.4,e:4}),R(3,164,54,62,28,"gold",.75,{d:.4,e:4}),R(3,164,82,62,22,"mut",1,{r:2,d:.4,e:4}),E(3,195,68,"🔥",18,{d:.9,e:4}),T(3,195,182,"verdichtet","gold",10,{b:1,d:.4,e:4}),
+ T(3,292,78,"Verdichten =","tx",11,{b:1,e:4}),T(3,292,96,"viel mehr Kraft","green",11,{b:1,e:4}),T(3,292,128,"Daimler & Maybach:","mut",10,{d:.8,e:4}),T(3,292,144,"klein, schnell, Benzin","gold",10,{b:1,d:.8,e:4}),
+ P(4,180,24,"Heute: der „Ottomotor“","green"),...[["🚗","Autos"],["🏍️","Motorräder"],["🚤","Boote"],["⛽","Benzin"]].flatMap(([ic,lab],i)=>[E(4,52+i*85,84,ic,32,{d:.2*i}),T(4,52+i*85,120,lab,"mut",10,{d:.2*i})]),
+ T(4,180,158,"mit Zündkerze · nach Otto benannt","mut",10),P(4,180,190,"Ottos Firma heute: Deutz AG","gold")],
+ info:{was:"Der Ottomotor ist ein Viertakt-Verbrennungsmotor, bei dem eine Zündkerze ein verdichtetes Kraftstoff-Luft-Gemisch zündet. Er ist nach Nikolaus August Otto benannt.",
+ so:"Die vier Takte: Ansaugen (Einlassventil offen), Verdichten, Arbeiten (Zündung drückt den Kolben nach unten), Ausstoßen (Auslassventil offen).",
+ bed:"Erst der kleine, schnelle Viertaktmotor machte Autos, Motorräder und Flugzeuge möglich – er veränderte, wie Menschen reisen und arbeiten.",
+ tipp:"Ottos Patent wurde 1886 aufgehoben, weil der Franzose Alphonse Beau de Rochas das Prinzip schon 1862 beschrieben hatte. Rechne: Bei 3.000 Umdrehungen pro Minute macht jeder Zylinder 1.500 Arbeitstakte pro Minute."}},
+{id:"fernsehen",a:"komm",title:"Das Fernsehen",sub:"1884 Paul Nipkow · 1926 John Logie Baird",
+ steps:["Bilder gab es in Zeitungen und im Kino, Ton im Radio. Doch bewegte Bilder, die live ins Wohnzimmer kommen? Das schien unmöglich.",
+ "1884 meldet der Berliner Student Paul Nipkow eine Lochscheibe zum Patent an. Ihre Löcher sitzen auf einer Spirale. Dreht sich die Scheibe, tastet sie ein Bild Zeile für Zeile ab.",
+ "Das ist das Grundprinzip des Fernsehens: Das Bild wird in Zeilen und Punkte zerlegt, jeder Punkt als Helligkeit gesendet und beim Empfänger wieder zusammengesetzt – so schnell, dass unser Auge ein ganzes Bild sieht.",
+ "1926 zeigt John Logie Baird in London zum ersten Mal bewegte Fernsehbilder – mit nur 30 Zeilen. 1931 führt Manfred von Ardenne in Berlin das vollelektronische Fernsehen vor. Ab 1935 sendet Berlin regelmäßig ein Fernsehprogramm.",
+ "Am 25. August 1967 startet in Deutschland das Farbfernsehen – mit dem PAL-System von Walter Bruch. Heute haben 4K-Fernseher 2.160 Zeilen, und viele schauen per Streaming."],
+ els:[P(0,180,24,"Vorher: Bild und Ton getrennt","mut",{e:1}),E(0,70,96,"📰",38,{e:1}),T(0,70,138,"Zeitung","mut",10,{e:1}),E(0,180,96,"🎞️",38,{e:1}),T(0,180,138,"Kino","mut",10,{e:1}),E(0,290,96,"📻",38,{e:1}),T(0,290,138,"Radio: nur Ton","mut",10,{e:1}),T(0,180,180,"bewegte Bilder ins Wohnzimmer?","gold",11,{b:1,e:1}),
+ FN(1,nipkow,{e:2}),P(1,180,24,"1884 · Paul Nipkow · Berlin","gold",{e:2}),T(1,272,78,"Lochscheibe","tx",12,{b:1,e:2}),T(1,272,96,"Löcher auf einer Spirale","mut",10,{e:2}),T(1,272,124,"tastet das Bild","mut",10,{e:2}),T(1,272,140,"Zeile für Zeile ab","gold",11,{b:1,e:2}),
+ FN(2,scan,{e:3}),P(2,180,24,"Bild in Zeilen zerlegen","cyan",{e:3}),A(2,158,110,202,110,"gold",{e:3}),T(2,90,190,"Sender","mut",10,{b:1,e:3}),T(2,270,190,"Empfänger","mut",10,{b:1,e:3}),
+ P(3,180,24,"1926 · John Logie Baird · London","gold",{e:4}),E(3,90,84,"📺",40,{e:4}),T(3,90,128,"30 Zeilen","tx",14,{b:1,m:1,e:4}),T(3,90,146,"mechanisch","mut",10,{e:4}),
+ T(3,262,74,"1931: vollelektronisch","tx",10.5,{b:1,d:.5,e:4}),T(3,262,90,"Manfred von Ardenne","mut",9.5,{d:.5,e:4}),T(3,262,122,"1935: Berlin sendet","tx",10.5,{b:1,d:1,e:4}),T(3,262,138,"regelmäßig Fernsehen","mut",9.5,{d:1,e:4}),
+ P(4,180,24,"1967: Farbfernsehen in Deutschland","green"),...["#e5e7eb","#facc15","#22d3ee","#22c55e","#d946ef","#ef4444","#3b82f6"].map((c,i)=>R(4,40+i*40,48,40,70,c,1,{d:.08*i})),
+ T(4,180,142,"heute: 4K = 2.160 Zeilen","tx",11,{b:1,m:1}),T(4,180,160,"Flachbildschirm · Streaming","mut",10),P(4,180,190,"Farbe nach dem PAL-System von Walter Bruch","gold")],
+ info:{was:"Fernsehen überträgt bewegte Bilder und Ton über große Entfernungen – früher per Funk, heute auch per Kabel, Satellit und Internet.",
+ so:"Das Bild wird in Zeilen und Bildpunkte zerlegt, übertragen und beim Empfänger blitzschnell wieder zusammengesetzt. Viele Bilder pro Sekunde ergeben eine Bewegung.",
+ bed:"Das Fernsehen brachte Nachrichten, Sport und Filme in jedes Wohnzimmer – zum Beispiel die Mondlandung 1969 oder Fußball-Weltmeisterschaften live.",
+ tipp:"Rechne: Bairds Bild hatte 30 Zeilen, ein 4K-Bild hat 2.160 – das sind 72-mal so viele. Den Namen Nipkow trug ab 1935 auch der erste Berliner Fernsehsender."}},
+{id:"transistor",a:"computer",title:"Der Transistor",sub:"Dezember 1947 · Bell Labs · Bardeen, Brattain, Shockley",
+ steps:["Früher steuerten Elektronenröhren den Strom in Radios und Rechnern. Sie sind groß, werden heiß, brauchen viel Strom und gehen oft kaputt. Der Rechner ENIAC (1946) hat 17.468 Röhren und wiegt 27 Tonnen.",
+ "Im Dezember 1947 stellen John Bardeen und Walter Brattain bei den Bell Labs in den USA den ersten Transistor vor – aus dem Halbleiter Germanium. William Shockley verbessert ihn kurz danach. 1956 bekommen alle drei den Nobelpreis.",
+ "Ein Transistor ist ein Schalter ohne bewegliche Teile: Ein kleiner Strom an der Basis steuert einen großen Strom. Strom an = 1, Strom aus = 0 – genau das brauchen Computer.",
+ "Transistoren sind klein, sparsam und billig. 1954 kommt das erste Transistorradio auf den Markt – klein genug für die Jackentasche. 1958 folgt der Mikrochip mit vielen Transistoren auf einem Plättchen.",
+ "Heute stecken in einem Smartphone-Chip rund 20 Milliarden Transistoren, jeder nur wenige Nanometer groß. Der Transistor ist das am häufigsten gebaute Gerät der Menschheitsgeschichte."],
+ els:[P(0,180,24,"Vorher: Elektronenröhren","mut",{e:1}),...[0,1,2,3,4].flatMap(i=>[R(0,30+i*30,58,22,62,"glass",.7,{r:10,st:"cyan",d:.1*i,e:1}),C(0,41+i*30,92,6,"orange",.85,{d:.1*i,e:1}),R(0,32+i*30,120,18,8,"mut",1,{d:.1*i,e:1})]),
+ T(0,100,152,"groß · heiß · gehen kaputt","red",10,{b:1,e:1}),T(0,270,82,"ENIAC 1946:","tx",11,{b:1,e:1}),T(0,270,102,"17.468 Röhren","gold",11,{b:1,m:1,e:1}),T(0,270,122,"27 Tonnen","gold",11,{b:1,m:1,e:1}),
+ P(1,180,24,"Dezember 1947 · Bell Labs","gold",{e:2}),E(1,70,90,"👨‍🔬",32,{e:2}),E(1,115,90,"👨‍🔬",32,{d:.2,e:2}),E(1,160,90,"👨‍🔬",32,{d:.4,e:2}),T(1,115,128,"Bardeen · Brattain · Shockley","gold",10,{b:1,e:2}),
+ R(1,214,58,126,80,"blue",.1,{r:12,st:"blue",d:.6,e:2}),T(1,277,86,"aus Germanium","tx",11,{b:1,d:.6,e:2}),T(1,277,106,"kein Glas, kein Vakuum","mut",9.5,{d:.6,e:2}),T(1,277,120,"kaum Wärme","mut",9.5,{d:.6,e:2}),T(1,180,176,"1956: Nobelpreis","gold",11,{b:1,d:1,e:2}),
+ FN(2,schalter,{e:3}),P(2,180,24,"Schalter ohne bewegliche Teile","cyan",{e:3}),T(2,40,104,"kleiner Strom","cyan",9.5,{an:"start",b:1,e:3}),T(2,214,198,"steuert großen Strom","gold",10,{b:1,e:3}),
+ P(3,180,24,"1954: das Transistorradio","gold",{e:4}),E(3,90,98,"📻",48,{e:4}),T(3,90,148,"klein · tragbar · Batterie","mut",10,{e:4}),R(3,196,62,148,80,"cyan",.1,{r:12,st:"cyan",d:.6,e:4}),T(3,270,90,"1958: Mikrochip","tx",11,{b:1,d:.6,e:4}),T(3,270,110,"viele Transistoren","mut",9.5,{d:.6,e:4}),T(3,270,124,"auf einem Plättchen","mut",9.5,{d:.6,e:4}),
+ P(4,180,24,"Heute: Milliarden auf einem Chip","green"),R(4,40,52,112,112,"panel2",1,{r:8,st:"green"}),...Array.from({length:64},(_,k)=>R(4,48+(k%8)*12.4,60+Math.floor(k/8)*12.4,9,9,"green",.35+((k*7)%5)/10,{r:1.5,d:.01*k})),T(4,96,186,"Smartphone-Chip","mut",10),
+ T(4,262,82,"≈ 20 Mrd.","green",18,{b:1,m:1,d:.5}),T(4,262,102,"Transistoren","mut",10,{d:.5}),T(4,262,132,"jeder nur wenige","mut",10,{d:.8}),T(4,262,148,"Nanometer groß","gold",11,{b:1,d:.8})],
+ info:{was:"Ein Transistor ist ein winziges Bauteil aus einem Halbleiter (heute meist Silizium). Er kann Strom schalten und verstärken.",
+ so:"Ein kleiner Steuerstrom (oder eine Spannung) öffnet oder schließt den Weg für einen großen Strom – ohne Mechanik, viele Milliarden Mal pro Sekunde.",
+ bed:"Ohne Transistoren gäbe es keine Computer, Handys, Fernseher oder modernen Autos. Er ist der Grundbaustein der ganzen digitalen Welt.",
+ tipp:"Rechne: 20 Milliarden Transistoren gegen 17.468 Röhren – das ist über eine Million Mal mehr. Mehr dazu in der Computer-Schule."}}
+);
+
+Q.push(
+ {q:"Wer setzte um 1590 wahrscheinlich als Erster zwei Linsen in ein Rohr – das erste Mikroskop?",a:["Hans und Zacharias Janssen","Robert Koch","Isaac Newton","Carl Benz"],l:"mikroskop",ex:"Brillenmacher aus den Niederlanden – ganz sicher belegt ist es aber nicht."},
+ {q:"Was entdeckte Robert Hooke 1665 im Kork?",a:["Kleine Kammern, die er „Zellen“ nannte","Bakterien","Viren","Atome"],l:"mikroskop",ex:"Das Wort „Zelle“ verwenden wir bis heute."},
+ {q:"Was entdeckte Antoni van Leeuwenhoek in einem Wassertropfen?",a:["Einzeller und Bakterien – „kleine Tierchen“","Röntgenstrahlen","Penicillin","Elektronen"],l:"mikroskop",ex:"Er sah als einer der Ersten Bakterien."},
+ {q:"Wie stark vergrößerten Leeuwenhoeks Linsen ungefähr?",a:["bis etwa 270-fach","2-fach","über 1.000.000-fach","10-fach"],l:"mikroskop",ex:"Seine winzigen, selbst geschliffenen Linsen waren erstaunlich gut."},
+ {q:"Was ist hier zu sehen?",img:"mikroskop",st:2,a:["Zellen im Kork unter dem Mikroskop","Bienenwaben","Ein Schachbrett","Ziegelsteine"],l:"mikroskop",ex:"Hookes „Zellen“ – kleine Kammern im Kork."},
+ {q:"Wer baute 1931 das Elektronenmikroskop?",a:["Ernst Ruska und Max Knoll","Carl Zeiss","Robert Hooke","Antoni van Leeuwenhoek"],l:"mikroskop",ex:"In Berlin – es vergrößert über eine Million Mal."},
+ {q:"Rechne: Ein Bakterium ist 0,002 mm groß. Wie groß erscheint es bei 1.000-facher Vergrößerung?",a:["2 mm","0,02 mm","20 cm","2 m"],l:"mikroskop",ex:"0,002 mm × 1.000 = 2 mm."},
+ {q:"Was bemerkte Hans Christian Ørsted 1820?",a:["Strom lenkt eine Kompassnadel ab","Strom ist blau","Magnete werden heiß","Draht fängt an zu leuchten"],l:"elektromotor",ex:"Strom erzeugt ein Magnetfeld."},
+ {q:"Wer baute 1834 den ersten praxistauglichen Elektromotor?",a:["Moritz Hermann Jacobi","Werner von Siemens","Thomas Edison","Nikola Tesla"],l:"elektromotor",ex:"In Königsberg."},
+ {q:"Was trieb Jacobi 1838 mit seinem Elektromotor an?",a:["Ein Boot","Ein Flugzeug","Ein Auto","Eine Uhr"],l:"elektromotor",ex:"Ein Boot mit Fahrgästen auf der Newa."},
+ {q:"Warum dreht sich der Rotor eines Elektromotors?",a:["Elektromagnete ziehen sich an und stoßen sich ab – der Strom wird ständig umgeschaltet","Weil Wind hineinbläst","Weil er sehr leicht ist","Weil Benzin verbrennt"],l:"elektromotor",ex:"Das Magnetfeld läuft im Kreis, der Rotor folgt."},
+ {q:"Was ist hier zu sehen?",img:"elektromotor",st:3,a:["Ein Elektromotor mit Spulen und Rotor","Eine Uhr","Ein Lenkrad","Eine Pizza"],l:"elektromotor",ex:"Außen Spulen (Stator), innen der Magnet-Rotor."},
+ {q:"Wer zeigte 1879 in Berlin die erste elektrische Lokomotive?",a:["Werner von Siemens","Carl Benz","Thomas Edison","Rudolf Diesel"],l:"elektromotor",ex:"Auf der Gewerbeausstellung in Berlin."},
+ {q:"Rechne: E-Motor 90 % Wirkungsgrad, moderner Diesel 40 %. Wie viele Prozentpunkte mehr sind das?",a:["50","130","40","90"],l:"elektromotor",ex:"90 − 40 = 50 Prozentpunkte."},
+ {q:"Mit wem gründete Nikolaus Otto 1864 eine Motorenfabrik?",a:["Eugen Langen","Carl Benz","Rudolf Diesel","Werner von Siemens"],l:"ottomotor",ex:"N. A. Otto & Cie – die erste Motorenfabrik der Welt."},
+ {q:"In welcher Stadt lag Ottos Motorenfabrik?",a:["Köln","München","Berlin","Hamburg"],l:"ottomotor",ex:"In Köln, später Köln-Deutz."},
+ {q:"Wie viele Umdrehungen der Kurbelwelle braucht ein Viertaktmotor für alle vier Takte?",a:["2","1","4","8"],l:"ottomotor",ex:"Jeder Takt ist eine halbe Umdrehung."},
+ {q:"Was ist hier zu sehen?",img:"ottomotor",st:2,a:["Ein Viertaktmotor in Bewegung","Eine Wasserpumpe","Ein Fahrradschloss","Ein Uhrpendel"],l:"ottomotor",ex:"Kolben, Pleuel, Kurbelwelle – und die vier Takte."},
+ {q:"Warum ist das Verdichten im Ottomotor so wichtig?",a:["Das zusammengedrückte Gemisch verbrennt viel kräftiger","Es kühlt den Motor","Es macht ihn leiser","Es spart Öl"],l:"ottomotor",ex:"Mehr Druck – mehr Kraft."},
+ {q:"Welche Mitarbeiter von Otto bauten später kleine, schnelle Benzinmotoren?",a:["Gottlieb Daimler und Wilhelm Maybach","Rudolf Diesel und Carl Benz","Konrad Zuse und Carl von Linde","Orville und Wilbur Wright"],l:"ottomotor",ex:"Sie arbeiteten zuvor bei Deutz."},
+ {q:"Rechne: Ein Zylinder dreht mit 3.000 Umdrehungen pro Minute. Wie viele Arbeitstakte sind das pro Minute?",a:["1.500","3.000","6.000","750"],l:"ottomotor",ex:"Nur jede zweite Umdrehung hat einen Arbeitstakt: 3.000 : 2 = 1.500."},
+ {q:"Wer meldete 1884 eine Lochscheibe für das Fernsehen zum Patent an?",a:["Paul Nipkow","Guglielmo Marconi","Ferdinand Braun","Thomas Edison"],l:"fernsehen",ex:"Die Nipkow-Scheibe tastet ein Bild Zeile für Zeile ab."},
+ {q:"Wie wird ein Fernsehbild übertragen?",a:["Es wird in Zeilen und Punkte zerlegt und wieder zusammengesetzt","Als Foto per Post","Durch ein langes Rohr","Gar nicht"],l:"fernsehen",ex:"Das ist bis heute das Grundprinzip."},
+ {q:"Was ist hier zu sehen?",img:"fernsehen",st:2,a:["Ein Bild wird Zeile für Zeile übertragen","Ein Puzzle","Ein Kreuzworträtsel","Ein Stadtplan"],l:"fernsehen",ex:"Links der Sender, rechts setzt der Empfänger das Bild zusammen."},
+ {q:"Wer zeigte 1926 in London die ersten bewegten Fernsehbilder?",a:["John Logie Baird","Guglielmo Marconi","Alexander Graham Bell","Thomas Edison"],l:"fernsehen",ex:"Mit nur 30 Zeilen."},
+ {q:"In welchem Jahr begann in Deutschland das Farbfernsehen?",a:["1967","1935","1990","1884"],l:"fernsehen",ex:"Am 25. August 1967."},
+ {q:"Wer entwickelte das PAL-Farbsystem?",a:["Walter Bruch","Paul Nipkow","Ferdinand Braun","Konrad Zuse"],l:"fernsehen",ex:"PAL wurde in vielen Ländern genutzt."},
+ {q:"Rechne: 30 Zeilen bei Baird, 2.160 Zeilen bei 4K. Wie viel mal so viele Zeilen sind das?",a:["72-mal","30-mal","2.130-mal","7-mal"],l:"fernsehen",ex:"2.160 : 30 = 72."},
+ {q:"Welches Bauteil ersetzte der Transistor?",a:["Die Elektronenröhre","Die Glühbirne","Das Rad","Die Batterie"],l:"transistor",ex:"Röhren waren groß, heiß und empfindlich."},
+ {q:"Wann wurde der erste Transistor bei den Bell Labs vorgestellt?",a:["Im Dezember 1947","1876","1990","1923"],l:"transistor",ex:"Von John Bardeen und Walter Brattain."},
+ {q:"Aus welchem Material war der erste Transistor?",a:["Germanium","Holz","Gold","Glas"],l:"transistor",ex:"Germanium ist ein Halbleiter – heute nimmt man meist Silizium."},
+ {q:"Was macht ein Transistor?",a:["Ein kleiner Strom steuert einen großen Strom – wie ein Schalter","Er speichert Wasser","Er misst die Temperatur","Er leuchtet hell"],l:"transistor",ex:"An = 1, aus = 0."},
+ {q:"Was ist hier zu sehen?",img:"transistor",st:2,a:["Ein Transistor schaltet eine Lampe","Ein Wasserhahn","Eine Ampel","Ein Fahrrad"],l:"transistor",ex:"Kleiner Strom an der Basis – die Lampe geht an."},
+ {q:"Wie viele Röhren hatte der Rechner ENIAC von 1946?",a:["rund 17.500","rund 50","rund 1 Million","rund 500"],l:"transistor",ex:"Genau 17.468 Röhren – und 27 Tonnen schwer."},
+ {q:"Rechne: Ein Smartphone-Chip hat rund 20 Milliarden Transistoren, ENIAC hatte 17.468 Röhren. Ungefähr wie viel mal mehr ist das?",a:["über eine Million Mal","10-mal","1.000-mal","2-mal"],l:"transistor",ex:"20.000.000.000 : 17.468 ≈ 1,1 Millionen."}
+);
+PAKETE.push({id:"p4",icon:"🔧",name:"Motoren, Bilder & Chips",tag:"PAKET 4",ids:["mikroskop","elektromotor","ottomotor","fernsehen","transistor"],c:"red"});
 L.sort((a,b)=>{const ix=id=>{let n=0;for(const p of PAKETE){const k=p.ids.indexOf(id);if(k>=0)return n+k;n+=p.ids.length}return 999};return ix(a.id)-ix(b.id)});
 
 /* ---------- Hilfen ---------- */
