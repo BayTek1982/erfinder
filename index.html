@@ -159,7 +159,7 @@ footer{margin-top:26px;color:var(--mut);font-size:11.5px;text-align:center}
    </div>
   </header>
   <div id="view"></div>
-  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1–4 · 20 Erfindungen</footer>
+  <footer>Bayazit Erfinder-Schule · Lern-App · Stand: 20. November 2026 · Paket 1–5 · 25 Erfindungen</footer>
  </main>
 </div>
 <script>
@@ -901,6 +901,156 @@ Q.push(
  {q:"Rechne: Ein Smartphone-Chip hat rund 20 Milliarden Transistoren, ENIAC hatte 17.468 Röhren. Ungefähr wie viel mal mehr ist das?",a:["über eine Million Mal","10-mal","1.000-mal","2-mal"],l:"transistor",ex:"20.000.000.000 : 17.468 ≈ 1,1 Millionen."}
 );
 PAKETE.push({id:"p4",icon:"🔧",name:"Motoren, Bilder & Chips",tag:"PAKET 4",ids:["mikroskop","elektromotor","ottomotor","fernsehen","transistor"],c:"red"});
+L.sort((a,b)=>{const ix=id=>{let n=0;for(const p of PAKETE){const k=p.ids.indexOf(id);if(k>=0)return n+k;n+=p.ids.length}return 999};return ix(a.id)-ix(b.id)});
+
+/* ---------- Paket 5 ---------- */
+(function(){const ids={1:"blitzableiter",5:"dynamo",7:"wechselstrom",18:"laufmaschine",30:"kaffeefilter"};PLAN.forEach(p=>{if(ids[p.nr])p.id=ids[p.nr]})})();
+function induktion(lt){const mx=95+45*Math.sin(lt*2.2),v=Math.cos(lt*2.2);let o=`<rect x="${(mx-30).toFixed(1)}" y="98" width="30" height="24" rx="3" style="fill:var(--red)"/><rect x="${mx.toFixed(1)}" y="98" width="30" height="24" rx="3" style="fill:var(--blue)"/><text x="${(mx-15).toFixed(1)}" y="114" text-anchor="middle" style="fill:#fff;font-size:11px;font-weight:800">N</text><text x="${(mx+15).toFixed(1)}" y="114" text-anchor="middle" style="fill:#fff;font-size:11px;font-weight:800">S</text>`;
+ for(let k=0;k<6;k++)o+=`<ellipse cx="${192+k*12}" cy="110" rx="6" ry="26" style="fill:none;stroke:var(--orange);stroke-width:2.5"/>`;
+ o+=`<path d="M192,136 L192,166 L310,166 L310,134 M252,84 L252,70 L310,70 L310,86" style="fill:none;stroke:var(--mut);stroke-width:2"/><circle cx="310" cy="110" r="24" style="fill:var(--panel2);stroke:var(--tx);stroke-width:2"/>`;
+ const a=v*55;o+=`<g transform="translate(310 122) rotate(${a.toFixed(1)})"><line x1="0" y1="0" x2="0" y2="-26" style="stroke:var(--red);stroke-width:2.5"/></g><circle cx="310" cy="122" r="3" style="fill:var(--tx)"/>`;
+ if(Math.abs(v)>.5)o+=`<text x="310" y="196" text-anchor="middle" style="fill:var(--green);font-size:10px;font-weight:700">Strom fließt!</text>`;return o}
+function drehfeld(lt){const a=lt*2.4,cx=100,cy=112,R0=58;let o=`<circle cx="${cx}" cy="${cy}" r="${R0}" style="fill:none;stroke:var(--blue);stroke-width:2"/>`;
+ for(let k=0;k<6;k++){const an=k*Math.PI/3,str=Math.max(0,Math.cos(an-a));o+=`<g transform="translate(${cx} ${cy}) rotate(${k*60})"><rect x="-9" y="${-R0+4}" width="18" height="14" rx="3" style="fill:var(--gold);fill-opacity:${(.25+.75*str).toFixed(2)}"/></g>`}
+ const ex=cx+40*Math.sin(a),ey=cy-40*Math.cos(a);o+=`<line x1="${cx}" y1="${cy}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" style="stroke:var(--cyan);stroke-width:3;stroke-linecap:round"/><circle cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" r="5" style="fill:var(--cyan)"/>`;
+ o+=`<g transform="translate(${cx} ${cy}) rotate(${(a*180/Math.PI-12).toFixed(1)})"><rect x="-6" y="-22" width="12" height="44" rx="4" style="fill:var(--red);fill-opacity:.85"/><circle r="5" style="fill:var(--panel2);stroke:var(--mut)"/></g>`;return o}
+
+L.push(
+{id:"blitzableiter",a:"strom",title:"Der Blitzableiter",sub:"1752 · Benjamin Franklin · Philadelphia",
+ steps:["Früher steckten Blitze immer wieder Häuser und Kirchtürme in Brand. Bei Gewitter läutete man die Kirchenglocken – das half nicht und war für die Glöckner sogar gefährlich.",
+ "Der Amerikaner Benjamin Franklin vermutet: Ein Blitz ist ein riesiger elektrischer Funke. 1752 lässt er bei Gewitter einen Drachen steigen und zieht Funken aus einem Schlüssel an der nassen Schnur. Das war lebensgefährlich – niemals nachmachen!",
+ "Seine Idee: eine Metallstange auf dem Dach, mit einem Draht bis in die Erde verbunden. Schlägt der Blitz ein, fließt der Strom sicher über den Draht in den Boden – am Haus vorbei.",
+ "Viele Menschen haben zuerst Angst, der Blitzableiter könnte Blitze anlocken. Doch er schützt. 1769 bekommt in Hamburg die Kirche St. Jacobi den ersten Blitzableiter in Deutschland.",
+ "Heute schützen Blitzableiter Häuser, Kirchen, Türme und Windräder. Auch Autos und Flugzeuge leiten Blitze über ihre Metallhülle ab. Tipp: Zähle die Sekunden zwischen Blitz und Donner und teile durch 3 – dann weißt du, wie viele Kilometer das Gewitter entfernt ist."],
+ els:[P(0,180,24,"Vorher: Blitz = Feuer","mut",{e:1}),E(0,90,100,"⛪",44,{e:1}),PATH(0,"M146,36 L122,62 L134,64 L110,86","gold",{w:3,e:1}),E(0,120,78,"🔥",20,{d:.6,e:1}),T(0,90,150,"Brände durch Blitze","red",10.5,{b:1,e:1}),
+ E(0,270,98,"🔔",38,{e:1}),T(0,270,146,"Glocken läuten","mut",10,{e:1}),T(0,270,162,"half nicht","red",10,{b:1,e:1}),
+ P(1,180,24,"1752 · Benjamin Franklin","gold",{e:2}),E(1,262,62,"🌩️",40,{e:2}),G(1,"212,82 228,98 212,122 196,98","red",.8,{e:2}),PATH(1,"M212,122 Q150,150 92,164","tx",{w:1.5,e:2}),E(1,124,152,"🔑",16,{d:.4,e:2}),
+ E(1,76,164,"🧍",28,{e:2}),FL(1,[[212,122],[150,146],[124,152]],"cyan",{n:3,dur:1,d:.8,e:2}),T(1,84,84,"Blitz = Elektrizität!","gold",11,{b:1,d:1,e:2}),P(1,180,200,"Lebensgefährlich – nie nachmachen!","red",{e:2}),
+ P(2,80,24,"Die Idee","cyan",{e:3}),Ln(2,20,196,340,196,"mut",{w:2,e:3}),G(2,"80,120 150,72 220,120","red",.3,{st:"red",e:3}),R(2,90,120,120,76,"panel2",1,{st:"tx",e:3}),
+ Ln(2,150,72,150,34,"gold",{w:4,e:3}),PATH(2,"M150,72 L226,120 L226,212","gold",{w:3,e:3}),PATH(2,"M196,4 L172,18 L182,20 L154,32","gold",{w:3,d:.6,e:3}),FL(2,[[150,34],[150,72],[226,120],[226,212]],"cyan",{n:5,dur:1.5,d:.8,e:3}),
+ T(2,292,46,"Spitze","gold",10.5,{b:1,e:3}),T(2,292,118,"Ableitung","gold",10.5,{b:1,e:3}),T(2,292,190,"Erdung","gold",10.5,{b:1,e:3}),
+ P(3,180,24,"Der Blitzableiter erobert Europa","gold",{e:4}),E(3,90,94,"⛪",44,{e:4}),T(3,90,142,"1769: Hamburg","gold",11,{b:1,e:4}),T(3,90,158,"erster Blitzableiter","mut",9.5,{e:4}),T(3,90,172,"in Deutschland","mut",9.5,{e:4}),
+ R(3,196,62,148,82,"red",.1,{r:12,st:"red",d:.5,e:4}),T(3,270,88,"Viele hatten Angst:","mut",10,{d:.5,e:4}),T(3,270,106,"„Lockt er Blitze an?“","tx",10.5,{b:1,d:.5,e:4}),T(3,270,128,"Nein – er schützt!","green",11,{b:1,d:1,e:4}),
+ P(4,180,24,"Heute: Blitzschutz überall","green"),...[["🏠","Häuser"],["🗼","Türme"],["✈️","Flugzeuge"],["🚗","Autos"]].flatMap(([ic,lab],i)=>[E(4,52+i*85,84,ic,32,{d:.2*i}),T(4,52+i*85,120,lab,"mut",10,{d:.2*i})]),
+ T(4,180,156,"Sekunden bis zum Donner ÷ 3 = km","gold",11,{b:1,m:1}),P(4,180,190,"Bei Gewitter: ins Haus oder ins Auto","cyan")],
+ info:{was:"Ein Blitzableiter ist eine Metallanlage aus Spitze (Fangstange), Ableitung und Erdung. Er leitet den Strom eines Blitzes sicher in den Boden.",
+ so:"Du erkennst ihn an der Metallstange oder dem Draht auf dem Dachfirst und an dem Draht, der außen an der Hauswand nach unten läuft.",
+ bed:"Blitzableiter haben unzählige Brände verhindert. Franklins Versuch zeigte außerdem zum ersten Mal: Blitze sind Elektrizität.",
+ tipp:"Rechne: Hörst du den Donner 9 Sekunden nach dem Blitz, ist das Gewitter etwa 9 : 3 = 3 km entfernt. Franklins Drachenversuch war extrem gefährlich – der Forscher Georg Wilhelm Richmann starb 1753 bei einem ähnlichen Versuch."}},
+{id:"laufmaschine",a:"verkehr",title:"Die Laufmaschine",sub:"12. Juni 1817 · Karl Drais · Mannheim",
+ steps:["1815 bricht in Indonesien der Vulkan Tambora aus. 1816 wird in Europa zum „Jahr ohne Sommer“: Missernten, Hunger, Futter für Pferde wird knapp und teuer. Vermutlich brachte das Karl Drais auf die Idee, ein Fahrzeug ohne Pferd zu bauen.",
+ "Der Forstbeamte Karl Drais aus Mannheim baut die Laufmaschine: zwei Holzräder hintereinander, ein Sitz und eine Lenkung vorne. Man sitzt darauf und stößt sich mit den Füßen vom Boden ab.",
+ "Am 12. Juni 1817 fährt Drais von Mannheim bis zum Schwetzinger Relaishaus – rund 7 km – und wieder zurück, in weniger als einer Stunde. Viel schneller als zu Fuß!",
+ "Aus der Laufmaschine wird das Fahrrad: In den 1860er-Jahren kommen Tretkurbeln ans Vorderrad, in den 1870er-Jahren das Hochrad, 1885 das Sicherheitsfahrrad mit Kette und 1888 der Luftreifen.",
+ "Heute fahren Kinder auf Laufrädern – genau wie bei Drais. Fahrräder und E-Bikes sind auf der ganzen Welt eines der wichtigsten Verkehrsmittel."],
+ els:[P(0,180,24,"1816: das Jahr ohne Sommer","mut",{e:1}),E(0,90,96,"🌋",44,{e:1}),T(0,90,144,"Vulkan Tambora 1815","mut",9.5,{e:1}),E(0,270,96,"🐴",40,{e:1}),T(0,270,144,"Futter knapp,","mut",9.5,{e:1}),T(0,270,158,"Pferde teuer","red",10,{b:1,e:1}),T(0,180,190,"Wie reist man ohne Pferd?","gold",11,{b:1,e:1}),
+ P(1,180,24,"Karl Drais · Mannheim","gold",{e:2}),Ln(1,30,190,330,190,"mut",{w:2,e:2}),RAW(1,`<path d="M110,160 L130,122 L240,122 L250,160 M244,122 L238,96 L222,92" style="fill:none;stroke:#9a6a36;stroke-width:6;stroke-linecap:round"/><rect x="150" y="112" width="40" height="8" rx="3" style="fill:var(--red)"/>`,{e:2}),
+ SPIN(1,110,160,30,"tx",{sp:.6,e:2}),SPIN(1,250,160,30,"tx",{sp:.6,e:2}),T(1,180,56,"aus Holz · zwei Räder hintereinander","mut",10,{e:2}),T(1,180,74,"mit den Füßen abstoßen","tx",10.5,{b:1,d:.6,e:2}),
+ P(2,180,24,"12. Juni 1817: erste Fahrt","gold",{e:3}),C(2,60,110,7,"gold",1,{e:3}),T(2,60,92,"Mannheim","gold",10,{b:1,e:3}),C(2,300,110,7,"green",1,{e:3}),T(2,300,92,"Schwetzinger","green",10,{b:1,e:3}),T(2,300,132,"Relaishaus","mut",9.5,{e:3}),
+ Ln(2,60,110,300,110,"mut",{w:2,dash:"5 4",e:3}),FL(2,[[60,110],[300,110],[60,110]],"red",{n:1,dur:3.5,r:6,e:3}),T(2,180,100,"≈ 7 km","tx",11,{b:1,m:1,e:3}),T(2,180,156,"hin und zurück in unter einer Stunde","green",10.5,{b:1,d:.6,e:3}),
+ P(3,180,24,"Vom Laufrad zum Fahrrad","cyan",{e:4}),Ln(3,18,120,342,120,"line",{w:3,e:4}),...YR(3,40,"1817","Laufmaschine","gold",{e:4}),...YR(3,112,"1860er","Tretkurbel","orange",{d:.3,e:4}),...YR(3,184,"1870er","Hochrad","red",{d:.6,e:4}),...YR(3,254,"1885","Kette","blue",{d:.9,e:4}),...YR(3,322,"1888","Luftreifen","green",{d:1.2,e:4}),
+ P(4,180,24,"Heute","green"),E(4,70,92,"🧒",38),T(4,70,136,"Kinder-Laufrad","mut",10),E(4,180,92,"🚲",38,{d:.3}),T(4,180,136,"Fahrrad","mut",10,{d:.3}),E(4,290,92,"🚴",38,{d:.6}),T(4,290,136,"E-Bike","mut",10,{d:.6}),P(4,180,184,"Karl Drais aus Mannheim","gold",{d:.9})],
+ info:{was:"Die Laufmaschine (auch Draisine) ist ein Zweirad aus Holz ohne Pedale. Man stößt sich mit den Füßen ab – sie ist der Vorfahr des Fahrrads.",
+ so:"Zwei Räder hintereinander, ein Sitz in der Mitte und ein lenkbares Vorderrad – genau so sieht ein heutiges Kinder-Laufrad aus.",
+ bed:"Drais zeigte, dass man auf zwei Rädern hintereinander das Gleichgewicht halten kann. Daraus entstanden Fahrrad und Motorrad.",
+ tipp:"Rechne: Rund 14 km in etwa einer Stunde sind ungefähr 14 km/h – so schnell wie ein Jogger im Sprint."}},
+{id:"dynamo",a:"strom",title:"Der Dynamo",sub:"1866 · Werner von Siemens · Berlin",
+ steps:["Batterien liefern nur wenig Strom. Für Licht in ganzen Straßen, für Straßenbahnen oder Fabriken reicht das bei Weitem nicht.",
+ "1831 entdeckt Michael Faraday die Induktion: Bewegt man einen Magneten in der Nähe einer Drahtspule, fließt in der Spule Strom. Bewegung kann also Strom erzeugen!",
+ "Frühe Generatoren nutzen Dauermagnete – sie sind schwach. 1866 entdeckt Werner von Siemens das dynamo-elektrische Prinzip: Der Generator verstärkt seine Elektromagnete mit dem eigenen Strom. Mehr Strom macht stärkere Magnete, stärkere Magnete machen mehr Strom.",
+ "Jetzt lässt sich Strom in großen Mengen erzeugen. Die Firma Siemens & Halske in Berlin baut Maschinen für Straßenbeleuchtung, Straßenbahnen und Fabriken.",
+ "Heute steckt das Prinzip in jedem Kraftwerk, in jedem Windrad und im Fahrraddynamo. Sogar ein Elektroauto wird beim Bremsen zum Generator und lädt seinen Akku auf."],
+ els:[P(0,180,24,"Vorher: nur Batterien","mut",{e:1}),BAT(0,56,82,84,38,.25,"red",{e:1}),T(0,100,142,"wenig Strom","red",10.5,{b:1,e:1}),E(0,270,98,"🏙️",44,{e:1}),T(0,270,146,"Licht für ganze Städte?","mut",10,{e:1}),T(0,180,186,"Batterien reichen dafür nicht","gold",11,{b:1,e:1}),
+ P(1,180,24,"1831 · Michael Faraday","gold",{e:2}),FN(1,induktion,{e:2}),T(1,140,206,"Magnet bewegt sich → Strom fließt","tx",10.5,{b:1,e:2}),
+ P(2,180,24,"1866 · Werner von Siemens","gold",{e:3}),E(2,80,94,"👨‍💼",44,{e:3}),T(2,80,144,"Werner von Siemens","gold",11,{b:1,e:3}),T(2,80,160,"dynamo-elektrisches","mut",9.5,{e:3}),T(2,80,174,"Prinzip","mut",9.5,{e:3}),
+ ...[["Strom","cyan",52],["stärkere Magnete","gold",104],["noch mehr Strom","green",156]].flatMap(([t,c,y],i)=>[R(2,196,y,132,30,c,.12,{r:8,st:c,d:.4*i,e:3}),T(2,262,y+20,t,c,10.5,{b:1,d:.4*i,e:3})]),
+ A(2,262,84,262,102,"mut",{d:.3,e:3}),A(2,262,136,262,154,"mut",{d:.7,e:3}),PATH(2,"M330,171 Q356,120 330,67","mut",{w:2,d:1.1,e:3}),
+ P(3,180,24,"Strom in großen Mengen","cyan",{e:4}),...[["💡","Straßenlicht"],["🚋","Straßenbahn"],["🏭","Fabriken"]].flatMap(([ic,lab],i)=>[E(3,70+i*110,90,ic,40,{d:.3*i,e:4}),T(3,70+i*110,134,lab,"mut",10,{d:.3*i,e:4})]),T(3,180,176,"Siemens & Halske, Berlin","gold",11,{b:1,e:4}),
+ P(4,180,24,"Heute: Generatoren überall","green"),...[["🏭","Kraftwerk"],["🌬️","Windrad"],["🚲","Fahrraddynamo"],["🚗","E-Auto bremst"]].flatMap(([ic,lab],i)=>[E(4,52+i*85,84,ic,32,{d:.2*i}),T(4,52+i*85,120,lab,"mut",10,{d:.2*i})]),
+ T(4,180,156,"Bewegung → Strom: das Gegenteil vom Elektromotor","mut",9.5),P(4,180,188,"Die Firma heißt heute Siemens","gold")],
+ info:{was:"Ein Dynamo (Generator) wandelt Bewegung in elektrischen Strom um. Er ist das Gegenstück zum Elektromotor.",
+ so:"In einem Generator dreht sich eine Spule in einem Magnetfeld (oder ein Magnet in Spulen). Durch die Bewegung entsteht Spannung – das nennt man Induktion.",
+ bed:"Erst mit dem Dynamo konnte man Strom in großen Mengen erzeugen. Er ist der Grund, warum heute aus jeder Steckdose Strom kommt.",
+ tipp:"Rechne: Siemens' Entdeckung von 1866 ist im Jahr 2026 genau 160 Jahre alt. Ein Fahrraddynamo funktioniert nach dem gleichen Prinzip wie ein riesiger Kraftwerksgenerator."}},
+{id:"wechselstrom",a:"strom",title:"Der Wechselstrom-Motor",sub:"1888 · Nikola Tesla · USA",
+ steps:["Ab 1882 baut Thomas Edison in New York Stromnetze mit Gleichstrom. Das Problem: Gleichstrom kommt nur etwa 1 bis 2 Kilometer weit, dann ist zu viel Energie verloren. Man bräuchte überall kleine Kraftwerke.",
+ "Nikola Tesla, ein Ingenieur aus dem heutigen Kroatien, arbeitet kurz für Edison – hat aber eine andere Idee: Wechselstrom, der ständig die Richtung wechselt. 1888 meldet er einen Motor mit Drehfeld zum Patent an: Das Magnetfeld kreist von selbst – ganz ohne Bürsten.",
+ "Der Unternehmer George Westinghouse kauft Teslas Patente. Es beginnt der „Stromkrieg“ gegen Edison. Der große Vorteil: Wechselstrom lässt sich mit Transformatoren auf hohe Spannung bringen und so mit wenig Verlust über weite Strecken schicken.",
+ "1891 wird Drehstrom von Lauffen am Neckar bis nach Frankfurt übertragen – 175 Kilometer weit! Oskar von Miller organisiert den Versuch. 1893 leuchtet die Weltausstellung in Chicago mit Wechselstrom, 1896 fließt Strom von den Niagarafällen nach Buffalo.",
+ "Heute kommt aus jeder Steckdose in Europa Wechselstrom mit 230 Volt und 50 Hertz. Drehstrommotoren treiben Pumpen, Aufzüge und Fabrikmaschinen an. Die Einheit „Tesla“ ist nach ihm benannt."],
+ els:[P(0,180,24,"1882: Edisons Gleichstrom","mut",{e:1}),E(0,52,96,"🏭",34,{e:1}),Ln(0,76,98,316,98,"orange",{w:3,e:1}),FL(0,[[76,98],[316,98]],"cyan",{n:6,dur:2,e:1}),
+ ...[["gold","hell",140],["mut","schwach",220],["red","dunkel",300]].flatMap(([c,t,x])=>[E(0,x,74,"🏠",22,{e:1}),T(0,x,124,t,c,9.5,{b:1,e:1})]),T(0,180,170,"Gleichstrom kommt nur 1–2 km weit","red",11,{b:1,e:1}),
+ P(1,180,24,"1888 · Nikola Tesla","gold",{e:2}),FN(1,drehfeld,{e:2}),Ln(1,200,100,342,100,"line",{w:1.5,e:2}),PATH(1,sinP(200,342,100,22,2,0),"cyan",{w:2.5,e:2}),T(1,271,148,"Strom wechselt ständig","tx",10.5,{b:1,e:2}),T(1,271,164,"die Richtung","tx",10.5,{b:1,e:2}),T(1,100,196,"Drehfeld – keine Bürsten","green",10.5,{b:1,e:2}),
+ P(2,180,24,"Der „Stromkrieg“","red",{e:3}),R(2,14,52,150,90,"orange",.1,{r:12,st:"orange",e:3}),T(2,89,76,"Edison","orange",12,{b:1,e:3}),T(2,89,96,"Gleichstrom","mut",10,{e:3}),T(2,89,116,"kurze Wege","mut",10,{e:3}),
+ T(2,180,102,"vs.","mut",12,{b:1,e:3}),R(2,196,52,150,90,"cyan",.1,{r:12,st:"cyan",d:.4,e:3}),T(2,271,76,"Tesla & Westinghouse","cyan",10.5,{b:1,d:.4,e:3}),T(2,271,96,"Wechselstrom","mut",10,{d:.4,e:3}),T(2,271,116,"Transformator ✓","green",10,{b:1,d:.4,e:3}),
+ T(2,180,176,"Hohe Spannung = weite Wege mit wenig Verlust","gold",10.5,{b:1,d:.9,e:3}),
+ P(3,180,24,"1891: 175 km Drehstrom","gold",{e:4}),C(3,60,150,7,"gold",1,{e:4}),T(3,60,174,"Lauffen am Neckar","mut",9.5,{e:4}),C(3,300,64,7,"green",1,{e:4}),T(3,300,50,"Frankfurt","green",10,{b:1,e:4}),
+ PATH(3,"M60,150 L300,64","gold",{w:2.5,e:4}),FL(3,[[60,150],[300,64]],"cyan",{n:5,dur:2,e:4}),T(3,210,124,"175 km","tx",12,{b:1,m:1,e:4}),T(3,100,100,"Oskar von Miller","gold",10,{b:1,e:4}),T(3,250,186,"1893: Chicago · 1896: Niagara","mut",9.5,{d:.8,e:4}),
+ P(4,180,24,"Heute: aus jeder Steckdose","green"),E(4,80,94,"🔌",44),T(4,80,144,"230 V · 50 Hz","gold",13,{b:1,m:1}),T(4,262,78,"50 Hz =","tx",11,{b:1,d:.3}),T(4,262,96,"100 Richtungswechsel","mut",10,{d:.3}),T(4,262,112,"pro Sekunde","mut",10,{d:.3}),
+ T(4,262,140,"Einheit „Tesla“","cyan",11,{b:1,d:.6}),T(4,262,156,"nach ihm benannt","mut",10,{d:.6}),P(4,180,192,"Drehstrommotoren in Pumpen & Fabriken","blue",{d:.9})],
+ info:{was:"Wechselstrom ändert ständig seine Richtung. Teslas Wechselstrom-Motor nutzt ein kreisendes Magnetfeld (Drehfeld), das einen Rotor mitnimmt – ohne Bürsten und Schleifkontakte.",
+ so:"An der Steckdose steht „230 V ~“ – die Welle bedeutet Wechselstrom. Große Maschinen hängen an „Drehstrom“ (Starkstrom) mit drei Leitungen.",
+ bed:"Wechselstrom kann man hochspannen und über Hunderte Kilometer verteilen. Deshalb gibt es heute große Stromnetze für ganze Länder.",
+ tipp:"Rechne: Bei 50 Hertz schwingt der Strom 50-mal pro Sekunde hin und her – die Richtung wechselt also 100-mal pro Sekunde. Die Autofirma Tesla ist nach Nikola Tesla benannt."}},
+{id:"kaffeefilter",a:"haushalt",title:"Der Kaffeefilter",sub:"1908 · Melitta Bentz · Dresden",
+ steps:["Früher wurde Kaffee gekocht oder einfach mit Wasser übergossen. Der Kaffeesatz landete in der Tasse – der Kaffee schmeckte bitter und krümelig. Filter aus Stoff mussten mühsam gewaschen werden.",
+ "Die Dresdner Hausfrau Melitta Bentz will das ändern. Sie nimmt einen Messingtopf, schlägt mit einem Nagel Löcher in den Boden und legt ein Stück Löschpapier aus dem Schulheft ihres Sohnes hinein.",
+ "So funktioniert der Filter: Heißes Wasser und Aroma laufen durch das Papier, das Kaffeepulver bleibt zurück. Der Kaffee wird klar und mild – ohne Krümel in der Tasse.",
+ "Am 20. Juni 1908 wird ihr Kaffeefilter beim Kaiserlichen Patentamt in Berlin als Gebrauchsmuster eingetragen. Im Dezember 1908 gründet sie ihre eigene Firma. In den 1930er-Jahren kommt die Filtertüte in Kegelform.",
+ "Aus der kleinen Firma wird das Unternehmen Melitta mit Sitz in Minden, bekannt auf der ganzen Welt. Auch viele Kaffeemaschinen arbeiten bis heute nach dem gleichen Filter-Prinzip."],
+ els:[P(0,180,24,"Vorher: Kaffeesatz in der Tasse","mut",{e:1}),E(0,90,96,"☕",44,{e:1}),T(0,90,144,"bitter & krümelig","red",10.5,{b:1,e:1}),E(0,270,96,"🧵",40,{e:1}),T(0,270,144,"Stofffilter:","mut",10,{e:1}),T(0,270,158,"mühsam zu waschen","mut",10,{e:1}),
+ P(1,180,24,"1908 · Melitta Bentz · Dresden","gold",{e:2}),E(1,78,94,"👩",44,{e:2}),T(1,78,144,"Melitta Bentz","gold",11,{b:1,e:2}),T(1,78,160,"Hausfrau in Dresden","mut",9.5,{e:2}),
+ E(1,212,88,"📓",28,{d:.4,e:2}),T(1,212,122,"Löschpapier","mut",9.5,{d:.4,e:2}),A(1,236,88,258,88,"mut",{d:.7,e:2}),E(1,286,88,"🥫",28,{d:.8,e:2}),T(1,286,122,"Messingtopf","mut",9.5,{d:.8,e:2}),T(1,250,156,"Boden mit Nagel gelocht","tx",10,{b:1,d:1.1,e:2}),
+ P(2,180,24,"So funktioniert der Filter","cyan",{e:3}),FL(2,[[96,46],[168,76]],"cyan",{n:4,dur:.9,e:3}),G(2,"126,64 234,64 204,124 156,124","gold",.25,{st:"gold",e:3}),G(2,"136,70 224,70 198,118 162,118","white",.9,{e:3}),G(2,"150,96 210,96 198,118 162,118","#7c4a1e",.9,{d:.3,e:3}),
+ FL(2,[[180,126],[180,166]],"#7c4a1e",{n:3,dur:.8,r:3,d:.6,e:3}),E(2,180,184,"☕",30,{e:3}),T(2,290,82,"Wasser + Aroma","cyan",10.5,{b:1,e:3}),T(2,290,98,"laufen durch","mut",10,{e:3}),T(2,290,132,"Pulver bleibt","orange",10.5,{b:1,d:.4,e:3}),T(2,290,148,"im Papier","mut",10,{d:.4,e:3}),
+ P(3,180,24,"20. Juni 1908 · Patentamt","gold",{e:4}),E(3,90,94,"📜",44,{e:4}),T(3,90,142,"Gebrauchsmuster","tx",11,{b:1,e:4}),T(3,90,158,"Kaiserliches Patentamt","mut",9.5,{e:4}),
+ T(3,262,80,"Dezember 1908:","mut",10,{d:.4,e:4}),T(3,262,98,"eigene Firma","gold",11,{b:1,d:.4,e:4}),T(3,262,130,"1930er-Jahre:","mut",10,{d:.8,e:4}),T(3,262,148,"Filtertüte in Kegelform","tx",10.5,{b:1,d:.8,e:4}),
+ P(4,180,24,"Heute: Melitta aus Minden","green"),...[["☕","Filterkaffee"],["🏭","Firma Melitta"],["🌍","weltweit"]].flatMap(([ic,lab],i)=>[E(4,70+i*110,90,ic,38,{d:.3*i}),T(4,70+i*110,134,lab,"mut",10,{d:.3*i})]),
+ T(4,180,162,"Filter-Prinzip auch in Kaffeemaschinen","mut",10),P(4,180,192,"Eine Hausfrau wurde Unternehmerin","gold")],
+ info:{was:"Der Kaffeefilter aus Papier trennt das Kaffeepulver vom fertigen Kaffee. Erfunden hat ihn 1908 Melitta Bentz in Dresden.",
+ so:"Das Papier hat winzige Poren: Wasser und gelöste Aromastoffe passen hindurch, die gröberen Kaffeekörnchen nicht.",
+ bed:"Der Papierfilter machte Kaffee kochen einfacher, sauberer und den Geschmack milder. Aus einer Haushaltsidee wurde ein Weltunternehmen.",
+ tipp:"Rechne: Für 8 Tassen Filterkaffee braucht man bei etwa 7 g pro Tasse rund 8 × 7 g = 56 g Kaffeepulver."}}
+);
+
+Q.push(
+ {q:"Wer erfand den Blitzableiter?",a:["Benjamin Franklin","Thomas Edison","Michael Faraday","Isaac Newton"],l:"blitzableiter",ex:"Der Amerikaner Benjamin Franklin."},
+ {q:"Was wollte Franklin 1752 mit dem Drachenversuch zeigen?",a:["Dass ein Blitz Elektrizität ist","Wie hoch Drachen fliegen","Wie warm Wolken sind","Dass Regen salzig ist"],l:"blitzableiter",ex:"Funken am Schlüssel zeigten: Blitze sind elektrisch."},
+ {q:"Woraus besteht ein Blitzableiter?",a:["Spitze, Ableitung und Erdung aus Metall","Holz und Seil","Glas und Wasser","Gummi und Plastik"],l:"blitzableiter",ex:"Metall leitet den Blitzstrom sicher in den Boden."},
+ {q:"Was ist hier zu sehen?",img:"blitzableiter",st:2,a:["Ein Haus mit Blitzableiter","Ein Zelt","Ein Leuchtturm","Ein Baum"],l:"blitzableiter",ex:"Spitze, Ableitung und Erdung führen den Blitz am Haus vorbei."},
+ {q:"Wo kam 1769 der erste Blitzableiter in Deutschland aufs Dach?",a:["In Hamburg","In Landshut","In München","In Köln"],l:"blitzableiter",ex:"Auf die Kirche St. Jacobi in Hamburg."},
+ {q:"Rechne: Du hörst den Donner 9 Sekunden nach dem Blitz. Wie weit ist das Gewitter ungefähr entfernt?",a:["3 km","9 km","27 km","1 km"],l:"blitzableiter",ex:"9 : 3 = 3 km."},
+ {q:"Wo bist du bei Gewitter sicher?",a:["Im Haus oder im Auto","Unter einem einzelnen Baum","Auf einem Hügel","Im See"],l:"blitzableiter",ex:"Das Auto leitet den Blitz über seine Metallhülle ab."},
+ {q:"Wer erfand 1817 die Laufmaschine?",a:["Karl Drais","Carl Benz","Gottlieb Daimler","John Boyd Dunlop"],l:"laufmaschine",ex:"Der Forstbeamte Karl Drais aus Mannheim."},
+ {q:"Wie bewegte man die Laufmaschine vorwärts?",a:["Mit den Füßen abstoßen","Mit Pedalen","Mit einem Motor","Mit einem Segel"],l:"laufmaschine",ex:"Pedale kamen erst in den 1860er-Jahren."},
+ {q:"In welcher Stadt begann die erste Fahrt mit der Laufmaschine?",a:["Mannheim","Dresden","Berlin","Landshut"],l:"laufmaschine",ex:"Am 12. Juni 1817 in Mannheim."},
+ {q:"Warum suchte man um 1816 vermutlich nach einem Ersatz für Pferde?",a:["Nach einem Vulkanausbruch gab es Missernten – Futter wurde knapp","Pferde waren verboten","Es gab zu viele Pferde","Wegen der Eisenbahn"],l:"laufmaschine",ex:"1816 war das „Jahr ohne Sommer“."},
+ {q:"Was ist hier zu sehen?",img:"laufmaschine",st:3,a:["Wie aus der Laufmaschine das Fahrrad wurde","Ein Busfahrplan","Die Geschichte des Autos","Ein Stammbaum"],l:"laufmaschine",ex:"Laufmaschine, Tretkurbel, Hochrad, Kette, Luftreifen."},
+ {q:"Was kam 1885 mit dem Sicherheitsfahrrad dazu?",a:["Die Kette zum Hinterrad","Der Motor","Der Luftreifen","Das Licht"],l:"laufmaschine",ex:"Der Luftreifen folgte 1888."},
+ {q:"Rechne: Drais fuhr rund 14 km in etwa einer Stunde. Wie schnell war er ungefähr?",a:["≈ 14 km/h","≈ 1,4 km/h","≈ 140 km/h","≈ 7 km/h"],l:"laufmaschine",ex:"14 km in 1 Stunde = 14 km/h."},
+ {q:"Wer entdeckte 1831 die Induktion?",a:["Michael Faraday","Werner von Siemens","Nikola Tesla","Alessandro Volta"],l:"dynamo",ex:"Bewegung von Magnet und Spule erzeugt Strom."},
+ {q:"Was passiert, wenn man einen Magneten in der Nähe einer Spule bewegt?",a:["In der Spule fließt Strom","Die Spule schmilzt","Es wird dunkel","Gar nichts"],l:"dynamo",ex:"Das nennt man Induktion."},
+ {q:"Wer entdeckte 1866 das dynamo-elektrische Prinzip?",a:["Werner von Siemens","Thomas Edison","Nikola Tesla","Alessandro Volta"],l:"dynamo",ex:"Werner von Siemens in Berlin."},
+ {q:"Was ist der Trick beim Dynamo von Siemens?",a:["Er verstärkt seine Elektromagnete mit dem eigenen Strom","Er braucht keine Bewegung","Er läuft mit Benzin","Er ist aus Gold"],l:"dynamo",ex:"Mehr Strom → stärkere Magnete → noch mehr Strom."},
+ {q:"Was ist hier zu sehen?",img:"dynamo",st:1,a:["Ein bewegter Magnet erzeugt in einer Spule Strom","Eine Zugstrecke","Ein Thermometer","Eine Waage"],l:"dynamo",ex:"Das Messgerät zeigt Strom an, sobald sich der Magnet bewegt."},
+ {q:"Was macht ein Generator?",a:["Er macht aus Bewegung Strom – das Gegenteil eines Elektromotors","Er speichert Strom wie eine Batterie","Er kühlt wie ein Kühlschrank","Er leuchtet wie eine Lampe"],l:"dynamo",ex:"Kraftwerke, Windräder und Fahrraddynamos sind Generatoren."},
+ {q:"Rechne: Siemens' Entdeckung war 1866. Wie viele Jahre ist das im Jahr 2026 her?",a:["160","150","166","106"],l:"dynamo",ex:"2026 − 1866 = 160 Jahre."},
+ {q:"Wer meldete 1888 den Wechselstrom-Motor mit Drehfeld zum Patent an?",a:["Nikola Tesla","Thomas Edison","Werner von Siemens","Carl Benz"],l:"wechselstrom",ex:"Nikola Tesla in den USA."},
+ {q:"Welche Stromart nutzte Edison für seine ersten Stromnetze?",a:["Gleichstrom","Wechselstrom","Drehstrom","Funkstrom"],l:"wechselstrom",ex:"Gleichstrom kam aber nur 1 bis 2 km weit."},
+ {q:"Warum setzte sich der Wechselstrom durch?",a:["Man kann ihn mit Transformatoren hochspannen und weit übertragen","Er ist bunter","Er ist leiser","Er braucht keine Kabel"],l:"wechselstrom",ex:"Hohe Spannung bedeutet wenig Verlust auf langen Leitungen."},
+ {q:"Wie weit wurde 1891 Drehstrom von Lauffen nach Frankfurt übertragen?",a:["175 km","17 km","1.750 km","5 km"],l:"wechselstrom",ex:"Ein Weltrekord – organisiert von Oskar von Miller."},
+ {q:"Was ist hier zu sehen?",img:"wechselstrom",st:3,a:["Die Stromleitung von Lauffen nach Frankfurt","Eine Wanderroute","Ein Flug","Ein Fluss"],l:"wechselstrom",ex:"1891 floss Drehstrom über 175 km."},
+ {q:"Welche Spannung hat eine Steckdose in Deutschland?",a:["230 V","12 V","1.000 V","110 V"],l:"wechselstrom",ex:"230 Volt Wechselstrom mit 50 Hertz."},
+ {q:"Rechne: Strom mit 50 Hertz schwingt 50-mal pro Sekunde hin und her. Wie oft wechselt er pro Sekunde die Richtung?",a:["100-mal","50-mal","25-mal","500-mal"],l:"wechselstrom",ex:"Jede Schwingung hat zwei Richtungswechsel: 50 × 2 = 100."},
+ {q:"Wer erfand 1908 den Kaffeefilter aus Papier?",a:["Melitta Bentz","Marie Curie","Bertha Benz","Clara Schumann"],l:"kaffeefilter",ex:"Die Dresdner Hausfrau Melitta Bentz."},
+ {q:"In welcher Stadt lebte Melitta Bentz?",a:["Dresden","Mannheim","Hamburg","Würzburg"],l:"kaffeefilter",ex:"In Dresden."},
+ {q:"Welches Papier nahm Melitta Bentz für ihren ersten Filter?",a:["Löschpapier aus dem Schulheft ihres Sohnes","Zeitungspapier","Geschenkpapier","Packpapier"],l:"kaffeefilter",ex:"Dazu einen Messingtopf mit Löchern im Boden."},
+ {q:"Was hält der Kaffeefilter zurück?",a:["Das Kaffeepulver","Das Wasser","Den Geschmack","Die Wärme"],l:"kaffeefilter",ex:"Wasser und Aroma laufen hindurch."},
+ {q:"Was ist hier zu sehen?",img:"kaffeefilter",st:2,a:["Wie ein Kaffeefilter funktioniert","Eine Sanduhr","Ein Wasserfall","Ein Vulkan"],l:"kaffeefilter",ex:"Oben Wasser, im Papier das Pulver, unten fertiger Kaffee."},
+ {q:"Wann wurde Melittas Kaffeefilter beim Patentamt eingetragen?",a:["20. Juni 1908","1. Januar 1800","1950","24. Dezember 1908"],l:"kaffeefilter",ex:"Als Gebrauchsmuster beim Kaiserlichen Patentamt in Berlin."},
+ {q:"Rechne: Für eine Tasse Filterkaffee nimmt man etwa 7 g Pulver. Wie viel brauchst du für 8 Tassen?",a:["56 g","15 g","87 g","78 g"],l:"kaffeefilter",ex:"8 × 7 g = 56 g."}
+);
+PAKETE.push({id:"p5",icon:"🌩️",name:"Blitz, Rad & Kaffee",tag:"PAKET 5",ids:["blitzableiter","laufmaschine","dynamo","wechselstrom","kaffeefilter"],c:"green"});
 L.sort((a,b)=>{const ix=id=>{let n=0;for(const p of PAKETE){const k=p.ids.indexOf(id);if(k>=0)return n+k;n+=p.ids.length}return 999};return ix(a.id)-ix(b.id)});
 
 /* ---------- Hilfen ---------- */
